@@ -1,93 +1,75 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Base_Url } from "../utils/baseurl";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const SignUp = () => {
-  const [name, setName] = useState("");
+function Signup() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const register = async () => {
-    try {
-      const response = await axios.post(`${Base_Url}/register`, { name, email, password });
-      console.log("response=>", response);
-    } catch (error) {
-      console.error("error=>", error);
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    register();
-  };
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Sign Up</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 to-purple-200">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-96">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Create an Account
+        </h1>
+        <p className="text-center text-gray-500 mb-8">
+          Join us and start your journey
+        </p>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name Input */}
-          <div className="relative">
+        {/* Inputs */}
+        <div className="space-y-5">
+          <div>
             <input
               type="text"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
-              id="signUpUser"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your Name"
             />
           </div>
-
-          {/* Email Input */}
-          <div className="relative">
+          <div>
             <input
               type="email"
-              required
-              id="signUpEmail"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your Email"
+              required
             />
           </div>
-
-          {/* Password Input */}
-          <div className="relative">
+          <div>
             <input
               type="password"
-              required
-              id="signUpPassword"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your Password"
+              required
             />
           </div>
+        </div>
 
-          {/* Remember Me and Forgot Password */}
-          <div className="flex justify-between items-center text-gray-600 mb-6">
-            <label className="flex items-center">
-              <input type="checkbox" id="remember" className="accent-blue-500" />
-              <p className="ml-2">Remember me</p>
-            </label>
-            <a href="#" className="text-blue-500 hover:underline">
-              Forgot password?
-            </a>
-          </div>
+        {/* Signup Button */}
+        <button className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 rounded-lg mt-6">
+          Signup
+        </button>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md transition duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Sign Up
-          </button>
-        </form>
+        {/* Footer */}
+        <div className="text-center mt-6">
+          <p className="text-gray-500">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-purple-500 hover:underline font-semibold"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
-};
+}
 
-export default SignUp;
+export default Signup;

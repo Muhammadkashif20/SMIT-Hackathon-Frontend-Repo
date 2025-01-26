@@ -1,33 +1,34 @@
-import React from "react";
-import axios from "axios";
-import './index.css';
-import { Base_Url } from "./utils/baseurl";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "../src/auth/Login"
-import SignUp from "../src/auth/SignUp"
-import Home from "./Components/Home";
-const App = () => {
-  const getUser = async () => {
-    try {
-      const response = await axios.get(`${Base_Url}/users`);
-      console.log("response=>", response);
-    } catch (error) {
-      console.error("error=>",error);
-    }
-  };
-  getUser();
-  return (
-    <div>
-      <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home/>}></Route>
-        <Route path="/login" element={<Login/>}></Route>
-        <Route path="/register" element={<SignUp/>}></Route>
-      </Routes>
-      </BrowserRouter>
-    </div>
-    
-  );
-};
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import './App.css'
+import Home from "./Pages/Home"
+import Login from "./Auth/Login"
+import Signup from "./Auth/Signup"
+import User from './user/user'
+import WeddingLoans from './user/userComponents/weddingLoans'
+import ConstructionLoans from './user/userComponents/ConstructionLoans'
+import BussinessLoans from './user/userComponents/BussinessLoans'
+import EducationalLoans from './user/userComponents/EducationalLoans'
 
-export default App;
+
+function App() {
+
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+           <Route path="/" element={<User/>}></Route>
+           <Route path="/home" element={<Home/>}></Route>
+           <Route path="/login" element={<Login/>}></Route>
+           <Route path="/signup" element={<Signup/>}></Route>
+           <Route path="/weddingloans" element={<WeddingLoans/>}></Route>
+           <Route path="/constructionloans" element={<ConstructionLoans/>}></Route>
+           <Route path="/bussinessloans" element={<BussinessLoans/>}></Route>
+           <Route path="/educationloans" element={<EducationalLoans/>}></Route>
+           <Route path="/signup" element={<Signup/>}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
+  )
+}
+
+export default App

@@ -1,79 +1,72 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Base_Url } from "../utils/baseurl";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Login = () => {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = async () => {
-    try {
-      const response = await axios.post(`${Base_Url}/login`, { email, password });
-      console.log("response=>", response);
-    } catch (error) {
-      console.error("error=>", error);
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    login();
-  };
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Login</h2>
+    <>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-200">
+        <div className="bg-white shadow-xl rounded-2xl p-8 w-96">
+          <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Welcome Back</h1>
+          <p className="text-center text-gray-500 mb-8">
+            Please login to your account
+          </p>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email Input */}
-          <div className="relative">
-            <input
-              type="email"
-              required
-              id="loginEmail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
-            />
+          {/* Inputs */}
+          <div className="space-y-5">
+            <div>
+              <input
+                type="email"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
-          {/* Password Input */}
-          <div className="relative">
-            <input
-              type="password"
-              required
-              id="loginPassword"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-100 border border-gray-300 rounded-md p-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password"
-            />
-          </div>
-
-          {/* Remember Me and Forgot Password */}
-          <div className="flex justify-between items-center text-gray-600 mb-6">
-            <label className="flex items-center">
-              <input type="checkbox" id="remember" className="accent-blue-500" />
-              <p className="ml-2">Remember me</p>
-            </label>
-            <a href="#" className="text-blue-500 hover:underline">
-              Forgot password?
-            </a>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md transition duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Log In
+          {/* Login Button */}
+          <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg mt-6">
+            Login
           </button>
-        </form>
+
+          {/* Footer */}
+          <div className="text-center mt-6">
+            <p className="text-gray-500">
+              Don’t have an account?{" "}
+              <Link
+                to="/signup"
+                className="text-blue-500 hover:underline font-semibold"
+              >
+                Sign Up
+              </Link>
+            </p>
+          </div>
+
+          {/* Optional Divider and Google Login */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+          </div>
+          
+        </div>
       </div>
-    </div>
+    </>
   );
-};
+}
 
 export default Login;
