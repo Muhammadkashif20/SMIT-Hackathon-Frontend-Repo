@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from "./components/Home.jsx"
-import Login from "./Auth/Login"
-import Signup from "./Auth/Signup"
+import Login from "./auth/Login"
+import Signup from "./auth/Signup"
 import Dashboard from './user/Dashboard'
 import WeddingLoans from './user/userComponents/WeddingLoans'
 import ConstructionLoans from './user/userComponents/ConstructionLoans'
