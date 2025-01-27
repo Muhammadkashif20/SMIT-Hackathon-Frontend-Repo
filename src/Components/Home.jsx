@@ -4,7 +4,6 @@ import HeroSection from "../components/HeroSection";
 import LoanCalculator from "../components/LoanCalculator";
 
 function Home(){
-
     return(
         <>
            {/* Header */}
@@ -21,5 +20,4 @@ function Home(){
         </>
     )
 }
-
 export default Home;
