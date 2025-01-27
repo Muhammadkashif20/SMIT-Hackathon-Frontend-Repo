@@ -1,4 +1,10 @@
-/* @import "tailwindcss"; */
+@import "tailwindcss";
+
+
+.shadow{
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
 /* Login/Signup Form Styling Start */
 .loginForm{
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -38,6 +44,12 @@
   }
   .signupForm{
     width: 90vw;
+  }
+}
+@media(max-width:630px){
+  .contentDiv{
+    padding-left: 7%;
+    padding-right: 7%;
   }
 }
 

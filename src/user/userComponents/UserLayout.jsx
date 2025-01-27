@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { Layout, Menu, Button, Avatar } from "antd";
+import { Layout, Menu, Button } from "antd";
 import {
-  DashboardOutlined,
   UserOutlined,
   BankOutlined,
-  HomeOutlined,
-  CarOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   AppstoreAddOutlined,
@@ -13,6 +10,7 @@ import {
   BookOutlined,
 } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
+import saylanilogo from "../../assets/image/saylani welfare.jpeg";
 
 const { Header, Sider, Content } = Layout;
 
@@ -22,7 +20,7 @@ const UserLayout = ({ children }) => {
 
   const menuItems = [
     {
-      key: "/",
+      key: "dashbaord",
       icon: <AppstoreAddOutlined />,
       label: <Link to={"/user"}>Dashbaord</Link>,
     },
@@ -31,22 +29,22 @@ const UserLayout = ({ children }) => {
       label: "Loans",
       children: [
         {
-          key: "/weddingloans",
+          key: "weddingloans",
           icon: <UserOutlined />,
           label: <Link to={"/weddingloans"}>Wedding Loan</Link>,
         },
         {
-          key: "/constructionloans",
+          key: "constructionloans",
           icon: <BankOutlined />,
           label: <Link to={"/constructionloans"}>Home Construction Loans</Link>,
         },
         {
-          key: "/bussinessloans",
+          key: "bussinessloans",
           icon: <DollarOutlined />,
           label: <Link to={"/bussinessloans"}>Business Startup Loans</Link>,
         },
         {
-          key: "/educationloans",
+          key: "educationloans",
           icon: <BookOutlined />,
           label: <Link to={"/educationloans"}> Education Loans</Link>,
         },
@@ -77,7 +75,7 @@ const UserLayout = ({ children }) => {
             {
             collapsed 
             ? "SMA" 
-            : <img width={'180px'} src={"https://www.saylaniwelfare.com/static/media/logo_saylaniwelfare.22bf709605809177256c.png"} alt="Logo"/>
+            : <img width={'180px'} src={saylanilogo} alt="Logo"/>
         }
         </div>
         <Menu
