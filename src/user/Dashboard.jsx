@@ -1,4 +1,4 @@
-import UserLayout from "./userComponents/UserLayout";
+import UserLayout from "./userComponents/Sidebar";
 import { Card, Progress, Button } from "antd";
 import { ArrowRightOutlined, DollarOutlined, CalendarOutlined, CheckCircleOutlined } from "@ant-design/icons";
 

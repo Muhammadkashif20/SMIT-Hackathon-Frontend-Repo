@@ -1,61 +1,148 @@
-import React, { useState } from "react";
-import MainLogo from "../../assets/image/saylani welfare.jpeg";
-import { Layout, Menu } from "antd";
+import { useState } from "react";
+import { Layout, Menu, Button } from "antd";
 import {
-  AppstoreOutlined,
-  FileTextOutlined,
-  BarChartOutlined,
+  UserOutlined,
+  BankOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  AppstoreAddOutlined,
+  DollarOutlined,
+  BookOutlined,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
-const { Sider } = Layout;
+import { Link, useLocation } from "react-router-dom";
+import saylanilogo from "../..//assets/image/saylani welfare.jpeg";
+const { Header, Sider, Content } = Layout;
 
-const Sidebar = () => {
-
-  const isSmallDevice = useMediaQuery({ maxWidth: 640 });
+const Sidebar = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+
+  const menuItems = [
+    {
+      key: "dashbaord",
+      icon: <AppstoreAddOutlined />,
+      label: <Link to={"/user"}>Dashbaord</Link>,
+    },
+    {
+      key: "loans",
+      label: "Loans",
+      children: [
+        {
+          key: "weddingloans",
+          icon: <UserOutlined />,
+          label: <Link to={"/weddingloans"}>Wedding Loan</Link>,
+        },
+        {
+          key: "constructionloans",
+          icon: <BankOutlined />,
+          label: <Link to={"/constructionloans"}>Home Construction Loans</Link>,
+        },
+        {
+          key: "bussinessloans",
+          icon: <DollarOutlined />,
+          label: <Link to={"/bussinessloans"}>Business Startup Loans</Link>,
+        },
+        {
+          key: "educationloans",
+          icon: <BookOutlined />,
+          label: <Link to={"/educationloans"}> Education Loans</Link>,
+        },
+      ],
+    },
+  ];
+
   return (
-    <div>
-    <Layout  style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <Sider
+        trigger={null}
         collapsible
         collapsed={collapsed}
-        onCollapse={(collapsedState) => setCollapsed(collapsedState)}
-        className="shadow-lg"
-        defaultCollapsed ={true}
-        collapsedWidth={isSmallDevice ? 50 : 60}
         theme="light"
-        width={250}
+        style={{
+          boxShadow: "0 2px 8px rgba(0,0,0,0.15) ",
+        }}
       >
-        <div className="logo my-3 flex justify-center items-center p-4" style={{ color: "black", fontSize: "20px" }}>
-          <img src={MainLogo} alt="" className="w-40" />
+        <div
+          style={{
+            height: "64px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          className="p-8"
+        >
+            {
+            collapsed 
+            ? "SMA" 
+            : <img width={'180px'} src={saylanilogo} alt="Logo"/>
+        }
         </div>
-        <Menu theme="light" mode="inline" >
-          <Menu.Item key="dashboard" icon={<AppstoreOutlined />}>
-            <Link to="/user/dashboard">Dashboard</Link>
-          </Menu.Item>
-          <Menu.SubMenu key="loan" icon={<FileTextOutlined />} title="Loans">
-                      <Menu.Item key="weddingLoan">
-                        <Link to="user/wedding-loan">Wedding Loan</Link>
-                      </Menu.Item>
-                      <Menu.Item key="homeLoan">
-                        <Link to="user/home-loan">Home Construction Loans</Link>
-                      </Menu.Item>
-                      <Menu.Item key="businessLoan">
-                        <Link to="user/startup-loan">Business Startup Loans</Link>
-                      </Menu.Item>
-                      <Menu.Item key="educationLoan">
-                        <Link to="user/education-loan">Education Loans</Link>
-                      </Menu.Item>
-                    </Menu.SubMenu>
-                    {/* Statistics Link */}
-                    <Menu.Item key="statistics" icon={<BarChartOutlined />}>
-                      <Link to="user/statistics">Statistics</Link>
+        <Menu
+          theme="light"
+          mode="inline"
+          defaultSelectedKeys={["/"]}
+          selectedKeys={[location.pathname]}
+          defaultOpenKeys={["loans"]}
+          items={menuItems}
+        >
+          {menuItems.map((item) => {
+            if (item.children) {
+              return (
+                <Menu.SubMenu
+                  key={item.key}
+                  icon={item.icon}
+                  title={item.label}
+                >
+                  {item.children.map((child) => (
+                    <Menu.Item key={child.key} icon={child.icon}>
+                      <Link to={child.key}>{child.label}</Link>
                     </Menu.Item>
+                  ))}
+                </Menu.SubMenu>
+              );
+            }
+            return (
+              <Menu.Item key={item.key} icon={item.icon} >
+                <Link to={item.key}>{item.label}</Link>
+              </Menu.Item>
+            );
+          })}
         </Menu>
       </Sider>
+      <Layout>
+        <Header
+          style={{
+            padding: "0 16px",
+            background: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
+          }}
+        >
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{ fontSize: "16px", width: 64, height: 64 }}
+          />
+          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            {/* <Button type="primary">Loan Details</Button> */}
+            <Link to={"/login"}><Button type="primary">Login</Button></Link>
+          </div>
+        </Header>
+        <Content
+          style={{
+            margin: "24px 16px",
+            padding: 24,
+            background: "#fff",
+            minHeight: 280,
+          }}
+        >
+          {children}
+        </Content>
+      </Layout>
     </Layout>
-        </div>
   );
 };
 

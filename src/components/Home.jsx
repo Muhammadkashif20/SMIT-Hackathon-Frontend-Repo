@@ -5,19 +5,12 @@ import LoanCalculator from "../components/LoanCalculator";
 
 function Home() {
   return (
-    <>
-      {/* Header */}
+    <div>
       <Header />
-
-      {/* Hero Section */}
       <HeroSection />
-
-      {/* Loan Calculator */}
       <LoanCalculator />
-
-      {/* Footer */}
       <Footer />
-    </>
+    </div>
   );
 }
 export default Home;
