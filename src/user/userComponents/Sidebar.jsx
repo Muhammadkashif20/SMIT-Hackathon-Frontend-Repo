@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-
 const { Sider } = Layout;
 
 const Sidebar = () => {
