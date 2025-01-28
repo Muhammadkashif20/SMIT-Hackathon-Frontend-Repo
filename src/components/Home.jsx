@@ -9,7 +9,6 @@ function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulating loading for 3 seconds
     const timer = setTimeout(() => {
       setLoading(false);
     }, 1000);
@@ -21,20 +20,7 @@ function Home() {
     <div>
       {loading ? (
         <div className="flex justify-center items-center min-h-screen">
-          <Spin
-            size="large"
-            spinning={loading}
-            indicator={
-              <div className="flex items-center justify-center">
-                <div className="ant-spin-dot ant-spin-dot-spin">
-                  <div className="ant-spin-dot-item ant-spin-dot-item-1 bg-green-500"></div>
-                  <div className="ant-spin-dot-item ant-spin-dot-item-2 bg-white"></div>
-                  <div className="ant-spin-dot-item ant-spin-dot-item-3 bg-green-500"></div>
-                  <div className="ant-spin-dot-item ant-spin-dot-item-4 bg-white"></div>
-                </div>
-              </div>
-            }
-          />
+          <Spin size="large" />
         </div>
       ) : (
         <>

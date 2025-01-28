@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Modal, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const loanCategories = [
   {
@@ -38,9 +40,19 @@ function LoanCalculator() {
   const [initialDeposit, setInitialDeposit] = useState("");
   const [loanPeriod, setLoanPeriod] = useState("");
   const [loanBreakdown, setLoanBreakdown] = useState(null);
+  const [showProceed, setShowProceed] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+  
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleCalculate = () => {
-    if (!category || !initialDeposit || !loanPeriod) return;
+    setLoanBreakdown(null);
+    if (!category || !subcategory || !initialDeposit || !loanPeriod) {
+      setModalContent("Please fill all the fields.");
+      setModalVisible(true);
+      return;
+    }
 
     const selectedCategory = loanCategories.find(
       (currentCategory) => currentCategory.name === category
@@ -50,10 +62,10 @@ function LoanCalculator() {
     const loanPeriodNumber = Number(loanPeriod);
 
     if (initialDepositNumber >= maxLoan) {
-      setLoanBreakdown({
-        error:
-          "Initial deposit cannot be greater than or equal to the maximum loan amount.",
-      });
+      setModalContent(
+        "Initial deposit cannot be greater than or equal to the maximum loan amount."
+      );
+      setModalVisible(true);
       return;
     }
 
@@ -66,6 +78,20 @@ function LoanCalculator() {
       yearlyPayment: (monthlyPayment * 12).toFixed(2),
       totalPayment: loanAmount.toFixed(2),
     });
+
+    setShowProceed(true);
+  };
+
+  const handleProceed = () => {
+    navigate("/login"); 
+  };
+
+  const handleModalOk = () => {
+    setModalVisible(false);
+  };
+
+  const handleModalCancel = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -112,12 +138,7 @@ function LoanCalculator() {
               className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 transition duration-300"
               type="number"
               placeholder="Max Loan Provided"
-              value={
-                category &&
-                loanCategories.find(
-                  (currentCategory) => currentCategory.name === category
-                ).maxLoan
-              }
+              value={category && loanCategories.find((currentCategory) => currentCategory.name === category)?.maxLoan}
               readOnly={true}
             />
             <input
@@ -141,7 +162,6 @@ function LoanCalculator() {
           >
             Calculate
           </button>
-
           {loanBreakdown && (
             <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
               <h3 className="text-lg font-semibold mb-4">Loan Breakdown</h3>
@@ -177,8 +197,29 @@ function LoanCalculator() {
               )}
             </div>
           )}
+          {showProceed && (
+            <button
+              className="mt-6 w-full text-white bg-green-600 hover:bg-green-500 p-3 rounded-lg transition duration-300 transform hover:scale-105"
+              onClick={handleProceed}
+            >
+              Proceed
+            </button>
+          )}
         </div>
       </div>
+      <Modal
+        title="Loan Calculator"
+        visible={modalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        footer={[
+          <Button key="back" onClick={handleModalCancel}>
+            Close
+          </Button>,
+        ]}
+      >
+        <p>{modalContent}</p>
+      </Modal>
     </div>
   );
 }

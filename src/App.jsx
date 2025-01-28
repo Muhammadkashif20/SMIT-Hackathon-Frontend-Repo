@@ -8,11 +8,9 @@ import ConstructionLoans from './user/userComponents/ConstructionLoans'
 import BussinessLoans from './user/userComponents/BussinessLoans'
 import EducationalLoans from './user/userComponents/EducationalLoans'
 
-
 function App() {
-
   return (
-    <>
+    <div>
       <BrowserRouter>
         <Routes>
            <Route path="/" element={<Home/>}></Route>
@@ -24,8 +22,7 @@ function App() {
            <Route path="/educationloans" element={<EducationalLoans/>}></Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   )
 }
-
-export default App
+export default App;

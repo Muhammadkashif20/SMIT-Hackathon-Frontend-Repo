@@ -127,7 +127,7 @@ const Sidebar = ({ children }) => {
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Link to={"/login"}><Button type="primary">Login</Button></Link>
+            <Link to={"/login"}><Button type="primary" className="bg-green-600 hover:bg-green-500">Login</Button></Link>
           </div>
         </Header>
         <Content
