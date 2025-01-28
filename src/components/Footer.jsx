@@ -14,8 +14,7 @@ function Footer() {
               />
             </span>
             <p className="mt-2 text-sm text-gray-900 font-medium p-2">
-              Saylani Welfare International Trust provides installment-based
-              loans and free IT education to uplift the underprivileged.
+            Saylani Microfinance App is a platform designed to provide installment-based loans to the underprivileged.
             </p>
           </div>
 
@@ -40,7 +39,7 @@ function Footer() {
                   </Link>
                 </li>
                 <li className="mb-2">
-                  <Link to={"/"}>
+                  <Link to={"/user"}>
                     <a className="font-medium text-gray-800 hover:text-blue-500">
                       Apply For Loan
                     </a>

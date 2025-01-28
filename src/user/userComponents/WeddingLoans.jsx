@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
-import { Modal, Table, Button } from 'antd';
+import { Modal, Table, Button, message, Spin } from 'antd';
 import { BASE_URL } from "../../utils/baseurl";
-import { message } from "antd";
 
 function WeddingLoans() {
   const [formData, setFormData] = useState({
@@ -12,40 +11,14 @@ function WeddingLoans() {
     maxLoan: '',
     loanPeriod: ''
   });
-  
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [subcategory, setSubcategory] = useState("")
-  const [maximumLoan, setMaximumLoan] = useState("")
-  const [loanPeriod, setLoanPeriod] = useState("")
 
-  let postLoanRequest = async () => {
-    try {
-      let postReq = await fetch(
-        `${BASE_URL}/addLoanRequest`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            name: name, 
-            email: email,
-            subcategories: subcategory,
-            maximumloan: maximumLoan,
-            loanperiod: loanPeriod
-          }),
-        }
-      );
-      console.log('status', postReq);
-      message.success("Loan Request Submitted");
-    } catch (error) {
-      console.error("Error fetching", error);
-      message.error("Failed to submit loan request");
-    } 
-  };
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subcategory, setSubcategory] = useState("");
+  const [maximumLoan, setMaximumLoan] = useState("");
+  const [loanPeriod, setLoanPeriod] = useState("");
 
-  const handlePost = () => {
-    postLoanRequest();
-  };
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Spinner loading state
   const [loanRequests, setLoanRequests] = useState([
     {
       name: "John Doe",
@@ -73,21 +46,64 @@ function WeddingLoans() {
     }
   ]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setLoanRequests([
-      ...loanRequests,
-      { ...formData, status: 'Pending' } // Adding the 'status' to each loan request
-    ]);
-    setIsModalOpen(false);
-    setFormData({ name: '', email: '', subcategory: '', maxLoan: '', loanPeriod: '' }); // Reset form data
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handlePost = async () => {
+    // Field validation
+    if (!name || !email || !subcategory || !maximumLoan || !loanPeriod) {
+      message.error("Please fill all fields.");
+      return;
+    }
+
+    setIsLoading(true); // Start loading spinner
+
+    try {
+      let postReq = await fetch(
+        `${BASE_URL}/addLoanRequest`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            subcategories: subcategory,
+            maximumloan: maximumLoan,
+            loanperiod: loanPeriod
+          }),
+        }
+      );
+      console.log('status', postReq);
+
+      // Adding the loan request to the table after submission
+      setLoanRequests([
+        ...loanRequests,
+        { name, email, subcategory, maxLoan: maximumLoan, loanPeriod, status: 'Pending' }
+      ]);
+
+      message.success("Loan Request Submitted");
+
+      // Close modal and reset form
+      setIsModalOpen(false);
+      setIsModalOpen(false);
+      setName('');
+      setEmail('');
+      setSubcategory('');
+      setMaximumLoan('');
+      setLoanPeriod('');
+      setFormData({ name: '', email: '', subcategory: '', maxLoan: '', loanPeriod: '' });
+    } catch (error) {
+      console.error("Error fetching", error);
+      message.error("Failed to submit loan request");
+    } finally {
+      setIsLoading(false); // Stop loading spinner
+    }
   };
 
   const columns = [
@@ -122,7 +138,7 @@ function WeddingLoans() {
         </div>
 
         {/* Modal for loan application */}
-        <Modal title="Wedding Loan" onCancel={handleCancel} open={isModalOpen} onOk={handleOk} footer={null}>
+        <Modal title="Wedding Loan" onCancel={handleCancel} open={isModalOpen} onOk={handlePost} footer={null}>
           <div className="flex gap-3 pt-5 justify-between">
             <input
               name="name"
@@ -130,7 +146,7 @@ function WeddingLoans() {
               type="text"
               placeholder="Enter Your Name"
               value={name}
-              onChange={(e)=> setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
             />
             <input
               name="email"
@@ -138,7 +154,7 @@ function WeddingLoans() {
               type="email"
               placeholder="Enter Your Email"
               value={email}
-              onChange={(e)=> setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="pt-5">
@@ -146,7 +162,7 @@ function WeddingLoans() {
               name="subcategory"
               className="border border-gray-300 rounded-md p-2 focus:outline-none w-full"
               value={subcategory}
-              onChange={(e)=> setSubcategory(e.target.value)}
+              onChange={(e) => setSubcategory(e.target.value)}
             >
               <option value="">Subcategories</option>
               <option value="Valima">Valima</option>
@@ -162,7 +178,7 @@ function WeddingLoans() {
               type="number"
               placeholder="Enter Maximum Loan"
               value={maximumLoan}
-              onChange={(e)=> setMaximumLoan(e.target.value)}
+              onChange={(e) => setMaximumLoan(e.target.value)}
             />
             <input
               name="loanPeriod"
@@ -170,11 +186,16 @@ function WeddingLoans() {
               type="number"
               placeholder="Enter Loan Period In Years"
               value={loanPeriod}
-              onChange={(e)=> setLoanPeriod(e.target.value)}
+              onChange={(e) => setLoanPeriod(e.target.value)}
             />
           </div>
           <div className="pt-5">
-            <button onClick={handlePost} className="cursor-pointer bg-blue-600 text-white w-full rounded-md py-2">Submit</button>
+            <button
+              onClick={handlePost}
+              className="cursor-pointer bg-blue-600 text-white w-full rounded-md py-2"
+            >
+              {isLoading ? <Spin  size="small" style={{ color: "white", marginRight: 10 }}/> : "Submit"}
+            </button>
           </div>
         </Modal>
       </Sidebar>

@@ -1,52 +1,90 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Spin, message } from "antd"; // Ant Design for spinner and message
 
+function Login() {
+  const [nic, setNic] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-function Login(){
-    
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    return(
-        <>
-         <div className="bg-gray-50 flex items-center justify-center h-screen w-full">
-           <div className="loginForm bg-white border border-gray-300 rounded-xl p-5 py-6">
-            <h1 className="flex justify-center font-semibold text-4xl pt-5 pb-10">Login</h1>
-            
-            {/* inputs ⬇ */}
-            <div className="mb-5 mt-8">
-               <input type="email" 
-               className="text-gray-900 border border-gray-300 rounded-lg w-full p-2.5 focus:border-gray-400 focus:outline-none placeholder:font-semibold" 
-               placeholder="Email" required value={email} onChange={(e)=> setEmail(e.target.value)}/>
-             </div>
-             <div className="mb-5 mt-7">
-               <input type="password" 
-               className="text-gray-900 border border-gray-300 rounded-lg w-full p-2.5 focus:border-gray-400 focus:outline-none placeholder:font-semibold" 
-               placeholder="Password" required value={password} onChange={(e)=> setPassword(e.target.value)}/>
-             </div>
-             {/* inputs ⬆ */}
+    // Reset the error state
+    setError("");
 
-            {/* buttons ⬇ */}
-            <div className="pb-5">
-             <button className="loginBtn bg-blue-600 hover:bg-blue-400 mt-5 p-2.5 text-white font-bold text-lg rounded-lg"
-             >Login</button>
-             <p className="flex justify-center gap-1 mt-8 font-medium text-gray-500">Don't have an account? <Link to={"/signup"} className="text-blue-500 hover:underline">Signup</Link></p>
-            </div>
-             
-             {/* <hr className="mt-6 mb-1.5 border border-gray-300 " />
+    // Validation
+    if (!nic || !password) {
+      // Show error message using Ant Design's message.error
+      message.error("Both NIC and Password are required.");
+      return;
+    }
 
-             <div className="flex justify-center">
-              <button className="flex gap-10 items-center justify-center bg-gray-100 w-full text-gray-500 text-lg font-semibold p-2.5 rounded-lg mt-5">
-               <img className="w-8" src={"https://cdn.iconscout.com/icon/free/png-256/free-google-1772223-1507807.png"}/> 
-               Continue With Google
-              </button>
-            </div> */}
-            {/* buttons ⬆ */}
+    // Show loading spinner
+    setIsLoading(true);
 
-           </div>
-         </div>
-        </>   
-    )
+    // Simulate an API request
+    setTimeout(() => {
+      setIsLoading(false);
+      message.success("Login successful!");
+
+      // Clear the fields after successful login
+      setNic("");
+      setPassword("");
+    }, 2000);
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="nic" className="block text-sm font-medium text-gray-700">
+              NIC
+            </label>
+            <input
+              type="text"
+              id="nic"
+              name="nic"
+              value={nic}
+              onChange={(e) => setNic(e.target.value)}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter NIC"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter Password"
+            />
+          </div>
+
+          {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
+          <button
+            type="submit"
+            className="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none"
+          >
+            {isLoading ? (
+              <Spin size="small" style={{ color: "white", marginRight: 10 }} />
+            ) : (
+              "Login"
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default Login;

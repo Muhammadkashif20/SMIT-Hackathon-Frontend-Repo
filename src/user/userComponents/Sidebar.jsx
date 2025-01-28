@@ -73,7 +73,7 @@ const Sidebar = ({ children }) => {
         >
             {
             collapsed 
-            ? "SMA" 
+            ? <img width={'180px'} src={saylanilogo} alt="Logo"/>
             : <img width={'180px'} src={saylanilogo} alt="Logo"/>
         }
         </div>
@@ -127,7 +127,6 @@ const Sidebar = ({ children }) => {
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            {/* <Button type="primary">Loan Details</Button> */}
             <Link to={"/login"}><Button type="primary">Login</Button></Link>
           </div>
         </Header>
