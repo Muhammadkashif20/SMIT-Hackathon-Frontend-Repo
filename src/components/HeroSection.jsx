@@ -20,13 +20,7 @@ function HeroSection() {
             resources that enable them to create better opportunities for
             long-term growth, self-reliance, and a brighter future.
           </p>
-          <div className="flex lg:justify-center justify-start gap-3">
-            <Link to={"/user"}>
-              <button className="inline-flex cursor-pointer text-lg font-semibold bg-blue-600 hover:bg-blue-500 text-white px-8 py-2 rounded-md transition duration-300 transform hover:scale-105">
-                Apply For Loan
-              </button>
-            </Link>
-          </div>
+         
         </div>
 
         <div className="lg:w-[36vw] md:w-1/2 w-[80vw] relative">

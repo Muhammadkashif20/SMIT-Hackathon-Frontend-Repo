@@ -15,9 +15,9 @@ function Header() {
         </h1>
       </div>
       <div className="flex gap-3">
-        <Link to={"/user"}>
+        <Link to={"/proceed"}>
           <button className="cursor-pointer font-semibold bg-green-600 hover:bg-green-500 text-white rounded-md py-1.5 px-6 text-sm sm:text-base">
-            Apply Loan
+            Proceed
           </button>
         </Link>
       </div>
