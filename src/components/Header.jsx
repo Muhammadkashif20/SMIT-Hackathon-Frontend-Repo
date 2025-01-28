@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import saylanilogo from "../assets/image/saylani welfare.jpeg";
+import saylanilogo from "../assets/image/saylani welfare.png";
 
 function Header() {
   return (

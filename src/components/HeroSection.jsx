@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import herosectionimage from "../assets/image/herosectionimage.jpg";
 
 function HeroSection() {

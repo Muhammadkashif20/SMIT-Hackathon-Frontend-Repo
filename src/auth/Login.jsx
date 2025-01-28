@@ -1,21 +1,29 @@
 import React, { useState } from "react";
-import { message } from "antd"; 
-import { useNavigate } from "react-router-dom"; 
+import { message } from "antd";
+import { Spin } from "antd";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState(""); 
-  const [password, setPassword] = useState(""); 
-  const navigate = useNavigate(); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!email || !password) {
-      message.error("Email and Password are required."); 
+      message.error("Email and Password are required.");
       return;
     }
-    message.success("Login Successfully!")
-    navigate("/password"); 
+    setIsLoading(true);
+
+    // Simulating a login process with a timeout
+    setTimeout(() => {
+      setIsLoading(false);
+      message.success("Login Successfully!");
+      navigate("/password");
+    }, 2000); // 2-second delay
   };
 
   return (
@@ -24,7 +32,10 @@ function Login() {
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email
             </label>
             <input
@@ -39,7 +50,10 @@ function Login() {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -55,9 +69,14 @@ function Login() {
 
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none"
+            disabled={isLoading}
+            className={`w-full py-3 px-4 font-semibold rounded-md focus:outline-none ${
+              isLoading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
           >
-            Login
+            {isLoading ? <Spin size="small" style={{ color: "white" }} /> : "Login"}
           </button>
         </form>
       </div>

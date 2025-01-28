@@ -97,7 +97,7 @@ function LoanCalculator() {
   return (
     <div className="pt-24 py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="shadow text-3xl text-white bg-blue-500 font-bold text-center py-3 mb-8 rounded-lg transform transition duration-300 hover:scale-105">
+        <h2 className="shadow text-3xl text-white bg-green-600 font-bold text-center py-3 mb-8 rounded-lg transform transition duration-300 hover:scale-105">
           Calculate Your Loan
         </h2>
 

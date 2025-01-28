@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import { Modal, Table, Button } from 'antd';
-import { BASE_URL } from "../../utils/baseurl";
+import { BASE_URL } from "../utils/baseurl";
 import { message } from "antd";
 
 function ConstructionLoans() {

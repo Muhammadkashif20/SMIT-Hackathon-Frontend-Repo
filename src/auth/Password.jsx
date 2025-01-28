@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { message } from "antd";
-import { useNavigate, useLocation } from "react-router-dom";
+import { message, Spin } from "antd";
+import { useNavigate } from "react-router-dom";
 
 function Password() {
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,8 +13,15 @@ function Password() {
       message.error("Password is required.");
       return;
     }
-    message.success("Login successful!");
-    navigate("/user");
+    
+    setIsLoading(true); // Set loading to true before starting the process
+
+    // Simulate a loading process (like an API call)
+    setTimeout(() => {
+      setIsLoading(false); // Reset loading after the process is complete
+      message.success("Login successful!");
+      navigate("/user");
+    }, 2000); // Simulating a 2-second delay for login
   };
 
   return (
@@ -41,9 +48,14 @@ function Password() {
           </div>
           <button
             type="submit"
-            className="cursor-pointer w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none"
+            disabled={isLoading} // Disable button when loading
+            className={`cursor-pointer w-full py-3 px-4 font-semibold rounded-md focus:outline-none ${
+              isLoading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
           >
-            Submit
+            {isLoading ? <Spin size="small" style={{ color: "white" }} /> : "Submit"}
           </button>
         </form>
       </div>

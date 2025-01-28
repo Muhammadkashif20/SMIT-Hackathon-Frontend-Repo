@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
-import { Modal, Table, Button, message, Spin } from 'antd';
-import { BASE_URL } from "../../utils/baseurl";
+import { Modal, Table, message, Spin } from 'antd';
+import { BASE_URL } from "../utils/baseurl";
 
 function WeddingLoans() {
   const [formData, setFormData] = useState({

@@ -10,7 +10,7 @@ import {
   BookOutlined,
 } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
-import saylanilogo from "../..//assets/image/saylani welfare.jpeg";
+import saylanilogo from "../assets/image/saylani welfare.png";
 const { Header, Sider, Content } = Layout;
 
 const Sidebar = ({ children }) => {

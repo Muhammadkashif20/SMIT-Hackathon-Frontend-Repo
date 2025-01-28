@@ -7,18 +7,21 @@ function Proceed() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    if (!nic || !email || !password) {
-      message.error("All field are required!");
 
+    // Validation: Check if all fields are filled
+    if (!nic || !email || !password) {
+      message.error("All fields are required!");
       return;
     }
+
+    // Start loading
     setIsLoading(true);
+
+    // Simulate API call or process
     setTimeout(() => {
       setIsLoading(false);
       message.success("Proceed successfully!");
@@ -78,8 +81,6 @@ function Proceed() {
               placeholder="Enter Password"
             />
           </div>
-
-          {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
           <button
             type="submit"
