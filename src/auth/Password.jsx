@@ -20,7 +20,7 @@ function Password() {
     setTimeout(() => {
       setIsLoading(false); // Reset loading after the process is complete
       message.success("Login successful!");
-      navigate("/user");
+      navigate("/user-dashbaord");
     }, 2000); // Simulating a 2-second delay for login
   };
 
