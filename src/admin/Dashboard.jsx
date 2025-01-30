@@ -11,82 +11,101 @@ const Dashboard = () => {
       {
         label: "Loan Disbursement",
         data: [5000, 10000, 15000, 20000, 25000, 30000],
-        backgroundColor: "#4F46E5",
+        backgroundColor: "#FF6347", // A more vibrant color
       },
     ],
   };
 
   return (
     <Layout>
-      <div className="h-screen bg-gray-50 p-6">
-        {/* Main Content */}
-        <div className="flex flex-col items-center space-y-8">
-          <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+      <div className="h-screen bg-gray-100 p-10">
+        {/* Main Header Section */}
+        <div className="flex flex-col space-y-8 mb-12">
+          <div className="flex justify-between items-center">
+            <h1 className="text-5xl font-bold text-gray-900">User Dashboard</h1>
+            <div className="bg-indigo-600 text-white py-3 px-8 rounded-md text-xl font-semibold">Overview</div>
+          </div>
 
-          {/* Stats Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-            <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
-              <FiUsers className="text-4xl text-blue-600 mb-3" />
-              <h2 className="text-xl font-semibold text-gray-700">Total Clients</h2>
-              <p className="text-2xl font-bold text-blue-600">1,234</p>
+          <div className="text-gray-500 text-lg">
+            <p>Welcome back, User! Here's a snapshot of your recent activity.</p>
+          </div>
+        </div>
+
+        {/* Stats Cards Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+            <div className="flex items-center justify-between mb-4">
+              <FiUsers className="text-6xl text-blue-600" />
+              <p className="text-3xl font-semibold text-blue-600">1,234</p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
-              <FiDollarSign className="text-4xl text-green-600 mb-3" />
-              <h2 className="text-xl font-semibold text-gray-700">Active Loans</h2>
-              <p className="text-2xl font-bold text-green-600">325</p>
+            <h2 className="text-xl font-semibold text-gray-600">Total Clients</h2>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+            <div className="flex items-center justify-between mb-4">
+              <FiDollarSign className="text-6xl text-green-600" />
+              <p className="text-3xl font-semibold text-green-600">325</p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
-              <FiBarChart className="text-4xl text-purple-600 mb-3" />
-              <h2 className="text-xl font-semibold text-gray-700">Loan Trends</h2>
-              <Bar data={chartData} />
+            <h2 className="text-xl font-semibold text-gray-600">Active Loans</h2>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+            <div className="flex items-center justify-between mb-4">
+              <FiBarChart className="text-6xl text-purple-600" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-600">Loan Trends</h2>
+            <Bar data={chartData} />
+          </div>
+        </div>
+
+        {/* Manage Applications Section */}
+        <div className="bg-white p-8 rounded-lg shadow-md mt-12">
+          <h2 className="text-3xl font-semibold text-gray-700 mb-8">Manage Applications</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="city" className="block text-gray-600 text-lg">Select City</label>
+              <select id="city" className="w-full mt-2 p-4 border rounded-md">
+                <option value="">Select City</option>
+                <option value="karachi">Karachi</option>
+                <option value="lahore">Lahore</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="country" className="block text-gray-600 text-lg">Select Country</label>
+              <select id="country" className="w-full mt-2 p-4 border rounded-md">
+                <option value="">Select Country</option>
+                <option value="pakistan">Pakistan</option>
+                <option value="india">India</option>
+              </select>
             </div>
           </div>
 
-          {/* Manage Applications Form */}
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">Manage Applications</h2>
-
-            <div className="flex gap-4 mb-6">
-              <div className="flex-1">
-                <label htmlFor="city" className="text-gray-600">Select City</label>
-                <select id="city" className="w-full p-3 border rounded-lg mt-2">
-                  <option value="">Select City</option>
-                  <option value="karachi">Karachi</option>
-                  <option value="lahore">Lahore</option>
-                </select>
-              </div>
-              <div className="flex-1">
-                <label htmlFor="country" className="text-gray-600">Select Country</label>
-                <select id="country" className="w-full p-3 border rounded-lg mt-2">
-                  <option value="">Select Country</option>
-                  <option value="pakistan">Pakistan</option>
-                  <option value="india">India</option>
-                </select>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+            <div>
+              <label htmlFor="token" className="block text-gray-600 text-lg">Token Number</label>
+              <input
+                type="text"
+                id="token"
+                placeholder="Enter Token Number"
+                className="w-full mt-2 p-4 border rounded-md"
+              />
             </div>
 
-            <div className="flex gap-4 mb-6">
-              <div className="flex-1">
-                <label htmlFor="token" className="text-gray-600">Token Number</label>
-                <input
-                  type="text"
-                  id="token"
-                  placeholder="Enter Token Number"
-                  className="w-full p-3 border rounded-lg mt-2"
-                />
-              </div>
-              <div className="flex-1">
-                <label htmlFor="details" className="text-gray-600">Application Details</label>
-                <textarea
-                  id="details"
-                  placeholder="Enter Application Details"
-                  className="w-full p-3 border rounded-lg mt-2"
-                  rows="3"
-                />
-              </div>
+            <div>
+              <label htmlFor="details" className="block text-gray-600 text-lg">Application Details</label>
+              <textarea
+                id="details"
+                placeholder="Enter Application Details"
+                className="w-full mt-2 p-4 border rounded-md"
+                rows="3"
+              />
             </div>
+          </div>
 
-            <button className="bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 transition duration-200">
+          <div className="flex justify-center mt-8">
+            <button className="bg-indigo-600 text-white py-4 px-12 rounded-md hover:bg-indigo-700 transition duration-200">
               Submit Application
             </button>
           </div>
