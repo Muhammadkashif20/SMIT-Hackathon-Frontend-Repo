@@ -1,75 +1,102 @@
 import { Link } from "react-router-dom";
+import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import saylanilogo from "../assets/image/saylani welfare.png";
 
 function Footer() {
   return (
-    <footer className="mt-24 border-t bg-gray-100 border-gray-300 text-gray-800 body-font">
-      <div className="px-20 py-14 mx-auto flex flex-wrap justify-between">
-        {/* Logo and Description */}
-        <div className="w-64 flex-shrink-0">
+    <footer className="bg-gray-100 border-t border-gray-300 text-gray-800">
+      <div className="container mx-auto px-8 lg:px-20 py-16 flex flex-wrap justify-between">
+        <div className="w-full lg:w-1/3 mb-10 lg:mb-0">
           <img width={"180px"} src={saylanilogo} alt="Saylani Welfare Logo" />
-          <p className="mt-2 text-sm text-gray-700 font-semibold p-2">
-            Saylani Microfinance App is dedicated to providing installment-based loans to those in need, helping them build a better future.
+          <p className="mt-3 text-gray-700 font-medium leading-relaxed">
+            Saylani Microfinance App provides installment-based loans to those
+            in need, helping them build a better future.
           </p>
         </div>
 
-        {/* Links Section */}
-        <div className="flex-grow flex flex-wrap justify-around md:pl-20 -mb-10 md:mt-0 mt-10">
-          {/* About Section */}
-          <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 className="font-bold text-gray-800 tracking-widest text-xl mb-3">EXPLORE</h2>
-            <nav className="list-none mb-10">
-              <li className="mt-5 mb-2">
-                <Link to={"/"} className="font-medium text-gray-800 hover:text-blue-600">
-                  About Us
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link to={"/"} className="font-medium text-gray-800 hover:text-blue-600">
-                  Contact Us
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link to={"/"} className="font-medium text-gray-800 hover:text-blue-600">
-                  Microfinance App
-                </Link>
-              </li>
-            </nav>
-          </div>
+        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Explore</h2>
+          <ul>
+            {["About Us", "Contact Us", "Microfinance App"].map(
+              (item, index) => (
+                <li key={index} className="mt-3">
+                  <Link
+                    to={"/"}
+                    className="text-gray-800 font-medium hover:text-blue-600 transition duration-300"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
 
-          {/* Contact Details Section */}
-          <div className="lg:w-96 md:w-1/2 w-full px-4">
-            <h2 className="font-bold text-gray-800 tracking-widest text-xl mb-3">CONTACT</h2>
-            <nav className="list-none mb-10">
-              <li className="mt-5 mb-2">
-                <a href="https://www.google.com/maps?q=A-25,BahadurabadChowrangi,Karachi,Pakistan" className="text-gray-800 hover:text-blue-600">
-                  Main Bahadurabad Chowrangi, Karachi, Pakistan
-                </a>
-              </li>
-              <li className="mb-2">
-                <a href="mailto:info@saylaniwelfare.com" className="text-gray-800 hover:text-blue-600">
-                  Email: info@saylaniwelfare.com
-                </a>
-              </li>
-              <li className="mb-2">
-                <a href="tel:+921117295264" className="text-gray-800 hover:text-blue-600">
-                  Contact: 92-311-1729526
-                </a>
-              </li>
-            </nav>
+        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Contact</h2>
+          <ul>
+            <li className="mt-3">
+              <a
+                href="https://www.google.com/maps?q=A-25,BahadurabadChowrangi,Karachi,Pakistan"
+                className="text-gray-800 font-medium hover:text-blue-600 transition duration-300"
+              >
+                Main Bahadurabad Chowrangi, Karachi, Pakistan
+              </a>
+            </li>
+            <li className="mt-3">
+              <a
+                href="mailto:info@saylaniwelfare.com"
+                className="text-gray-800 font-medium hover:text-blue-600 transition duration-300"
+              >
+                info@saylaniwelfare.com
+              </a>
+            </li>
+            <li className="mt-3">
+              <a
+                href="tel:+921117295264"
+                className="text-gray-800 font-medium hover:text-blue-600 transition duration-300"
+              >
+                +92-311-1729526
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Follow Us</h2>
+          <div className="flex space-x-4 mt-3">
+            {[
+              {
+                icon: FaFacebookF,
+                link: "https://www.facebook.com/SaylaniWelfareInternationalTrust/",
+              },
+              {
+                icon: FaInstagram,
+                link: "https://www.instagram.com/officialswit/?hl=en",
+              },
+              { icon: FaYoutube, link: "https://youtube.com/saylaniwelfare" },
+            ].map((social, index) => (
+              <a
+                key={index}
+                href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-gray-200 p-3 rounded-full hover:bg-blue-600 hover:text-white transition duration-300"
+              >
+                <social.icon size={18} />
+              </a>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Footer Bottom Section */}
       <div className="bg-gray-200 py-4">
-  <div className="container mx-auto px-5 flex flex-wrap flex-col sm:flex-row justify-between items-center w-full">
-    <p className="font-semibold text-gray-900 text-sm text-center w-full">
-    Copyright © 2025 by  Saylani Welfare Int Trust
-    </p>
-  </div>
-</div>
-
+        <div className="container mx-auto px-5 flex flex-wrap flex-col sm:flex-row justify-between items-center">
+          <p className="text-sm font-semibold text-gray-900 text-center w-full sm:w-auto">
+            © 2025 Saylani Welfare Int Trust. All Rights Reserved.
+          </p>
+        </div>
+      </div>
     </footer>
   );
 }

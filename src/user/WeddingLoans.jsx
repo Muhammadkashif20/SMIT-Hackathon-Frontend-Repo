@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import { Modal, Table, message, Spin } from 'antd';
 import { BASE_URL } from "../utils/baseurl";
@@ -19,34 +19,15 @@ function WeddingLoans() {
   const [loanPeriod, setLoanPeriod] = useState("");
 
   const [isLoading, setIsLoading] = useState(false); // Spinner loading state
-  const [loanRequests, setLoanRequests] = useState([
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      subcategory: "Valima",
-      maxLoan: "50000",
-      loanPeriod: "5",
-      status: "Pending"
-    },
-    {
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      subcategory: "Furniture",
-      maxLoan: "30000",
-      loanPeriod: "3",
-      status: "Approved"
-    },
-    {
-      name: "Sarah Connor",
-      email: "sarah.connor@example.com",
-      subcategory: "Jahez",
-      maxLoan: "70000",
-      loanPeriod: "7",
-      status: "Rejected"
-    }
-  ]);
+  const [loanRequests, setLoanRequests] = useState([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    // Retrieve saved loan requests from localStorage on component mount
+    const savedLoans = JSON.parse(localStorage.getItem("loanRequests")) || [];
+    setLoanRequests(savedLoans);
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -82,15 +63,17 @@ function WeddingLoans() {
       console.log('status', postReq);
 
       // Adding the loan request to the table after submission
-      setLoanRequests([
-        ...loanRequests,
-        { name, email, subcategory, maxLoan: maximumLoan, loanPeriod, status: 'Pending' }
-      ]);
+      const newLoanRequest = { name, email, subcategory, maxLoan: maximumLoan, loanPeriod, status: 'Pending' };
+      const updatedLoanRequests = [...loanRequests, newLoanRequest];
+
+      // Save updated loan requests to localStorage
+      localStorage.setItem("loanRequests", JSON.stringify(updatedLoanRequests));
+
+      setLoanRequests(updatedLoanRequests);
 
       message.success("Loan Request Submitted");
 
       // Close modal and reset form
-      setIsModalOpen(false);
       setIsModalOpen(false);
       setName('');
       setEmail('');

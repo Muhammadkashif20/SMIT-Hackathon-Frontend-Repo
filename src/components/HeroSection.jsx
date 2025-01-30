@@ -1,33 +1,38 @@
-import herosectionimage from "../assets/image/herosectionimage.jpg";
+import HeroImage from "../assets/image/saylanichairman.jpg";
 
 function HeroSection() {
   return (
-    <section className="pt-5 bg-gray-50 text-gray-600 body-font">
-      <div className="contentDiv mx-auto flex px-18 pt-36 pb-36 md:flex-row flex-col items-center">
-        <div
-          className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0"
-          data-aos="fade-up"
-        >
-          <h1 className="title-font text-green-600 sm:text-3xl text-3xl mb-4 font-bold hover:text-green-600 transition duration-300">
-            Saylani Welfare International Trust
+    <section className="relative bg-gray-100 py-20">
+      <div className="container mx-auto flex flex-col md:flex-row items-center px-6">
+        <div className="md:w-1/2 space-y-6 text-center md:text-left">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 leading-tight animate-fadeInUp">
+            Empowering Communities through
+            <span className="text-green-600">
+              {" "}
+              Saylani Welfare Microfinance
+            </span>
           </h1>
-          <p className="text-gray-700 text-lg mb-5 mt-1 leading-relaxed hover:text-gray-800 transition duration-300">
-            <span className="font-semibold">Saylani Microfinance App</span> is a
-            platform designed to provide installment-based loans to the
-            underprivileged, empowering them to improve their financial
-            stability. Through this app, individuals can access financial
-            resources that enable them to create better opportunities for
-            long-term growth, self-reliance, and a brighter future.
+
+          <p className="text-lg text-gray-600 leading-relaxed animate-fadeInUp delay-100">
+            <span className="font-semibold">
+              Saylani Welfare International Trust
+            </span>{" "}
+            is committed to uplifting the underprivileged communities by
+            providing financial resources that promote growth, stability, and
+            independence. Through the Saylani Microfinance platform, individuals
+            are given access to affordable installment-based loans, helping them
+            break the cycle of poverty and secure a brighter future.
           </p>
-         
         </div>
 
-        <div className="lg:w-[36vw] md:w-1/2 w-[80vw] relative">
-          <img
-            className="object-cover object-center rounded-md transition duration-500 transform hover:scale-105"
-            alt="hero image"
-            src={herosectionimage}
-          />
+        <div className="md:w-1/2 mt-10 md:mt-0 flex justify-center">
+          <div className="w-full sm:w-[90%] lg:w-[72%] relative">
+            <img
+              className="rounded-lg shadow-xl transition-all duration-500 hover:scale-105 animate-fadeInUp delay-100"
+              alt="hero image"
+              src={HeroImage}
+            />
+          </div>
         </div>
       </div>
     </section>

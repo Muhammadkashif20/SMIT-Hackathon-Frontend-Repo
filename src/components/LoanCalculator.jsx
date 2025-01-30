@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Modal, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const loanCategories = [
@@ -41,31 +40,38 @@ function LoanCalculator() {
   const [loanPeriod, setLoanPeriod] = useState("");
   const [loanBreakdown, setLoanBreakdown] = useState(null);
   const [showProceed, setShowProceed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState("");
-  
-  const navigate = useNavigate(); // Initialize useNavigate
+
+  const navigate = useNavigate();
 
   const handleCalculate = () => {
     setLoanBreakdown(null);
+    setErrorMessage("");
+
     if (!category || !subcategory || !initialDeposit || !loanPeriod) {
-      setModalContent("Please fill all the fields.");
-      setModalVisible(true);
+      setErrorMessage("⚠️ Please fill all the fields.");
+      return;
+    }
+
+    if (Number(initialDeposit) <= 0 || Number(loanPeriod) <= 0) {
+      setErrorMessage(
+        "⚠️ Initial Deposit and Loan Period must be greater than 0."
+      );
       return;
     }
 
     const selectedCategory = loanCategories.find(
-      (currentCategory) => currentCategory.name === category
+      (cat) => cat.name === category
     );
     const maxLoan = selectedCategory.maxLoan;
     const initialDepositNumber = Number(initialDeposit);
     const loanPeriodNumber = Number(loanPeriod);
 
     if (initialDepositNumber >= maxLoan) {
-      setModalContent(
-        "Initial deposit cannot be greater than or equal to the maximum loan amount."
+      setErrorMessage(
+        "⚠️ Initial deposit cannot be greater than or equal to the maximum loan amount."
       );
-      setModalVisible(true);
       return;
     }
 
@@ -80,146 +86,148 @@ function LoanCalculator() {
     });
 
     setShowProceed(true);
+
+    setCategory("");
+    setSubcategory("");
+    setInitialDeposit("");
+    setLoanPeriod("");
   };
 
   const handleProceed = () => {
-    navigate("/login"); 
-  };
-
-  const handleModalOk = () => {
-    setModalVisible(false);
-  };
-
-  const handleModalCancel = () => {
-    setModalVisible(false);
+    navigate("/login");
   };
 
   return (
-    <div className="pt-24 py-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="shadow text-3xl text-white bg-green-600 font-bold text-center py-3 mb-8 rounded-lg transform transition duration-300 hover:scale-105">
-          Calculate Your Loan
+    <div className="pt-20 py-16 flex justify-center items-center">
+      <div className="w-full max-w-4xl bg-white shadow-xl rounded-xl p-10">
+        <h2 className="text-4xl font-bold text-center text-gray-900 mb-6">
+          Loan Calculator
         </h2>
 
-        <div className="shadow bg-white rounded-lg p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <select
-              className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 transition duration-300"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="" disabled>
-                Select category
-              </option>
-              {loanCategories.map((cat, index) => (
-                <option key={index} value={cat.name}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-            <select
-              className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 transition duration-300"
-              value={subcategory}
-              onChange={(e) => setSubcategory(e.target.value)}
-            >
-              <option value="" disabled>
-                Select subcategory
-              </option>
-              {category &&
-                loanCategories
-                  .find((currentCategory) => currentCategory.name === category)
-                  .subcategories.map((sub, ind) => (
-                    <option key={ind} value={sub}>
-                      {sub}
-                    </option>
-                  ))}
-            </select>
-            <input
-              className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 transition duration-300"
-              type="number"
-              placeholder="Max Loan Provided"
-              value={category && loanCategories.find((currentCategory) => currentCategory.name === category)?.maxLoan}
-              readOnly={true}
-            />
-            <input
-              className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 transition duration-300"
-              type="number"
-              placeholder="Initial deposit (PKR)"
-              value={initialDeposit}
-              onChange={(e) => setInitialDeposit(e.target.value)}
-            />
-            <input
-              className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 transition duration-300"
-              type="number"
-              placeholder="Loan period (years)"
-              value={loanPeriod}
-              onChange={(e) => setLoanPeriod(e.target.value)}
-            />
+        {errorMessage && (
+          <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
+            <span>{errorMessage}</span>
           </div>
-          <button
-            className="cursor-pointer font-semibold mt-8 w-full text-white bg-blue-600 hover:bg-blue-500 p-3 rounded-lg transition duration-300 transform hover:scale-105"
-            onClick={handleCalculate}
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <select
+            className="border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-green-600 cursor-pointer"
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setSubcategory("");
+            }}
           >
-            Calculate
-          </button>
-          {loanBreakdown && (
-            <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-4">Loan Breakdown</h3>
-              {loanBreakdown.error ? (
-                <p className="text-red-500">{loanBreakdown.error}</p>
-              ) : (
-                <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="bg-white shadow rounded-lg p-4 hover:bg-blue-50 transition duration-300">
-                    <h4 className="text-sm font-medium">Loan Amount</h4>
-                    <p className="text-2xl font-bold">
-                      PKR {loanBreakdown.loanAmount}
-                    </p>
-                  </div>
-                  <div className="bg-white shadow rounded-lg p-4 hover:bg-blue-50 transition duration-300">
-                    <h4 className="text-sm font-medium">Monthly Payment</h4>
-                    <p className="text-2xl font-bold">
-                      PKR {loanBreakdown.monthlyPayment}
-                    </p>
-                  </div>
-                  <div className="bg-white shadow rounded-lg p-4 hover:bg-blue-50 transition duration-300">
-                    <h4 className="text-sm font-medium">Yearly Payment</h4>
-                    <p className="text-2xl font-bold">
-                      PKR {loanBreakdown.yearlyPayment}
-                    </p>
-                  </div>
-                  <div className="bg-white shadow rounded-lg p-4 hover:bg-blue-50 transition duration-300">
-                    <h4 className="text-sm font-medium">Total Payment</h4>
-                    <p className="text-2xl font-bold">
-                      PKR {loanBreakdown.totalPayment}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          {showProceed && (
-            <button
-              className="mt-6 w-full text-white bg-green-600 hover:bg-green-500 p-3 rounded-lg transition duration-300 transform hover:scale-105"
-              onClick={handleProceed}
-            >
-              Proceed
-            </button>
-          )}
+            <option value="" disabled>
+              Select Loan Category
+            </option>
+            {loanCategories.map((cat, index) => (
+              <option key={index} value={cat.name}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-green-600 cursor-pointer"
+            value={subcategory}
+            onChange={(e) => setSubcategory(e.target.value)}
+            disabled={!category}
+          >
+            <option value="" disabled>
+              Select Subcategory
+            </option>
+            {category &&
+              loanCategories
+                .find((cat) => cat.name === category)
+                ?.subcategories.map((sub, ind) => (
+                  <option key={ind} value={sub}>
+                    {sub}
+                  </option>
+                ))}
+          </select>
+
+          <input
+            className="border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-green-600"
+            type="number"
+            placeholder="Max Loan Provided"
+            value={
+              category &&
+              loanCategories.find((cat) => cat.name === category)?.maxLoan
+            }
+            readOnly
+          />
+
+          <input
+            className="border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-green-600"
+            type="number"
+            placeholder="Initial Deposit (PKR)"
+            value={initialDeposit}
+            onChange={(e) => setInitialDeposit(e.target.value)}
+          />
+
+          <input
+            className="border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-green-600"
+            type="number"
+            placeholder="Loan Period (Years)"
+            value={loanPeriod}
+            onChange={(e) => setLoanPeriod(e.target.value)}
+          />
         </div>
+
+        <button
+          className="w-full mt-6 text-lg font-semibold bg-green-600 text-white py-3 rounded-lg transition-transform transform hover:scale-105 hover:bg-green-700 cursor-pointer"
+          onClick={handleCalculate}
+        >
+          Calculate Loan
+        </button>
+
+        {loanBreakdown && (
+          <div className="mt-6 p-6 bg-gray-100 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Loan Breakdown
+            </h3>
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                {
+                  label: "Loan Amount",
+                  value: `PKR ${loanBreakdown.loanAmount}`,
+                },
+                {
+                  label: "Monthly Payment",
+                  value: `PKR ${loanBreakdown.monthlyPayment}`,
+                },
+                {
+                  label: "Yearly Payment",
+                  value: `PKR ${loanBreakdown.yearlyPayment}`,
+                },
+                {
+                  label: "Total Payment",
+                  value: `PKR ${loanBreakdown.totalPayment}`,
+                },
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white shadow-md rounded-lg p-4 hover:bg-green-50 transition duration-300"
+                >
+                  <h4 className="text-sm font-medium">{item.label}</h4>
+                  <p className="text-2xl font-bold">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {showProceed && (
+          <button
+            className="mt-6 w-full text-lg font-semibold bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105 cursor-pointer"
+            onClick={handleProceed}
+          >
+            Proceed to Login
+          </button>
+        )}
       </div>
-      <Modal
-        title="Loan Calculator"
-        visible={modalVisible}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-        footer={[
-          <Button key="back" onClick={handleModalCancel}>
-            Close
-          </Button>,
-        ]}
-      >
-        <p>{modalContent}</p>
-      </Modal>
     </div>
   );
 }
