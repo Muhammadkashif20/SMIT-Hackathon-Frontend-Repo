@@ -93,7 +93,7 @@ function Footer() {
         </div>
       </div>
 
-      <div className="bg-white py-4 shadow-xl">
+      <div className="bg-white py-4 shadow-xl border-t border-gray-200">
         <div className="container mx-auto px-5 flex flex-wrap flex-col sm:flex-row justify-between items-center">
           <p className="text-sm font-semibold text-gray-900 text-center w-full sm:w-auto">
             © 2025 Saylani Welfare Int Trust. All Rights Reserved.

@@ -11,17 +11,18 @@ function Proceed() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validation: Check if all fields are filled
+    // try{
+    //   const res=await axios.post(`${BASE_URL}/proceed`,formData);
+    //   console.log("res=> ",res);
+    // }
+    // catch(error){
+    //   console.error("Error submitting loan request:", error);
+    // }
     if (!nic || !email || !password) {
       message.error("All fields are required!");
       return;
     }
-
-    // Start loading
     setIsLoading(true);
-
-    // Simulate API call or process
     setTimeout(() => {
       setIsLoading(false);
       message.success("Proceed successfully!");
