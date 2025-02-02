@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { message, Spin } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/baseurl";
 import axios from "axios";
 
 function Login() {
+  const location = useLocation();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    cnic: "",
+    password: location.state?.password || "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -22,9 +23,9 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
-    if (!email || !password) {
-      message.error("Email and Password are required.");
+    const { cnic, password } = formData;
+    if (!cnic || !password) {
+      message.error("cnic and Password are required.");
       return;
     }
     setIsLoading(true);
@@ -56,19 +57,19 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="cnic"
               className="block text-sm font-medium text-gray-700"
             >
-              Email
+              CNIC
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              type="cnic"
+              id="cnic"
+              name="cnic"
+              value={formData.cnic}
               onChange={handleChange}
               className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
+              placeholder="Enter your cnic"
             />
           </div>
 

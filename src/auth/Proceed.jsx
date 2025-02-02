@@ -8,7 +8,7 @@ function Proceed() {
   const [formData, setFormData] = useState({
     cnic: "",
     email: "",
-    password: "",
+    fullname: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -16,17 +16,20 @@ function Proceed() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { cnic, email, password } = formData;
-    if (!cnic || !email || !password)
+    const { cnic, email, fullname } = formData;
+    if (!cnic || !email || !fullname)
       return message.error("All fields are required!");
     setIsLoading(true);
     try {
       const res = await axios.post(`${BASE_URL}/auth/proceed`, formData);
+      const { plainPassword } = res.data;
+      console.log("plainPassword=> ",plainPassword);
+      
         if (res.data.error) {
              message.error(res.data.message || "Invalid Credentials");
            } else {
              message.success(res.data.message || "Proceed Successfully!");
-             navigate("/login");
+             navigate("/login",{ state: { password: plainPassword } });
            }
          } catch (error) {
            console.error("Error submitting request:", error);
@@ -40,6 +43,21 @@ function Proceed() {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Proceed</h2>
         <form onSubmit={handleSubmit}>
+           {/* Name Input */}
+           <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+            Name
+            </label>
+            <input
+              type="text"
+              name="fullname"
+              value={formData.fullname}
+              onChange={handleChange}
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md"
+              placeholder="Enter Name"
+            />
+          </div>
+
           {/* CNIC Input */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
@@ -70,20 +88,7 @@ function Proceed() {
             />
           </div>
 
-          {/* Password Input */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-3 mt-2 border border-gray-300 rounded-md"
-              placeholder="Enter Password"
-            />
-          </div>
+         
 
           {/* Submit Button */}
           <button
