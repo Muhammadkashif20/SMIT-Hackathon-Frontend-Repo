@@ -1,17 +1,17 @@
 import HeroImage from "../assets/image/saylani.jpg";
-
 function HeroSection() {
   return (
-    <section 
-      className="relative py-20 bg-[#FAF3E0] 
-                 bg-opacity-20 bg-cover bg-center">
+    <section
+      className="relative py-20 bg-[#FAF3E0] bg-opacity-20 bg-cover bg-center">
       <div className="container mx-auto flex flex-col md:flex-row items-center px-6">
-        
         {/* Left Content */}
         <div className="md:w-1/2 space-y-6 text-center md:text-left">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight animate-fadeInUp">
             Empowering Communities through
-            <span className="text-[#D97706]"> Saylani Welfare Microfinance</span>
+            <span className="text-[#D97706]">
+              {" "}
+              Saylani Welfare Microfinance
+            </span>
           </h1>
 
           <p className="text-lg text-gray-700 leading-relaxed animate-fadeInUp delay-100">

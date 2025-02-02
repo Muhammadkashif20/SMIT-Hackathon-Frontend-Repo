@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const navigate = useNavigate();
   function handleGurantors() {
-    navigate("/guarantors")
+    navigate("/guarantors");
   }
   return (
     <>
@@ -77,11 +77,11 @@ function Dashboard() {
               </div>
             </Card>
           </div>
-          <Card className="shadow-md" >
+          <Card className="shadow-md">
             <h2 className="text-2xl font-bold text-indigo-900 mb-4">
               Recent Activities
             </h2>
-            <div className="space-y-4 " >
+            <div className="space-y-4 ">
               <div className="flex items-center justify-between p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors duration-150">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800">
@@ -90,7 +90,7 @@ function Dashboard() {
                   <p className="text-gray-500">Wedding Loan - ₹1,00,000</p>
                 </div>
                 <Button
-                onClick={handleGurantors}
+                  onClick={handleGurantors}
                   type="link"
                   icon={<ArrowRightOutlined />}
                   className="text-indigo-600"
@@ -107,12 +107,12 @@ function Dashboard() {
                   <p className="text-gray-500">Education Loan - ₹10,000</p>
                 </div>
                 <Button
-                onClick={handleGurantors}
+                  onClick={handleGurantors}
                   type="link"
                   icon={<ArrowRightOutlined />}
                   className="text-teal-600"
                 >
-                 Add Information
+                  Add Information
                 </Button>
               </div>
 
@@ -124,12 +124,12 @@ function Dashboard() {
                   <p className="text-gray-500">Business Loan - ₹2,00,000</p>
                 </div>
                 <Button
-                onClick={handleGurantors}
+                  onClick={handleGurantors}
                   type="link"
                   icon={<ArrowRightOutlined />}
                   className="text-orange-600"
                 >
-                Add Information
+                  Add Information
                 </Button>
               </div>
             </div>

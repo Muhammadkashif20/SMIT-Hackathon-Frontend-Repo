@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import Sidebar from "./Sidebar";
-import { Modal, Table, message, Spin } from 'antd';
+import { Modal, Table, message, Spin } from "antd";
 import { BASE_URL } from "../utils/baseurl";
 import axios from "axios";
 
 function BussinessLoans() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subcategory: '',
-    maxLoan: '',
-    loanPeriod: ''
+    name: "",
+    email: "",
+    categories: "",
+    maximumloan: "",
+    loanperiod: "",
   });
   const [loanRequests, setLoanRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,16 +23,16 @@ function BussinessLoans() {
   const handleCancel = () => setIsModalOpen(false);
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   }, []);
 
   const handlePost = async () => {
-    const { name, email, subcategory, maxLoan, loanPeriod } = formData;
+    const { name, email, categories, maximumloan, loanperiod } = formData;
 
-    if (!name || !email || !subcategory || !maxLoan || !loanPeriod) {
+    if (!name || !email || !categories || !maximumloan || !loanperiod) {
       message.error("Please fill all fields.");
       return;
     }
@@ -40,9 +40,9 @@ function BussinessLoans() {
     setIsLoading(true);
 
     try {
-     const res=await axios.post(`${BASE_URL}/addLoanRequest`,formData);
-      console.log("res=> ",res);
-      const newLoanRequest = { ...formData, status: 'Pending' };
+      const res = await axios.post(`${BASE_URL}/loan/addLoanRequest`, formData);
+      console.log("res=> ", res);
+      const newLoanRequest = { ...formData, status: "Pending" };
       const updatedLoanRequests = [...loanRequests, newLoanRequest];
 
       localStorage.setItem("loanRequests", JSON.stringify(updatedLoanRequests));
@@ -50,7 +50,13 @@ function BussinessLoans() {
 
       message.success("Loan Request Submitted");
       setIsModalOpen(false);
-      setFormData({ name: '', email: '', subcategory: '', maxLoan: '', loanPeriod: '' });
+      setFormData({
+        name: "",
+        email: "",
+        categories: "",
+        maximumloan: "",
+        loanperiod: "",
+      });
     } catch (error) {
       console.error("Error submitting loan request:", error);
       message.error("Failed to submit loan request");
@@ -60,18 +66,25 @@ function BussinessLoans() {
   };
 
   const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Subcategory', dataIndex: 'subcategory', key: 'subcategory' },
-    { title: 'Maximum Loan', dataIndex: 'maxLoan', key: 'maxLoan' },
-    { title: 'Loan Period (Years)', dataIndex: 'loanPeriod', key: 'loanPeriod' },
-    { title: 'Status', dataIndex: 'status', key: 'status' },
+    { title: "Name", dataIndex: "name", key: "name" },
+    { title: "Email", dataIndex: "email", key: "email" },
+    { title: "categories", dataIndex: "categories", key: "categories" },
+    { title: "Maximum Loan", dataIndex: "maximumloan", key: "maximumloan" },
+    {
+      title: "Loan Period (Years)",
+      dataIndex: "loanperiod",
+      key: "loanperiod",
+    },
+    { title: "Status", dataIndex: "status", key: "status" },
   ];
+
   return (
     <>
       <Sidebar>
         <div className="flex justify-between mb-6">
-          <h1 className="text-center text-blue-600 text-2xl font-bold">Bussiness Loans</h1>
+          <h1 className="text-center text-blue-600 text-2xl font-bold">
+            Bussiness Loans
+          </h1>
           <button
             onClick={showModal}
             className="cursor-pointer bg-blue-600 text-white font-semibold rounded-md py-1.5 px-6 text-lg"
@@ -84,10 +97,16 @@ function BussinessLoans() {
           columns={columns}
           dataSource={loanRequests}
           rowKey={(record) => record.email}
-          pagination={false} 
+          pagination={false}
         />
 
-        <Modal title="Wedding Loan" onCancel={handleCancel} open={isModalOpen} onOk={handlePost} footer={null}>
+        <Modal
+          title="Wedding Loan"
+          onCancel={handleCancel}
+          open={isModalOpen}
+          onOk={handlePost}
+          footer={null}
+        >
           <div className="flex gap-3 pt-5 justify-between">
             <input
               name="name"
@@ -111,13 +130,13 @@ function BussinessLoans() {
 
           <div className="pt-5">
             <select
-              name="subcategory"
+              name="categories"
               className="border border-gray-300 rounded-md p-2 focus:outline-none w-full"
-              value={formData.subcategory}
+              value={formData.categories}
               onChange={handleChange}
-              aria-label="Select Loan Subcategory"
+              aria-label="Select Loan categories"
             >
-              <option value="">Select Subcategory</option>
+              <option value="">Select categories</option>
               <option value="Valima">Valima</option>
               <option value="Furniture">Furniture</option>
               <option value="Valima Food">Valima Food</option>
@@ -127,19 +146,19 @@ function BussinessLoans() {
 
           <div className="flex gap-3 pt-5 pb-3 justify-between">
             <input
-              name="maxLoan"
+              name="maximumloan"
               className="border border-gray-300 rounded-md p-2 focus:outline-none w-full"
               type="number"
               placeholder="Enter Maximum Loan"
-              value={formData.maxLoan}
+              value={formData.maximumloan}
               onChange={handleChange}
-              maxLength={7} 
+              maxLength={7}
               aria-label="Maximum Loan"
             />
             <select
-              name="loanPeriod"
+              name="loanperiod"
               className="border border-gray-300 rounded-md p-2 focus:outline-none w-full"
-              value={formData.loanPeriod}
+              value={formData.loanperiod}
               onChange={handleChange}
               aria-label="Loan Period (Years)"
             >
@@ -157,7 +176,14 @@ function BussinessLoans() {
               onClick={handlePost}
               className="cursor-pointer bg-blue-600 text-white w-full rounded-md py-2"
             >
-              {isLoading ? <Spin size="small" style={{ color: "white", marginRight: 10 }} /> : "Submit"}
+              {isLoading ? (
+                <Spin
+                  size="small"
+                  style={{ color: "white", marginRight: 10 }}
+                />
+              ) : (
+                "Submit"
+              )}
             </button>
           </div>
         </Modal>

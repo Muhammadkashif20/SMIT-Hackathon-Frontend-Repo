@@ -1,30 +1,53 @@
 import React, { useState } from "react";
-import { message } from "antd";
-import { Spin } from "antd";
+import { message, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/baseurl";
+import axios from "axios";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, password } = formData;
     if (!email || !password) {
       message.error("Email and Password are required.");
       return;
     }
     setIsLoading(true);
 
-    // Simulating a login process with a timeout
-    setTimeout(() => {
+    try {
+      const res = await axios.post(`${BASE_URL}/auth/login`, formData);
+      console.log("res=> ", res);
+      if (res.data?.error) {
+        message.error(res.data?.message || "Invalid Credentials");
+      } else {
+        message.success(res.data?.message || "Login Successfully!");
+        navigate("/password");
+      }
+    } catch (error) {
+      console.error("Error submitting request:", error);
+      const errorMessage = error.response?.data?.message || "User Is Not Register Please Proceed! ";
+      message.error(errorMessage);
+    } finally {
       setIsLoading(false);
-      message.success("Login Successfully!");
-      navigate("/password");
-    }, 2000); // 2-second delay
+    }
   };
+  
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -42,8 +65,8 @@ function Login() {
               type="email"
               id="email"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your email"
             />
@@ -60,8 +83,8 @@ function Login() {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
             />
@@ -76,7 +99,11 @@ function Login() {
                 : "bg-blue-600 hover:bg-blue-700 text-white"
             }`}
           >
-            {isLoading ? <Spin size="small" style={{ color: "white" }} /> : "Login"}
+            {isLoading ? (
+              <Spin size="small" style={{ color: "white" }} />
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>

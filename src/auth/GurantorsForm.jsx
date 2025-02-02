@@ -20,7 +20,7 @@ function GuarantorForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isGuarantorModalOpen, setIsGuarantorModalOpen] = useState(true);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const [currentGuarantor, setCurrentGuarantor] = useState(1); // To track which guarantor form to show
+  const [currentGuarantor, setCurrentGuarantor] = useState(1); 
 
   const validateGuarantor = () => {
     if (
@@ -56,10 +56,10 @@ function GuarantorForm() {
   const handleGuarantorSubmit = () => {
     if (validateGuarantor()) {
       if (currentGuarantor === 1) {
-        setCurrentGuarantor(2); // Move to Guarantor 2 form
+        setCurrentGuarantor(2); 
       } else {
         setIsGuarantorModalOpen(false);
-        setIsUserModalOpen(true); // Move to User Details form
+        setIsUserModalOpen(true); 
       }
     }
   };

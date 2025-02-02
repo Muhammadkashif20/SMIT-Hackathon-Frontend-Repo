@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import Sidebar from "./Sidebar";
-import { Modal, Table, message, Spin } from 'antd';
+import { Modal, Table, message, Spin } from "antd";
 import { BASE_URL } from "../utils/baseurl";
 import axios from "axios";
 
 function EducationalLoans() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    categories: '',
-    maximumloan: '',
-    loanperiod: ''
+    name: "",
+    email: "",
+    categories: "",
+    maximumloan: "",
+    loanperiod: "",
   });
   const [loanRequests, setLoanRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,9 +23,9 @@ function EducationalLoans() {
   const handleCancel = () => setIsModalOpen(false);
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   }, []);
 
@@ -40,9 +40,9 @@ function EducationalLoans() {
     setIsLoading(true);
 
     try {
-     const res=await axios.post(`${BASE_URL}/loan/addLoanRequest`,formData);
-      console.log("res=> ",res);
-      const newLoanRequest = { ...formData, status: 'Pending' };
+      const res = await axios.post(`${BASE_URL}/loan/addLoanRequest`, formData);
+      console.log("res=> ", res);
+      const newLoanRequest = { ...formData, status: "Pending" };
       const updatedLoanRequests = [...loanRequests, newLoanRequest];
 
       localStorage.setItem("loanRequests", JSON.stringify(updatedLoanRequests));
@@ -50,7 +50,13 @@ function EducationalLoans() {
 
       message.success("Loan Request Submitted");
       setIsModalOpen(false);
-      setFormData({ name: '', email: '', categories: '', maximumloan: '', loanperiod: '' });
+      setFormData({
+        name: "",
+        email: "",
+        categories: "",
+        maximumloan: "",
+        loanperiod: "",
+      });
     } catch (error) {
       console.error("Error submitting loan request:", error);
       message.error("Failed to submit loan request");
@@ -60,19 +66,25 @@ function EducationalLoans() {
   };
 
   const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'categories', dataIndex: 'categories', key: 'categories' },
-    { title: 'Maximum Loan', dataIndex: 'maximumloan', key: 'maximumloan' },
-    { title: 'Loan Period (Years)', dataIndex: 'loanperiod', key: 'loanperiod' },
-    { title: 'Status', dataIndex: 'status', key: 'status' },
+    { title: "Name", dataIndex: "name", key: "name" },
+    { title: "Email", dataIndex: "email", key: "email" },
+    { title: "categories", dataIndex: "categories", key: "categories" },
+    { title: "Maximum Loan", dataIndex: "maximumloan", key: "maximumloan" },
+    {
+      title: "Loan Period (Years)",
+      dataIndex: "loanperiod",
+      key: "loanperiod",
+    },
+    { title: "Status", dataIndex: "status", key: "status" },
   ];
 
   return (
     <>
       <Sidebar>
         <div className="flex justify-between mb-6">
-          <h1 className="text-center text-blue-600 text-2xl font-bold">Educational Loans</h1>
+          <h1 className="text-center text-blue-600 text-2xl font-bold">
+            Educational Loans
+          </h1>
           <button
             onClick={showModal}
             className="cursor-pointer bg-blue-600 text-white font-semibold rounded-md py-1.5 px-6 text-lg"
@@ -85,10 +97,16 @@ function EducationalLoans() {
           columns={columns}
           dataSource={loanRequests}
           rowKey={(record) => record.email}
-          pagination={false} 
+          pagination={false}
         />
 
-        <Modal title="Wedding Loan" onCancel={handleCancel} open={isModalOpen} onOk={handlePost} footer={null}>
+        <Modal
+          title="Wedding Loan"
+          onCancel={handleCancel}
+          open={isModalOpen}
+          onOk={handlePost}
+          footer={null}
+        >
           <div className="flex gap-3 pt-5 justify-between">
             <input
               name="name"
@@ -134,7 +152,7 @@ function EducationalLoans() {
               placeholder="Enter Maximum Loan"
               value={formData.maximumloan}
               onChange={handleChange}
-              maxLength={7} 
+              maxLength={7}
               aria-label="Maximum Loan"
             />
             <select
@@ -158,7 +176,14 @@ function EducationalLoans() {
               onClick={handlePost}
               className="cursor-pointer bg-blue-600 text-white w-full rounded-md py-2"
             >
-              {isLoading ? <Spin size="small" style={{ color: "white", marginRight: 10 }} /> : "Submit"}
+              {isLoading ? (
+                <Spin
+                  size="small"
+                  style={{ color: "white", marginRight: 10 }}
+                />
+              ) : (
+                "Submit"
+              )}
             </button>
           </div>
         </Modal>

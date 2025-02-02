@@ -71,11 +71,11 @@ const Sidebar = ({ children }) => {
           }}
           className="p-8"
         >
-            {
-            collapsed 
-            ? <img width={'180px'} src={saylanilogo} alt="Logo"/>
-            : <img width={'180px'} src={saylanilogo} alt="Logo"/>
-        }
+          {collapsed ? (
+            <img width={"180px"} src={saylanilogo} alt="Logo" />
+          ) : (
+            <img width={"180px"} src={saylanilogo} alt="Logo" />
+          )}
         </div>
         <Menu
           theme="light"
@@ -102,7 +102,7 @@ const Sidebar = ({ children }) => {
               );
             }
             return (
-              <Menu.Item key={item.key} icon={item.icon} >
+              <Menu.Item key={item.key} icon={item.icon}>
                 <Link to={item.key}>{item.label}</Link>
               </Menu.Item>
             );
@@ -127,7 +127,14 @@ const Sidebar = ({ children }) => {
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Link to={"/login"}><Button type="primary" className="bg-green-600 hover:bg-green-500">Login</Button></Link>
+            <Link to={"/login"}>
+              <Button
+                type="primary"
+                className="bg-green-600 hover:bg-green-500"
+              >
+                Login
+              </Button>
+            </Link>
           </div>
         </Header>
         <Content
