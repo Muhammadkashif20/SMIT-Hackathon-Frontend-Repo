@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { message, Spin } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { BASE_URL } from "../utils/baseurl";
 import axios from "axios";
 
@@ -11,6 +12,7 @@ function Login() {
     password: location.state?.password || "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,14 +27,15 @@ function Login() {
     e.preventDefault();
     const { cnic, password } = formData;
     if (!cnic || !password) {
-      message.error("cnic and Password are required.");
+      message.error("CNIC and Password are required.");
       return;
     }
     setIsLoading(true);
 
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, formData);
-      console.log("res=> ", res);
+      console.log("res=> ",res.data);
+      
       if (res.data?.error) {
         message.error(res.data?.message || "Invalid Credentials");
       } else {
@@ -41,70 +44,66 @@ function Login() {
       }
     } catch (error) {
       console.error("Error submitting request:", error);
-      const errorMessage = error.response?.data?.message || "User Is Not Register Please Proceed! ";
+      const errorMessage =
+        error.response?.data?.message || "User Is Not Registered. Please Proceed!";
       message.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
-  
-  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
         <form onSubmit={handleSubmit}>
+          {/* CNIC Input */}
           <div className="mb-4">
-            <label
-              htmlFor="cnic"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="cnic" className="block text-sm font-medium text-gray-700">
               CNIC
             </label>
             <input
-              type="cnic"
+              type="text"
               id="cnic"
               name="cnic"
               value={formData.cnic}
               onChange={handleChange}
               className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your cnic"
+              placeholder="Enter your CNIC"
             />
           </div>
 
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
+          {/* Password Input */}
+          <div className="mb-6 relative">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} 
               id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
               placeholder="Enter your password"
             />
+            <span
+              className="absolute right-3 top-10 cursor-pointer text-gray-500"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+            </span>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
             className={`w-full py-3 px-4 font-semibold rounded-md focus:outline-none ${
-              isLoading
-                ? "bg-blue-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700 text-white"
+              isLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
             }`}
           >
-            {isLoading ? (
-              <Spin size="small" style={{ color: "white" }} />
-            ) : (
-              "Login"
-            )}
+            {isLoading ? <Spin size="small" style={{ color: "white" }} /> : "Login"}
           </button>
         </form>
       </div>

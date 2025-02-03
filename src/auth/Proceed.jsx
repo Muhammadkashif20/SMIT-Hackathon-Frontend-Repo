@@ -22,14 +22,15 @@ function Proceed() {
     setIsLoading(true);
     try {
       const res = await axios.post(`${BASE_URL}/auth/proceed`, formData);
-      const { plainPassword } = res.data;
-      console.log("plainPassword=> ",plainPassword);
-      
+      const plainPassword = res.data.data.plainPassword;
+      console.log("plainPassword=>", plainPassword);
+      console.log("res.data=> ",res.data);      
         if (res.data.error) {
              message.error(res.data.message || "Invalid Credentials");
            } else {
              message.success(res.data.message || "Proceed Successfully!");
-             navigate("/login",{ state: { password: plainPassword } });
+             const passwordData = { password: plainPassword };
+             navigate("/login", { state: passwordData });             
            }
          } catch (error) {
            console.error("Error submitting request:", error);
