@@ -35,12 +35,14 @@ function Login() {
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, formData);
       console.log("res=> ",res.data);
-      
+      const plainPassword = res.data.data.password;
+      console.log("plainPassword=>", plainPassword);
       if (res.data?.error) {
         message.error(res.data?.message || "Invalid Credentials");
       } else {
         message.success(res.data?.message || "Login Successfully!");
-        navigate("/password");
+        const passwordData = { password: password };
+        navigate("/password", { state: passwordData });             
       }
     } catch (error) {
       console.error("Error submitting request:", error);
