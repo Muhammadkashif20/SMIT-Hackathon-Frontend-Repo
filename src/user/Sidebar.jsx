@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
 import saylanilogo from "../assets/image/saylani welfare.png";
+
 const { Header, Sider, Content } = Layout;
 
 const Sidebar = ({ children }) => {
@@ -19,13 +20,14 @@ const Sidebar = ({ children }) => {
 
   const menuItems = [
     {
-      key: "dashbaord",
+      key: "dashboard",
       icon: <AppstoreAddOutlined />,
-      label: <Link to={"/user-dashbaord"}>Dashbaord</Link>,
+      label: <Link to={"/user-dashboard"}>Dashboard</Link>,
     },
     {
       key: "loans",
       label: "Loans",
+      icon: <BankOutlined />,
       children: [
         {
           key: "weddingloans",
@@ -38,28 +40,31 @@ const Sidebar = ({ children }) => {
           label: <Link to={"/constructionloans"}>Home Construction Loans</Link>,
         },
         {
-          key: "bussinessloans",
+          key: "businessloans",
           icon: <DollarOutlined />,
-          label: <Link to={"/bussinessloans"}>Business Startup Loans</Link>,
+          label: <Link to={"/businessloans"}>Business Startup Loans</Link>,
         },
         {
           key: "educationloans",
           icon: <BookOutlined />,
-          label: <Link to={"/educationloans"}> Education Loans</Link>,
+          label: <Link to={"/educationloans"}>Education Loans</Link>,
         },
       ],
     },
   ];
 
+  const token = localStorage.getItem("token");
+  const userName = localStorage.getItem("fullname");
+
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
         theme="light"
         style={{
-          boxShadow: "0 2px 8px rgba(0,0,0,0.15) ",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
         }}
       >
         <div
@@ -68,14 +73,14 @@ const Sidebar = ({ children }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            padding: "16px",
           }}
-          className="p-8"
         >
-          {collapsed ? (
-            <img width={"180px"} src={saylanilogo} alt="Logo" />
-          ) : (
-            <img width={"180px"} src={saylanilogo} alt="Logo" />
-          )}
+          <img
+            src={saylanilogo}
+            alt="Logo"
+            style={{ width: collapsed ? "64px" : "130px", transition: "width 0.2s" }}
+          />
         </div>
         <Menu
           theme="light"
@@ -84,30 +89,7 @@ const Sidebar = ({ children }) => {
           selectedKeys={[location.pathname]}
           defaultOpenKeys={["loans"]}
           items={menuItems}
-        >
-          {menuItems.map((item) => {
-            if (item.children) {
-              return (
-                <Menu.SubMenu
-                  key={item.key}
-                  icon={item.icon}
-                  title={item.label}
-                >
-                  {item.children.map((child) => (
-                    <Menu.Item key={child.key} icon={child.icon}>
-                      <Link to={child.key}>{child.label}</Link>
-                    </Menu.Item>
-                  ))}
-                </Menu.SubMenu>
-              );
-            }
-            return (
-              <Menu.Item key={item.key} icon={item.icon}>
-                <Link to={item.key}>{item.label}</Link>
-              </Menu.Item>
-            );
-          })}
-        </Menu>
+        />
       </Sider>
       <Layout>
         <Header
@@ -127,14 +109,22 @@ const Sidebar = ({ children }) => {
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Link to={"/login"}>
-              <Button
-                type="primary"
-                className="bg-green-600 hover:bg-green-500"
-              >
-                Login
-              </Button>
-            </Link>
+            {token ? (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
+                  {`${userName}`}
+                </h2>
+              </div>
+            ) : (
+              <Link to={"/login"}>
+                <Button
+                  type="primary"
+                  style={{ background: "#52c41a", borderColor: "#52c41a" }}
+                >
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
         </Header>
         <Content
@@ -143,6 +133,8 @@ const Sidebar = ({ children }) => {
             padding: 24,
             background: "#fff",
             minHeight: 280,
+            borderRadius: "8px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
           }}
         >
           {children}

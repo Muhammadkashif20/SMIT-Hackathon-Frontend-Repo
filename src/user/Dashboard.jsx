@@ -13,19 +13,26 @@ function Dashboard() {
   function handleGurantors() {
     navigate("/guarantors");
   }
+  const token = localStorage.getItem("token");
+  const userName = localStorage.getItem("fullname");
   return (
     <>
       <Layout>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Welcome Section */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-semibold text-blue-900">
+            {token ? ( <div className="mb-8"><h1 className="text-4xl font-semibold text-blue-900">
+              Welcome Back, {userName}!
+            </h1>
+            <p className="text-blue-600 mt-2 text-lg">
+              Here's an overview of your account and recent activities.
+            </p> </div>) :  <div className="mb-8">  <h1 className="text-4xl font-semibold text-blue-900">
               Welcome Back, User!
             </h1>
             <p className="text-blue-600 mt-2 text-lg">
               Here's an overview of your account and recent activities.
-            </p>
-          </div>
+            </p> </div>}
+           
+          
 
           {/* Quick Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

@@ -83,7 +83,7 @@ function BussinessLoans() {
       <Sidebar>
         <div className="flex justify-between mb-6">
           <h1 className="text-center text-blue-600 text-2xl font-bold">
-            Bussiness Loans
+            Business Loans
           </h1>
           <button
             onClick={showModal}

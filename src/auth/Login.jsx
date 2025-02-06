@@ -14,7 +14,6 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -22,7 +21,6 @@ function Login() {
       [name]: value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { cnic, password } = formData;
@@ -34,20 +32,31 @@ function Login() {
 
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, formData);
-      console.log("res=> ",res.data);
-      const plainPassword = res.data.data.password;
-      console.log("plainPassword=>", plainPassword);
+      console.log("res=> ", res.data);
+      // const plainPassword =res.data.data?.user?.password;
+      const token = res.data?.data?.token;
+      const userName =res.data.data?.user?.fullname;      
+      console.log("userName=>",userName);
+      localStorage.setItem("fullname", userName); 
+
+      console.log("login token=>",token);
+      
+      if (token) {
+        localStorage.setItem("token", token); 
+      }
+      // console.log("plainPassword=>", plainPassword);
       if (res.data?.error) {
         message.error(res.data?.message || "Invalid Credentials");
       } else {
         message.success(res.data?.message || "Login Successfully!");
         const passwordData = { password: password };
-        navigate("/password", { state: passwordData });             
+        navigate("/password", { state: passwordData });
       }
     } catch (error) {
       console.error("Error submitting request:", error);
       const errorMessage =
-        error.response?.data?.message || "User Is Not Registered. Please Proceed!";
+        error.response?.data?.message ||
+        "User Is Not Registered. Please Proceed!";
       message.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -61,7 +70,10 @@ function Login() {
         <form onSubmit={handleSubmit}>
           {/* CNIC Input */}
           <div className="mb-4">
-            <label htmlFor="cnic" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="cnic"
+              className="block text-sm font-medium text-gray-700"
+            >
               CNIC
             </label>
             <input
@@ -74,14 +86,16 @@ function Login() {
               placeholder="Enter your CNIC"
             />
           </div>
-
           {/* Password Input */}
           <div className="mb-6 relative">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
-              type={showPassword ? "text" : "password"} 
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               value={formData.password}
@@ -96,21 +110,25 @@ function Login() {
               {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
             </span>
           </div>
-
           {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 px-4 font-semibold rounded-md focus:outline-none ${
-              isLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
+            className={`cursor-pointer w-full py-3 px-4 font-semibold rounded-md focus:outline-none ${
+              isLoading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
             }`}
           >
-            {isLoading ? <Spin size="small" style={{ color: "white" }} /> : "Login"}
+            {isLoading ? (
+              <Spin size="small" style={{ color: "white" }} />
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>
     </div>
   );
 }
-
 export default Login;

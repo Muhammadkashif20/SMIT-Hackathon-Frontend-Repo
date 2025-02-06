@@ -19,7 +19,7 @@ function App() {
       <BrowserRouter>
         <Routes>
            <Route path="/" element={<Home/>}></Route>
-           <Route path="/user-dashbaord" element={<UserDashboard/>}></Route>
+           <Route path="/user-dashboard" element={<UserDashboard/>}></Route>
            <Route path="/login" element={<Login/>}></Route>
            <Route path="/proceed" element={<Proceed/>}></Route>
            <Route path="/password" element={<Password/>}></Route>
@@ -28,7 +28,7 @@ function App() {
            <Route path="/admin" element={<Admin/>}></Route>
            <Route path="/weddingloans" element={<WeddingLoans/>}></Route>
            <Route path="/constructionloans" element={<ConstructionLoans/>}></Route>
-           <Route path="/bussinessloans" element={<BussinessLoans/>}></Route>
+           <Route path="/businessloans" element={<BussinessLoans/>}></Route>
            <Route path="/educationloans" element={<EducationalLoans/>}></Route>
         </Routes>
       </BrowserRouter>
