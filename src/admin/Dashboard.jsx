@@ -1,118 +1,320 @@
-import React from "react";
-import { FiUsers, FiDollarSign, FiBarChart } from "react-icons/fi";
-import { Bar } from "react-chartjs-2";
-import "chart.js/auto";
-import Layout from "./Sidebar";
+import React, { useEffect, useState } from "react";
+import { Layout, Menu, Button, Table, Select, Tag, Input, Space } from "antd";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  AppstoreAddOutlined,
+  DollarOutlined,
+  CalendarOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import saylanilogo from "../assets/image/saylani welfare.png";
+
+const { Header, Sider, Content } = Layout;
+const { Option } = Select;
 
 const Dashboard = () => {
-  const chartData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "Loan Disbursement",
-        data: [5000, 10000, 15000, 20000, 25000, 30000],
-        backgroundColor: "#FF6347", // A more vibrant color
-      },
-    ],
+  const [collapsed, setCollapsed] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState("applications");
+  const [recentActivities, setRecentActivities] = useState([]);
+  const [filteredActivities, setFilteredActivities] = useState([]);
+  const [search, setSearch] = useState({ token: "", city: "", country: "" });
+
+  useEffect(() => {
+    const activities = JSON.parse(localStorage.getItem("loanRequests")) || [];
+
+    // Ensure every activity has a unique ID
+    const activitiesWithId = activities.map((activity, index) => ({
+      ...activity,
+      id: activity.id || index + 1, // Assign an ID if missing
+    }));
+
+    setRecentActivities(activitiesWithId);
+    setFilteredActivities(activitiesWithId);
+
+    // Save updated data with IDs back to localStorage
+    localStorage.setItem("loanRequests", JSON.stringify(activitiesWithId));
+  }, []);
+
+  useEffect(() => {
+    const filtered = recentActivities.filter(
+      (activity) =>
+        (search.token ? activity.token.includes(search.token) : true) &&
+        (search.city
+          ? activity.city.toLowerCase().includes(search.city.toLowerCase())
+          : true) &&
+        (search.country
+          ? activity.country
+              .toLowerCase()
+              .includes(search.country.toLowerCase())
+          : true)
+    );
+    setFilteredActivities(filtered);
+  }, [search, recentActivities]);
+
+  const updateStatus = (id, newStatus) => {
+    console.log("Updating ID:", id); // Debugging ke liye
+
+    const updatedActivities = recentActivities.map((activity) =>
+      activity.id === id ? { ...activity, status: newStatus } : activity
+    );
+
+    setRecentActivities(updatedActivities);
+    setFilteredActivities(updatedActivities);
+
+    // Update localStorage
+    localStorage.setItem("loanRequests", JSON.stringify(updatedActivities));
   };
 
+  const handleSearchChange = (key, value) => {
+    setSearch((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const menuItems = [
+    {
+      key: "dashboard",
+      icon: <AppstoreAddOutlined />,
+      label: <Link to={"/user-dashboard"}>User Dashboard</Link>,
+    },
+    {
+      key: "adminDashboard",
+      icon: <AppstoreAddOutlined />,
+      label: <Link to={"/admin-dashboard"}>Dashboard</Link>,
+    },
+    {
+      key: "loans",
+      icon: <DollarOutlined />,
+      label: <Link to={"/admin-loanDetails"}>Loan Details</Link>,
+    },
+    {
+      key: "appointments",
+      icon: <CalendarOutlined />,
+      label: <Link to={"/admin-appointments"}>Appointments</Link>,
+    },
+  ];
+
   return (
-    <Layout>
-      <div className="h-screen bg-gray-100 p-10">
-        {/* Main Header Section */}
-        <div className="flex flex-col space-y-8 mb-12">
-          <div className="flex justify-between items-center">
-            <h1 className="text-5xl font-bold text-gray-900">User Dashboard</h1>
-            <div className="bg-indigo-600 text-white py-3 px-8 rounded-md text-xl font-semibold">Overview</div>
-          </div>
-
-          <div className="text-gray-500 text-lg">
-            <p>Welcome back, User! Here's a snapshot of your recent activity.</p>
-          </div>
+    <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        theme="light"
+        style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
+      >
+        <div
+          style={{
+            height: "64px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "16px",
+          }}
+        >
+          <img
+            src={saylanilogo}
+            alt="Logo"
+            style={{
+              width: collapsed ? "64px" : "130px",
+              transition: "width 0.2s",
+            }}
+          />
         </div>
+        <Menu
+          theme="light"
+          mode="inline"
+          defaultSelectedKeys={["applications"]}
+          selectedKeys={[selectedMenu]}
+          items={menuItems}
+          style={{ padding: "8px 0" }}
+        />
+      </Sider>
+      <Layout>
+        <Header
+          style={{
+            padding: "0 16px",
+            background: "#fff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
+          }}
+        >
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{ fontSize: "16px", width: 64, height: 64 }}
+          />
+          <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
+            Admin Dashboard
+          </h2>
+        </Header>
+        <Content
+          style={{
+            margin: "24px 16px",
+            padding: 24,
+            background: "#fff",
+            minHeight: 280,
+            borderRadius: "8px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          }}
+        >
+          <Space
+            style={{
+              marginBottom: 16,
+              display: "flex",
+              gap: "8px",
+              flexWrap: "wrap",
+            }}
+          >
+            <Input
+              placeholder="Search by Token"
+              onChange={(e) => handleSearchChange("token", e.target.value)}
+            />
+            <Select
+              placeholder="Select City"
+              style={{ minWidth: 120 }}
+              onChange={(value) => handleSearchChange("city", value)}
+            >
+              <Option value="karachi">Karachi</Option>
+              <Option value="lahore">Lahore</Option>
+              <Option value="islamabad">Islamabad</Option>
+            </Select>
+            <Select
+              placeholder="Select Country"
+              style={{ minWidth: 120 }}
+              onChange={(value) => handleSearchChange("country", value)}
+            >
+              <Option value="pakistan">Pakistan</Option>
+              <Option value="india">India</Option>
+              <Option value="usa">USA</Option>
+            </Select>
+          </Space>
+          <Table
+            dataSource={filteredActivities}
+            columns={[
+              { title: "Token", dataIndex: "token", key: "token" },
+              { title: "Name", dataIndex: "name", key: "name" },
+              { title: "City", dataIndex: "city", key: "city" },
+              { title: "Country", dataIndex: "country", key: "country" },
+              {
+                title: "Status",
+                dataIndex: "status",
+                key: "status",
+                render: (status) => (
+                  <Tag
+                    color={
+                      status === "Pending"
+                        ? "orange"
+                        : status === "Rejected"
+                        ? "red"
+                        : "green"
+                    }
+                  >
+                    {status}
+                  </Tag>
+                ),
+              },
+              {
+                title: "Actions",
+                key: "actions",
+                render: (_, record) => (
+                  <Space>
+                    <Button
+                      type="primary"
+                      icon={<CheckCircleOutlined />}
+                      onClick={() => updateStatus(record.id, "Approved")}
+                      style={{
+                        opacity: record.status !== "Pending" ? 0.5 : 1,
+                        pointerEvents:
+                          record.status !== "Pending" ? "none" : "auto",
+                      }}
+                    >
+                      Approve
+                    </Button>
 
-        {/* Stats Cards Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
-            <div className="flex items-center justify-between mb-4">
-              <FiUsers className="text-6xl text-blue-600" />
-              <p className="text-3xl font-semibold text-blue-600">1,234</p>
-            </div>
-            <h2 className="text-xl font-semibold text-gray-600">Total Clients</h2>
-          </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
-            <div className="flex items-center justify-between mb-4">
-              <FiDollarSign className="text-6xl text-green-600" />
-              <p className="text-3xl font-semibold text-green-600">325</p>
-            </div>
-            <h2 className="text-xl font-semibold text-gray-600">Active Loans</h2>
-          </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 ease-in-out">
-            <div className="flex items-center justify-between mb-4">
-              <FiBarChart className="text-6xl text-purple-600" />
-            </div>
-            <h2 className="text-xl font-semibold text-gray-600">Loan Trends</h2>
-            <Bar data={chartData} />
-          </div>
-        </div>
-
-        {/* Manage Applications Section */}
-        <div className="bg-white p-8 rounded-lg shadow-md mt-12">
-          <h2 className="text-3xl font-semibold text-gray-700 mb-8">Manage Applications</h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="city" className="block text-gray-600 text-lg">Select City</label>
-              <select id="city" className="w-full mt-2 p-4 border rounded-md">
-                <option value="">Select City</option>
-                <option value="karachi">Karachi</option>
-                <option value="lahore">Lahore</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="country" className="block text-gray-600 text-lg">Select Country</label>
-              <select id="country" className="w-full mt-2 p-4 border rounded-md">
-                <option value="">Select Country</option>
-                <option value="pakistan">Pakistan</option>
-                <option value="india">India</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
-            <div>
-              <label htmlFor="token" className="block text-gray-600 text-lg">Token Number</label>
-              <input
-                type="text"
-                id="token"
-                placeholder="Enter Token Number"
-                className="w-full mt-2 p-4 border rounded-md"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="details" className="block text-gray-600 text-lg">Application Details</label>
-              <textarea
-                id="details"
-                placeholder="Enter Application Details"
-                className="w-full mt-2 p-4 border rounded-md"
-                rows="3"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-center mt-8">
-            <button className="bg-indigo-600 text-white py-4 px-12 rounded-md hover:bg-indigo-700 transition duration-200">
-              Submit Application
-            </button>
-          </div>
-        </div>
-      </div>
+                    <Button
+                      type="dashed"
+                      danger
+                      icon={<CloseCircleOutlined />}
+                      onClick={() => updateStatus(record.id, "Rejected")}
+                      style={{
+                        opacity: record.status !== "Pending" ? 0.5 : 1,
+                        pointerEvents:
+                          record.status !== "Pending" ? "none" : "auto",
+                      }}
+                    >
+                      Reject
+                    </Button>
+                  </Space>
+                ),
+              },
+            ]}
+            rowKey="id"
+          />
+        </Content>
+      </Layout>
     </Layout>
   );
+};
+export const LoansPage = ({ loans }) => {
+  const columns = [
+    { title: "Loan ID", dataIndex: "id", key: "id" },
+    { title: "Category", dataIndex: "category", key: "category" },
+    { title: "Subcategory", dataIndex: "subcategory", key: "subcategory" },
+    { title: "Amount", dataIndex: "amount", key: "amount" },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <Tag color={status === "Pending" ? "orange" : "green"}>{status}</Tag>
+      ),
+    },
+  ];
+
+  const expandedRowRender = (record) => (
+    <div>
+      <p>
+        <strong>Guarantor:</strong> {record.guarantor.name}
+      </p>
+      <p>
+        <strong>User Info:</strong> {record.user.name}, {record.user.phone}
+      </p>
+    </div>
+  );
+
+  return (
+    <Table
+      dataSource={loans}
+      columns={columns}
+      expandable={{ expandedRowRender }}
+      rowKey="id"
+    />
+  );
+};
+
+export const AppointmentsPage = ({ appointments }) => {
+  const dateCellRender = (value) => {
+    const listData = appointments.filter(
+      (app) =>
+        new Date(app.date).toDateString() === value.toDate().toDateString()
+    );
+    return (
+      <ul>
+        {listData.map((item) => (
+          <li key={item.id}>
+            <Badge status="success" text={item.user.name} />
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  return <Calendar dateCellRender={dateCellRender} />;
 };
 
 export default Dashboard;

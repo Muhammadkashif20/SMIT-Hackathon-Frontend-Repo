@@ -89,6 +89,11 @@ const Sidebar = ({ children }) => {
           selectedKeys={[location.pathname]}
           defaultOpenKeys={["loans"]}
           items={menuItems}
+          style={{
+            padding: "8px 0", // Add padding to the menu
+          }}
+          subMenuCloseDelay={0.1} // Faster submenu closing
+          subMenuOpenDelay={0.1} // Faster submenu opening
         />
       </Sider>
       <Layout>

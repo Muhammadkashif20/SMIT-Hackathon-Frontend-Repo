@@ -14,33 +14,30 @@ function GuarantorForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
-  // Validate function for user and guarantor fields
+  // Validate fields
   const validateFields = (fields) => {
-    const isValid = Object.values(fields).every((field) => field.trim() !== "");
-    console.log("Validating fields:", fields, "isValid:", isValid); // Debugging validation
-    return isValid;
+    return Object.values(fields).every((field) => field.trim() !== "");
   };
 
+  // Handle Next button click
   const handleNext = () => {
-    console.log("Current Step:", currentStep); // Debugging the current step
-    // Validate the current step's guarantor fields
     if (!validateFields(guarantors[currentStep])) {
       message.error(`All fields for Guarantor ${currentStep + 1} are required.`);
       return;
     }
-
     setCurrentStep((prevStep) => prevStep + 1);
   };
 
+  // Handle form submission
   const handleSubmit = async () => {
-    console.log("User data on submit:", user); // Debugging the user data
+    // Validate user fields
     if (!validateFields(user)) {
       message.error("All user fields are required.");
       return;
     }
 
+    // Validate guarantors fields
     const allGuarantorsValid = guarantors.every(validateFields);
-    console.log("All guarantor fields valid:", allGuarantorsValid); // Debugging guarantor validation
     if (!allGuarantorsValid) {
       message.error("All fields for both guarantors are required.");
       return;
@@ -49,31 +46,30 @@ function GuarantorForm() {
     setIsLoading(true);
 
     try {
+      // Prepare payload
       const guarantorData = guarantors.map((guarantor) => ({
-        name: guarantor.name.trim(),
-        email: guarantor.email.trim(),
-        cnic: guarantor.cnic.trim(),
-        location: guarantor.location.trim(),
+        name: guarantor.name,
+        email: guarantor.email,
+        cnic: guarantor.cnic,
+        location: guarantor.location,
       }));
 
-      // Prepare user data
       const userData = {
-        name: user.name.trim(),
-        address: user.address.trim(),
-        phone: user.phone.trim(),
+        name: user.name,
+        address: user.address,
+        phone: user.phone,
       };
 
-      // Log the payload for debugging
       console.log("Submitting payload:", { user: userData, guarantors: guarantorData });
 
-      // Send user & guarantor data
+      // Send request to backend
       const res = await axios.post(`${BASE_URL}/guarantor/addGuarantorInfo`, {
         user: userData,
         guarantors: guarantorData,
       });
 
-      // Handle API response
-      console.log("API Response:", res); // Debugging the response
+      console.log("API Response:", res);
+
       if (res.data.error) {
         throw new Error(res.data.message || "Submission failed! Please try again.");
       }
@@ -81,7 +77,7 @@ function GuarantorForm() {
       message.success("Form submitted successfully!");
       navigate("/slipGenerate");
     } catch (error) {
-      console.error("Error occurred during form submission:", error); // Debugging the error
+      console.error("Error occurred during form submission:", error);
       message.error(error.message || "Submission failed! Please try again.");
     } finally {
       setIsLoading(false);
@@ -103,17 +99,14 @@ function GuarantorForm() {
                 value={currentStep < 2 ? guarantors[currentStep][key] : user[key]}
                 onChange={(e) => {
                   const value = e.target.value.trim();
-                  console.log(`Updating ${key} for ${currentStep < 2 ? `Guarantor ${currentStep + 1}` : "User"}`); // Debugging input change
                   if (currentStep < 2) {
                     setGuarantors((prev) => {
                       const updated = [...prev];
                       updated[currentStep] = { ...updated[currentStep], [key]: value };
-                      console.log("Updated guarantor data:", updated); // Debugging updated guarantor
                       return updated;
                     });
                   } else {
                     setUser((prev) => ({ ...prev, [key]: value }));
-                    console.log("Updated user data:", { ...user, [key]: value }); // Debugging updated user
                   }
                 }}
                 className="w-full p-3 mt-2 border border-gray-300 rounded-md"

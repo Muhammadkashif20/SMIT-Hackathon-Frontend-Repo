@@ -7,7 +7,7 @@ import Password from "./auth/Password.jsx"
 import GurantorsForm from "./auth/GurantorsForm.jsx"
 import SlipGeneration  from "./user/SlipGeneration.jsx"
 import UserDashboard from './user/Dashboard.jsx'
-import Admin from './admin/Dashboard.jsx'
+import Admin, { AppointmentsPage, LoansPage } from './admin/Dashboard.jsx'
 import WeddingLoans from './user/WeddingLoans'
 import ConstructionLoans from './user/ConstructionLoans.jsx'
 import BussinessLoans from './user/BussinessLoans.jsx'
@@ -20,12 +20,14 @@ function App() {
         <Routes>
            <Route path="/" element={<Home/>}></Route>
            <Route path="/user-dashboard" element={<UserDashboard/>}></Route>
+           <Route path="/admin-loanDetails" element={<LoansPage/>}></Route>
+           <Route path="/admin-appointments" element={<AppointmentsPage/>}></Route>
            <Route path="/login" element={<Login/>}></Route>
            <Route path="/proceed" element={<Proceed/>}></Route>
            <Route path="/password" element={<Password/>}></Route>
            <Route path="/guarantors" element={<GurantorsForm/>}></Route>
            <Route path="/slipGenerate" element={<SlipGeneration/>}></Route>
-           <Route path="/admin" element={<Admin/>}></Route>
+           <Route path="/admin-dashboard" element={<Admin/>}></Route>
            <Route path="/weddingloans" element={<WeddingLoans/>}></Route>
            <Route path="/constructionloans" element={<ConstructionLoans/>}></Route>
            <Route path="/businessloans" element={<BussinessLoans/>}></Route>
