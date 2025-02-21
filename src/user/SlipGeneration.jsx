@@ -13,6 +13,7 @@ import {
 
 import { BASE_URL } from "../utils/baseurl";
 
+// Random data generators
 const getRandomDate = () => {
   const today = new Date();
   const futureDate = new Date(today);
@@ -39,11 +40,12 @@ const generateToken = () => Math.floor(100000 + Math.random() * 900000);
 
 const SlipGeneration = () => {
   const [formData, setFormData] = useState({
-    token: generateToken(),
-    date: getRandomDate(),
-    time: getRandomTime(),
-    officeLocation: getRandomLocation(),
+    token: "",
+    date: "",
+    time: "",
+    officeLocation: "",
   });
+
   const [showSlip, setShowSlip] = useState(false);
 
   const generateNewAppointment = async () => {
@@ -58,10 +60,12 @@ const SlipGeneration = () => {
     setShowSlip(true);
 
     try {
-      const response = await axios.get(`${BASE_URL}/appointments/getSlip`, newFormData);
-      console.log("SlipResponse:", response.data);
+      const response = await axios.get(`${BASE_URL}/appointments/getSlip`, {
+        params: newFormData,
+      });
+      console.log("Slip Saved Successfully:", response.data);
     } catch (error) {
-      console.error("Error posting appointment:", error);
+      console.error("Error sending appointment to backend:", error);
     }
   };
 
