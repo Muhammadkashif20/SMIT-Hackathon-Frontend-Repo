@@ -60,9 +60,7 @@ const SlipGeneration = () => {
     setShowSlip(true);
 
     try {
-      const response = await axios.get(`${BASE_URL}/appointments/getSlip`, {
-        params: newFormData,
-      });
+      const response = await axios.post(`${BASE_URL}/appointments/addSlip`,  newFormData);
       console.log("Slip Saved Successfully:", response.data);
     } catch (error) {
       console.error("Error sending appointment to backend:", error);
