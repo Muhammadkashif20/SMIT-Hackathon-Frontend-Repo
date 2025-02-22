@@ -15,6 +15,14 @@ import saylanilogo from "../assets/image/saylani welfare.png";
 const { Header, Sider, Content } = Layout;
 const { Option } = Select;
 
+const countryCityData = {
+  Pakistan: ["Karachi", "Lahore", "Islamabad", "Rawalpindi", "Peshawar"],
+  India: ["Delhi", "Mumbai", "Bangalore", "Hyderabad", "Chennai"],
+  Bangladesh: ["Dhaka", "Chittagong", "Khulna"],
+  SriLanka: ["Colombo", "Kandy", "Galle"],
+  Nepal: ["Kathmandu", "Pokhara", "Lalitpur"],
+};
+
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("applications");
@@ -24,17 +32,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     const activities = JSON.parse(localStorage.getItem("loanRequests")) || [];
-
-    // Ensure every activity has a unique ID
     const activitiesWithId = activities.map((activity, index) => ({
       ...activity,
-      id: activity.id || index + 1, // Assign an ID if missing
+      id: activity.id || index + 1,
     }));
-
     setRecentActivities(activitiesWithId);
     setFilteredActivities(activitiesWithId);
-
-    // Save updated data with IDs back to localStorage
     localStorage.setItem("loanRequests", JSON.stringify(activitiesWithId));
   }, []);
 
@@ -42,58 +45,24 @@ const Dashboard = () => {
     const filtered = recentActivities.filter(
       (activity) =>
         (search.token ? activity.token.includes(search.token) : true) &&
-        (search.city
-          ? activity.city.toLowerCase().includes(search.city.toLowerCase())
-          : true) &&
-        (search.country
-          ? activity.country
-              .toLowerCase()
-              .includes(search.country.toLowerCase())
-          : true)
+        (search.city ? activity.city.toLowerCase() === search.city.toLowerCase() : true) &&
+        (search.country ? activity.country.toLowerCase() === search.country.toLowerCase() : true)
     );
     setFilteredActivities(filtered);
   }, [search, recentActivities]);
 
   const updateStatus = (id, newStatus) => {
-    console.log("Updating ID:", id); // Debugging ke liye
-
     const updatedActivities = recentActivities.map((activity) =>
       activity.id === id ? { ...activity, status: newStatus } : activity
     );
-
     setRecentActivities(updatedActivities);
     setFilteredActivities(updatedActivities);
-
-    // Update localStorage
     localStorage.setItem("loanRequests", JSON.stringify(updatedActivities));
   };
 
   const handleSearchChange = (key, value) => {
-    setSearch((prev) => ({ ...prev, [key]: value }));
+    setSearch((prev) => ({ ...prev, [key]: value, ...(key === "country" ? { city: "" } : {}) }));
   };
-
-  const menuItems = [
-    {
-      key: "dashboard",
-      icon: <AppstoreAddOutlined />,
-      label: <Link to={"/user-dashboard"}>User Dashboard</Link>,
-    },
-    {
-      key: "adminDashboard",
-      icon: <AppstoreAddOutlined />,
-      label: <Link to={"/admin-dashboard"}>Dashboard</Link>,
-    },
-    {
-      key: "loans",
-      icon: <DollarOutlined />,
-      label: <Link to={"/admin-loanDetails"}>Loan Details</Link>,
-    },
-    {
-      key: "appointments",
-      icon: <CalendarOutlined />,
-      label: <Link to={"/admin-appointments"}>Appointments</Link>,
-    },
-  ];
 
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
@@ -104,93 +73,50 @@ const Dashboard = () => {
         theme="light"
         style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
       >
-        <div
-          style={{
-            height: "64px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-        >
-          <img
-            src={saylanilogo}
-            alt="Logo"
-            style={{
-              width: collapsed ? "64px" : "130px",
-              transition: "width 0.2s",
-            }}
-          />
+        <div style={{ height: "64px", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
+          <img src={saylanilogo} alt="Logo" style={{ width: collapsed ? "64px" : "130px", transition: "width 0.2s" }} />
         </div>
-        <Menu
-          theme="light"
-          mode="inline"
-          defaultSelectedKeys={["applications"]}
-          selectedKeys={[selectedMenu]}
-          items={menuItems}
-          style={{ padding: "8px 0" }}
-        />
+        <Menu theme="light" mode="inline" selectedKeys={[selectedMenu]} style={{ padding: "8px 0" }}>
+          <Menu.Item key="dashboard" icon={<AppstoreAddOutlined />}>
+            <Link to={"/user-dashboard"}>User Dashboard</Link>
+          </Menu.Item>
+          <Menu.Item key="adminDashboard" icon={<AppstoreAddOutlined />}>
+            <Link to={"/admin-dashboard"}>Dashboard</Link>
+          </Menu.Item>
+          <Menu.Item key="loans" icon={<DollarOutlined />}>
+            <Link to={"/admin-loanDetails"}>Loan Details</Link>
+          </Menu.Item>
+          <Menu.Item key="appointments" icon={<CalendarOutlined />}>
+            <Link to={"/admin-appointments"}>Appointments</Link>
+          </Menu.Item>
+        </Menu>
       </Sider>
       <Layout>
-        <Header
-          style={{
-            padding: "0 16px",
-            background: "#fff",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: "16px", width: 64, height: 64 }}
-          />
-          <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
-            Admin Dashboard
-          </h2>
+        <Header style={{ padding: "0 16px", background: "#fff", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
+          <Button type="text" icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={() => setCollapsed(!collapsed)} style={{ fontSize: "16px", width: 64, height: 64 }} />
+          <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>Admin Dashboard</h2>
         </Header>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            background: "#fff",
-            minHeight: 280,
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          }}
-        >
-          <Space
-            style={{
-              marginBottom: 16,
-              display: "flex",
-              gap: "8px",
-              flexWrap: "wrap",
-            }}
-          >
-            <Input
-              placeholder="Search by Token"
-              onChange={(e) => handleSearchChange("token", e.target.value)}
-            />
-            <Select
-              placeholder="Select City"
-              style={{ minWidth: 120 }}
-              onChange={(value) => handleSearchChange("city", value)}
-            >
-              <Option value="karachi">Karachi</Option>
-              <Option value="lahore">Lahore</Option>
-              <Option value="islamabad">Islamabad</Option>
+        <Content style={{ margin: "24px 16px", padding: 24, background: "#fff", minHeight: 280, borderRadius: "8px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+          <Space style={{ marginBottom: 16, display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <Input placeholder="Search by Token" onChange={(e) => handleSearchChange("token", e.target.value)} />
+            <Select placeholder="Select Country" style={{ minWidth: 150 }} onChange={(value) => handleSearchChange("country", value)}>
+              {Object.keys(countryCityData).map((country) => (
+                <Option key={country} value={country}>
+                  {country.charAt(0).toUpperCase() + country.slice(1)}
+                </Option>
+              ))}
             </Select>
             <Select
-              placeholder="Select Country"
-              style={{ minWidth: 120 }}
-              onChange={(value) => handleSearchChange("country", value)}
+              placeholder="Select City"
+              style={{ minWidth: 150 }}
+              onChange={(value) => handleSearchChange("city", value)}
+              disabled={!search.country}
             >
-              <Option value="pakistan">Pakistan</Option>
-              <Option value="india">India</Option>
-              <Option value="usa">USA</Option>
+              {(countryCityData[search.country] || []).map((city) => (
+                <Option key={city} value={city}>
+                  {city}
+                </Option>
+              ))}
             </Select>
           </Space>
           <Table
@@ -205,15 +131,7 @@ const Dashboard = () => {
                 dataIndex: "status",
                 key: "status",
                 render: (status) => (
-                  <Tag
-                    color={
-                      status === "Pending"
-                        ? "orange"
-                        : status === "Rejected"
-                        ? "red"
-                        : "green"
-                    }
-                  >
+                  <Tag color={status === "Pending" ? "orange" : status === "Rejected" ? "red" : "green"}>
                     {status}
                   </Tag>
                 ),
@@ -227,24 +145,25 @@ const Dashboard = () => {
                       type="primary"
                       icon={<CheckCircleOutlined />}
                       onClick={() => updateStatus(record.id, "Approved")}
+                      disabled={record.status !== "Pending"}
                       style={{
-                        opacity: record.status !== "Pending" ? 0.5 : 1,
-                        pointerEvents:
-                          record.status !== "Pending" ? "none" : "auto",
+                        backgroundColor: record.status === "Pending" ? "" : "#b3d7ff", 
+                        borderColor: record.status === "Pending" ? "" : "#b3d7ff",
+                        color: record.status === "Pending" ? "" : "#ffffff",
                       }}
                     >
                       Approve
                     </Button>
-
                     <Button
                       type="dashed"
                       danger
                       icon={<CloseCircleOutlined />}
                       onClick={() => updateStatus(record.id, "Rejected")}
+                      disabled={record.status !== "Pending"}
                       style={{
-                        opacity: record.status !== "Pending" ? 0.5 : 1,
-                        pointerEvents:
-                          record.status !== "Pending" ? "none" : "auto",
+                        borderColor: record.status === "Pending" ? "" : "#f7b2b2", 
+                        color: record.status === "Pending" ? "" : "#f7b2b2", 
+                        background: record.status === "Pending" ? "" : "white", 
                       }}
                     >
                       Reject

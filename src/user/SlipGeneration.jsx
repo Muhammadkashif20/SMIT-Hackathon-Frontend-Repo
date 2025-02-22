@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import navigation hook
 import QRCode from "react-qr-code";
 import { Button } from "antd";
 import axios from "axios";
@@ -39,6 +40,8 @@ const getRandomLocation = () => {
 const generateToken = () => Math.floor(100000 + Math.random() * 900000);
 
 const SlipGeneration = () => {
+  const navigate = useNavigate(); // Navigation hook
+
   const [formData, setFormData] = useState({
     token: "",
     date: "",
@@ -60,7 +63,7 @@ const SlipGeneration = () => {
     setShowSlip(true);
 
     try {
-      const response = await axios.post(`${BASE_URL}/appointments/addSlip`,  newFormData);
+      const response = await axios.post(`${BASE_URL}/appointments/addSlip`, newFormData);
       console.log("Slip Saved Successfully:", response.data);
     } catch (error) {
       console.error("Error sending appointment to backend:", error);
@@ -107,15 +110,25 @@ const SlipGeneration = () => {
           <p>Time: {formData.time}</p>
           <p>Location: {formData.officeLocation}</p>
 
-          <PDFDownloadLink
-            document={MyDocument}
-            fileName="appointment-slip.pdf"
-            className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-          >
-            {({ loading }) =>
-              loading ? "Loading document..." : "Download PDF"
-            }
-          </PDFDownloadLink>
+          <div className="flex flex-col items-center mt-4">
+            <PDFDownloadLink
+              document={MyDocument}
+              fileName="appointment-slip.pdf"
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+            >
+              {({ loading }) =>
+                loading ? "Loading document..." : "Download PDF"
+              }
+            </PDFDownloadLink>
+
+            {/* Go Home Button */}
+            <Button
+              onClick={() => navigate("/user-dashboard")}
+              className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+            >
+              Go Home
+            </Button>
+          </div>
         </div>
       ) : (
         <Button
