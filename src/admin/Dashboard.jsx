@@ -1,3 +1,5 @@
+ import axios from "axios";
+import { BASE_URL } from "../utils/baseurl";
 import React, { useEffect, useState } from "react";
 import { Layout, Menu, Button, Table, Select, Tag, Input, Space } from "antd";
 import {
@@ -29,18 +31,28 @@ const Dashboard = () => {
   const [recentActivities, setRecentActivities] = useState([]);
   const [filteredActivities, setFilteredActivities] = useState([]);
   const [search, setSearch] = useState({ token: "", city: "", country: "" });
-
   useEffect(() => {
-    const activities = JSON.parse(localStorage.getItem("loanRequests")) || [];
-    const activitiesWithId = activities.map((activity, index) => ({
-      ...activity,
-      id: activity.id || index + 1,
-    }));
-    setRecentActivities(activitiesWithId);
-    setFilteredActivities(activitiesWithId);
-    localStorage.setItem("loanRequests", JSON.stringify(activitiesWithId));
+    const fetchData = async () => {
+      try {
+        const activites = await axios.get(`${BASE_URL}/loan/getLoanRequest`);
+        const data = Array.isArray(activites.data.data) ? activites.data.data : [];
+        const activitiesWithId = data?.map((activity, index) => ({
+          ...activity,
+          id: activity.id || index + 1,
+        }));
+        console.log("Fetched Data:", activites.data.data);
+        
+        setRecentActivities(activitiesWithId);
+        setFilteredActivities(activitiesWithId);
+        localStorage.setItem("loanRequests", JSON.stringify(activitiesWithId));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchData();
   }, []);
-
+  
   useEffect(() => {
     const filtered = recentActivities.filter(
       (activity) =>
@@ -51,14 +63,36 @@ const Dashboard = () => {
     setFilteredActivities(filtered);
   }, [search, recentActivities]);
 
-  const updateStatus = (id, newStatus) => {
-    const updatedActivities = recentActivities.map((activity) =>
-      activity.id === id ? { ...activity, status: newStatus } : activity
-    );
-    setRecentActivities(updatedActivities);
-    setFilteredActivities(updatedActivities);
-    localStorage.setItem("loanRequests", JSON.stringify(updatedActivities));
-  };
+
+const updateStatus = async (_id, status) => {
+  console.log("updateStatus:", _id, status);
+  console.log("id:", _id);
+  console.log("status:", status);
+
+  try {
+      const response = await axios.put(
+          `${BASE_URL}/application/updateApplicationStatus/${_id}`,
+          { status: status },
+          { headers: { "Content-Type": "application/json" } }
+      );
+
+      console.log("updateStatuswithData:", response.data);
+      console.log("updateStatus:", response);
+
+      const updatedActivities = recentActivities.map((activity) =>
+          activity._id === _id ? { ...activity, status: status } : activity
+      );
+
+      setRecentActivities(updatedActivities);
+      setFilteredActivities(updatedActivities);
+      localStorage.setItem("loanRequests", JSON.stringify(updatedActivities));
+  } 
+  catch (error) {
+      console.log("error.message=>", error.message);
+      console.log("error.response=>", error.response);
+  }
+};
+
 
   const handleSearchChange = (key, value) => {
     setSearch((prev) => ({ ...prev, [key]: value, ...(key === "country" ? { city: "" } : {}) }));
@@ -122,7 +156,7 @@ const Dashboard = () => {
           <Table
             dataSource={filteredActivities}
             columns={[
-              { title: "Token", dataIndex: "token", key: "token" },
+              { title: "Token", dataIndex: "token", key: "token" , render: (token) => (token?.length > 10 ? `${token.substring(0, 10)}...` : token)  },
               { title: "Name", dataIndex: "name", key: "name" },
               { title: "City", dataIndex: "city", key: "city" },
               { title: "Country", dataIndex: "country", key: "country" },
@@ -132,7 +166,7 @@ const Dashboard = () => {
                 key: "status",
                 render: (status) => (
                   <Tag color={status === "Pending" ? "orange" : status === "Rejected" ? "red" : "green"}>
-                    {status}
+                    {status || "N/A"}
                   </Tag>
                 ),
               },
@@ -144,7 +178,7 @@ const Dashboard = () => {
                     <Button
                       type="primary"
                       icon={<CheckCircleOutlined />}
-                      onClick={() => updateStatus(record.id, "Approved")}
+                      onClick={() => updateStatus(record._id, "Approved")}
                       disabled={record.status !== "Pending"}
                       style={{
                         backgroundColor: record.status === "Pending" ? "" : "#b3d7ff", 
@@ -158,7 +192,7 @@ const Dashboard = () => {
                       type="dashed"
                       danger
                       icon={<CloseCircleOutlined />}
-                      onClick={() => updateStatus(record.id, "Rejected")}
+                      onClick={() => updateStatus(record._id, "Rejected")}
                       disabled={record.status !== "Pending"}
                       style={{
                         borderColor: record.status === "Pending" ? "" : "#f7b2b2", 
@@ -179,61 +213,4 @@ const Dashboard = () => {
     </Layout>
   );
 };
-export const LoansPage = ({ loans }) => {
-  const columns = [
-    { title: "Loan ID", dataIndex: "id", key: "id" },
-    { title: "Category", dataIndex: "category", key: "category" },
-    { title: "Subcategory", dataIndex: "subcategory", key: "subcategory" },
-    { title: "Amount", dataIndex: "amount", key: "amount" },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => (
-        <Tag color={status === "Pending" ? "orange" : "green"}>{status}</Tag>
-      ),
-    },
-  ];
-
-  const expandedRowRender = (record) => (
-    <div>
-      <p>
-        <strong>Guarantor:</strong> {record.guarantor.name}
-      </p>
-      <p>
-        <strong>User Info:</strong> {record.user.name}, {record.user.phone}
-      </p>
-    </div>
-  );
-
-  return (
-    <Table
-      dataSource={loans}
-      columns={columns}
-      expandable={{ expandedRowRender }}
-      rowKey="id"
-    />
-  );
-};
-
-export const AppointmentsPage = ({ appointments }) => {
-  const dateCellRender = (value) => {
-    const listData = appointments.filter(
-      (app) =>
-        new Date(app.date).toDateString() === value.toDate().toDateString()
-    );
-    return (
-      <ul>
-        {listData.map((item) => (
-          <li key={item.id}>
-            <Badge status="success" text={item.user.name} />
-          </li>
-        ))}
-      </ul>
-    );
-  };
-
-  return <Calendar dateCellRender={dateCellRender} />;
-};
-
-export default Dashboard;
+export default Dashboard; 
