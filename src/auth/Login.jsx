@@ -38,7 +38,6 @@ function Login() {
       const userName =res.data.data?.user?.fullname;      
       console.log("userName=>",userName);
       localStorage.setItem("fullname", userName); 
-
       console.log("login token=>",token);
       
       if (token) {

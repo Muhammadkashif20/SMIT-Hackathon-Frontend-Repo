@@ -10,7 +10,7 @@ function GuarantorForm() {
     { name: "", email: "", location: "", cnic: "" },
     { name: "", email: "", location: "", cnic: "" },
   ]);
-  const [user, setUser] = useState({ name: "", address: "", phone: "" });
+  const [user, setUser] = useState({ name: "", address: "", phone: "" ,email:""});
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -58,6 +58,8 @@ function GuarantorForm() {
         name: user.name,
         address: user.address,
         phone: user.phone,
+        email: user.email,
+
       };
 
       console.log("Submitting payload:", { user: userData, guarantors: guarantorData });

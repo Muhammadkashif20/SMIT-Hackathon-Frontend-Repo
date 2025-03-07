@@ -40,7 +40,7 @@ const getRandomLocation = () => {
 const generateToken = () => Math.floor(100000 + Math.random() * 900000);
 
 const SlipGeneration = () => {
-  const navigate = useNavigate(); // Navigation hook
+  const navigate = useNavigate(); 
 
   const [formData, setFormData] = useState({
     token: "",
@@ -52,11 +52,13 @@ const SlipGeneration = () => {
   const [showSlip, setShowSlip] = useState(false);
 
   const generateNewAppointment = async () => {
+    const userEmail = localStorage.getItem("email");
     const newFormData = {
       token: generateToken(),
       date: getRandomDate(),
       time: getRandomTime(),
       officeLocation: getRandomLocation(),
+      email: userEmail,
     };
 
     setFormData(newFormData);

@@ -13,6 +13,7 @@ import ConstructionLoans from './user/ConstructionLoans.jsx'
 import AppointmentAdminSide from './admin/Appointments.jsx'
 import BussinessLoans from './user/BussinessLoans.jsx'
 import EducationalLoans from './user/EducationalLoans.jsx'
+import LoanDetail from './admin/loanDetail.jsx'
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Routes>
            <Route path="/" element={<Home/>}></Route>
            <Route path="/user-dashboard" element={<UserDashboard/>}></Route>
-           <Route path="/admin-loanDetails" element={<UserDashboard/>}></Route>
+           <Route path="/admin-loandetail" element={<LoanDetail/>}></Route>
            <Route path="/admin-appointments" element={<AppointmentAdminSide/>}></Route>
            <Route path="/login" element={<Login/>}></Route>
            <Route path="/proceed" element={<Proceed/>}></Route>

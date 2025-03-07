@@ -118,7 +118,7 @@ const updateStatus = async (_id, status) => {
             <Link to={"/admin-dashboard"}>Dashboard</Link>
           </Menu.Item>
           <Menu.Item key="loans" icon={<DollarOutlined />}>
-            <Link to={"/admin-loanDetails"}>Loan Details</Link>
+            <Link to={"/admin-loandetail"}>Loan Details</Link>
           </Menu.Item>
           <Menu.Item key="appointments" icon={<CalendarOutlined />}>
             <Link to={"/admin-appointments"}>Appointments</Link>
