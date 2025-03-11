@@ -19,8 +19,12 @@ const getRandomDate = () => {
   const today = new Date();
   const futureDate = new Date(today);
   futureDate.setDate(today.getDate() + Math.floor(Math.random() * 30));
-  return futureDate.toISOString().split("T")[0];
+  const formattedDate = futureDate.toLocaleDateString("en-GB"); 
+  return formattedDate.replace(/\//g, "-");
 };
+
+console.log(getRandomDate());
+
 
 const getRandomTime = () => {
   const hours = Math.floor(Math.random() * 12) + 1;
