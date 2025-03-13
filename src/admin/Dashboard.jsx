@@ -5,14 +5,11 @@ import { Layout, Menu, Button, Table, Select, Tag, Input, Space } from "antd";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  AppstoreAddOutlined,
-  DollarOutlined,
-  CalendarOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 import saylanilogo from "../assets/image/saylani welfare.png";
+import menuItems from "./data";
 
 const { Header, Sider, Content } = Layout;
 const { Option } = Select;
@@ -110,20 +107,7 @@ const updateStatus = async (_id, status) => {
         <div style={{ height: "64px", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
           <img src={saylanilogo} alt="Logo" style={{ width: collapsed ? "64px" : "130px", transition: "width 0.2s" }} />
         </div>
-        <Menu theme="light" mode="inline" selectedKeys={[selectedMenu]} style={{ padding: "8px 0" }}>
-          <Menu.Item key="dashboard" icon={<AppstoreAddOutlined />}>
-            <Link to={"/user-dashboard"}>User Dashboard</Link>
-          </Menu.Item>
-          <Menu.Item key="adminDashboard" icon={<AppstoreAddOutlined />}>
-            <Link to={"/admin-dashboard"}>Dashboard</Link>
-          </Menu.Item>
-          <Menu.Item key="loans" icon={<DollarOutlined />}>
-            <Link to={"/admin-loandetail"}>Loan Details</Link>
-          </Menu.Item>
-          <Menu.Item key="appointments" icon={<CalendarOutlined />}>
-            <Link to={"/admin-appointments"}>Appointments</Link>
-          </Menu.Item>
-        </Menu>
+                <Menu theme="light" mode="inline" items={menuItems} />
       </Sider>
       <Layout>
         <Header style={{ padding: "0 16px", background: "#fff", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>

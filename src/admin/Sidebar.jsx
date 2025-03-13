@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { Layout, Menu, Button } from "antd";
 import {
-  UserOutlined,
-  BankOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   AppstoreAddOutlined,
-  DollarOutlined,
-  BookOutlined,
 } from "@ant-design/icons";
+
 import { Link, useLocation } from "react-router-dom";
 import saylanilogo from "../assets/image/saylani welfare.png";
 
@@ -66,10 +63,10 @@ const Sidebar = ({ children }) => {
           defaultOpenKeys={["loans"]}
           items={menuItems}
           style={{
-            padding: "8px 0", // Add padding to the menu
+            padding: "8px 0",
           }}
-          subMenuCloseDelay={0.1} // Faster submenu closing
-          subMenuOpenDelay={0.1} // Faster submenu opening
+          subMenuCloseDelay={0.1}
+          subMenuOpenDelay={0.1}
         />
       </Sider>
       <Layout>
@@ -99,7 +96,7 @@ const Sidebar = ({ children }) => {
             ) : (
               <Link to={"/login"}>
                 <button className="cursor-pointer font-semibold bg-green-600 hover:bg-green-500 text-white rounded-md py-2 px-6 text-sm sm:text-base transition-transform transform hover:scale-105">
-                login
+                  login
                 </button>{" "}
               </Link>
             )}

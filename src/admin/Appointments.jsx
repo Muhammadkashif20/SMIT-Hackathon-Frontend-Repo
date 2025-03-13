@@ -11,6 +11,7 @@ import {
 import saylanilogo from "../assets/image/saylani welfare.png";
 import axios from "axios";
 import { BASE_URL } from "../utils/baseurl";
+import menuItems from "./data";
 const { Header, Sider, Content } = Layout;
 
 const Appointments = () => {
@@ -30,28 +31,7 @@ const Appointments = () => {
   fetchData()
   }, []);
 
-  const menuItems = [
-    {
-      key: "dashboard",
-      icon: <AppstoreAddOutlined />,
-      label: <Link to={"/user-dashboard"}>User Dashboard</Link>,
-    },
-    {
-      key: "adminDashboard",
-      icon: <AppstoreAddOutlined />,
-      label: <Link to={"/admin-dashboard"}>Dashboard</Link>,
-    },
-    {
-      key: "loans",
-      icon: <DollarOutlined />,
-      label: <Link to={"/admin-loandetail"}>Loan Details</Link>,
-    },
-    {
-      key: "appointments",
-      icon: <CalendarOutlined />,
-      label: <Link to={"/admin-appointments"}>Appointments</Link>,
-    },
-  ];
+
 
   return (
     <Layout style={{ minHeight: "100vh", background: "#eef2f6" }}>
