@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  AppstoreAddOutlined,
-  DollarOutlined,
-  CalendarOutlined,
 } from "@ant-design/icons";
 import saylanilogo from "../assets/image/saylani welfare.png";
 import axios from "axios";

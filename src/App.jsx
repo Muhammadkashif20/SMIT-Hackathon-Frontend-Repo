@@ -14,6 +14,7 @@ import AppointmentAdminSide from './admin/Appointments.jsx'
 import BussinessLoans from './user/BussinessLoans.jsx'
 import EducationalLoans from './user/EducationalLoans.jsx'
 import LoanDetail from './admin/loanDetail.jsx'
+import UserInformation from './admin/UserInformation.jsx'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
            <Route path="/" element={<Home/>}></Route>
+           <Route path="user-information/:_id" element={<UserInformation/>}></Route>
            <Route path="/user-dashboard" element={<UserDashboard/>}></Route>
            <Route path="/admin-loandetail" element={<LoanDetail/>}></Route>
            <Route path="/admin-appointments" element={<AppointmentAdminSide/>}></Route>

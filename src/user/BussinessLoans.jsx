@@ -3,8 +3,13 @@ import Sidebar from "./Sidebar";
 import { Modal, Table, message, Spin, Tag } from "antd";
 import { BASE_URL } from "../utils/baseurl";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function BussinessLoans() {
+  const navigate = useNavigate();
+  const handleGurantor=()=>{
+    navigate("/guarantors");
+  }
   const [formData, setFormData] = useState({
     name: "",
     cnic: "",
@@ -148,7 +153,10 @@ function BussinessLoans() {
       },
     },
   ];
-
+  const bothClickLoanSubmit =()=>{
+    handleGurantor()
+    handlePost()
+    }
   return (
     <Sidebar>
       <div className="flex justify-between mb-6">
@@ -307,7 +315,7 @@ function BussinessLoans() {
         </div>
 
         <button
-          onClick={handlePost}
+          onClick={bothClickLoanSubmit}
           disabled={isLoading}
           className={`cursor-pointer ${
             isLoading ? "bg-gray-400" : "bg-blue-600"

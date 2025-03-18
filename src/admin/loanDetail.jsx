@@ -6,22 +6,23 @@ import {
   Menu,
   Button,
   Table,
-  Select,
   Tag,
-  Input,
   Space,
-  Card,
 } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import saylanilogo from "../assets/image/saylani welfare.png";
 import menuItems from "./data";
+import { useNavigate } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
 const LoanDetail = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [loans, setLoans] = useState([]);
+  const navigate=useNavigate()
+
   const columns = [
+    { title: "ID", dataIndex: "_id", key: "_id" },
     { title: "Email", dataIndex: "email", key: "email" },
     { title: "Category", dataIndex: "categories", key: "categories" },
     { title: "Subcategory", dataIndex: "subCategories", key: "subCategories" },
@@ -44,6 +45,18 @@ const LoanDetail = () => {
         </Tag>
       ),
     },
+    {
+      title: "Detail",
+      key: "detail",
+      render: (_, record) => (
+        <button
+          onClick={() => navigate(`/user-information/${record._id}`)}
+          style={{ background: "#155DFC", color: "#fff", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}
+        >
+          View Details
+        </button>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -53,7 +66,7 @@ const LoanDetail = () => {
         setLoans(res.data.data);
         console.log("res=>", res.data.data);
       } catch (error) {
-        log.error("Error fetching data=>", error);
+        console.log("Error fetching data=>", error);
       }
     };
 
@@ -140,13 +153,14 @@ const LoanDetail = () => {
           </h2>
           <Table
             columns={columns}
-            dataSource={loans.map((loan, index) => ({
-              key: index,
+            dataSource={loans.map((loan) => ({
+              key: loan._id,
               email: loan.email,
               categories: loan.categories,
               subCategories: loan.subCategories,
               maximumloan: loan.maximumloan,
               status: loan.status,
+              _id: loan._id,
             }))}
             pagination={{ pageSize: 8 }}
           />

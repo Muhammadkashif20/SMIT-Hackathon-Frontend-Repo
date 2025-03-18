@@ -138,6 +138,7 @@ const updateStatus = async (_id, status) => {
             </Select>
           </Space>
           <Table
+          pagination={7}
             dataSource={filteredActivities}
             columns={[
               { title: "Token", dataIndex: "token", key: "token" , render: (token) => (token?.length > 10 ? `${token.substring(0, 10)}...` : token)  },
