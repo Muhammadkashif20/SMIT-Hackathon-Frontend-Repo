@@ -6,14 +6,9 @@ import {
   CalendarOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function Dashboard() {
-  const navigate = useNavigate();
-  function handleGurantors() {
-    navigate("/guarantors");
-  }
   const token = localStorage.getItem("token");
   const userName = localStorage.getItem("fullname");
   const [recentActivities, setRecentActivities] = useState([]);
@@ -117,14 +112,6 @@ function Dashboard() {
                       <p className="text-gray-500">{activity.categories} - ${activity.maximumloan}</p>
                       
                     </div>
-                    <Button
-                      onClick={handleGurantors}
-                      type="link"
-                      icon={<ArrowRightOutlined />}
-                      className="text-indigo-600"
-                    >
-                      Add Information
-                    </Button>
                   </div>
                 ))
               ) : (

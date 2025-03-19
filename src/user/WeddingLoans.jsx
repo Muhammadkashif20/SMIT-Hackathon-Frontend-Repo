@@ -3,8 +3,13 @@ import Sidebar from "./Sidebar";
 import { Modal, Table, message, Spin, Tag } from "antd";
 import { BASE_URL } from "../utils/baseurl";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function WeddingLoans() {
+  const navigate = useNavigate();
+  const handleGurantor=()=>{
+    navigate("/guarantors");
+  }
   const [formData, setFormData] = useState({
     name: "",
     cnic: "",
@@ -99,7 +104,6 @@ function WeddingLoans() {
       const updatedLoanRequests = [...loanRequests, newLoanRequest];
       localStorage.setItem("loanRequests", JSON.stringify(updatedLoanRequests));
       setLoanRequests(updatedLoanRequests);
-      message.success("Request submitted! Please go to the dashboard to add your information to your request.");
       setIsModalOpen(false);
       setFormData({
         name: "",
@@ -148,7 +152,11 @@ function WeddingLoans() {
       },
     },
   ];
-
+  const bothClickLoanSubmit =()=>{
+    handleGurantor()
+    handlePost()
+    message.success("Loan Request Has Subitted Successfully");
+    }
   return (
     <Sidebar>
       <div className="flex justify-between mb-6">
@@ -167,7 +175,7 @@ function WeddingLoans() {
         columns={columns}
         dataSource={loanRequests}
         rowKey={(record) => record.email}
-        pagination={false}
+        pagination={7}
       />
 
       <Modal
@@ -307,7 +315,7 @@ function WeddingLoans() {
         </div>
 
         <button
-          onClick={handlePost}
+          onClick={bothClickLoanSubmit}
           disabled={isLoading}
           className={`cursor-pointer ${
             isLoading ? "bg-gray-400" : "bg-blue-600"

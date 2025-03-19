@@ -1,38 +1,70 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Table, Layout, Space, Typography, Menu, Button } from "antd";
+import { Table, Layout, Space, Typography, Menu, Button, Result } from "antd";
 import saylanilogo from "../assets/image/saylani welfare.png";
 import { BASE_URL } from "../utils/baseurl";
 import menuItems from "./data";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+
 const { Title } = Typography;
 const { Header, Sider, Content } = Layout;
 
 const UserInformation = () => {
-  const { _id } = useParams();
+  const { _id  } = useParams();
   console.log("id=>", _id);
   const [collapsed, setCollapsed] = useState(false);
   const [user, setUser] = useState(null);
   const [guarantor, setGuarantor] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const infoGurantors = await axios.get(`${BASE_URL}/guarantor/getGuarantorInfoById/${_id}`);
         console.log("infoGurantorsall=>", infoGurantors.data.data);
-        let filterInfo=Object.values(infoGurantors.data.data).find((item)=> item._id ===_id) || null;        
+        let filterInfo = Object.values(infoGurantors.data.data).find((item) => console.log("item._id=>", item._id) || item._id === _id) || null;        
         console.log("filterInfo=>", filterInfo);
-        console.log("filterInfoByUser=>", filterInfo.user)
-        console.log("filterInfoByUser=>", filterInfo.guarantors)
-        setUser(filterInfo.user || {});
-        setGuarantor(filterInfo.guarantors || []);
-      } catch (error) { 
+        console.log("filterInfoByUser=>", filterInfo?.user);
+        console.log("filterInfoByUser=>", filterInfo?.guarantors);
+        
+        setUser(filterInfo?.user || null);
+        setGuarantor(filterInfo?.guarantors || []);
+      } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, [_id]);
+
+  // If data is loading, show loader
+  if (loading) {
+    return (
+      <Result
+        status="info"
+        title="Fetching Data..."
+        subTitle="Please wait while we retrieve the user details."
+      />
+    );
+  }
+
+  // If user data is not found, show 404 page
+  if (!user && (!guarantor || guarantor.length === 0)) {
+    return (
+      <Result
+        status="404"
+        title="User Not Found"
+        subTitle="The requested user does not exist."
+        extra={
+          <Button type="primary" onClick={() => window.history.back()}>
+            Go Back
+          </Button>
+        }
+      />
+    );
+  }
 
   const userColumns = [
     { title: "Name", dataIndex: "name", key: "name" },
@@ -46,7 +78,6 @@ const UserInformation = () => {
     { title: "Email", dataIndex: "email", key: "email" },
     { title: "CNIC", dataIndex: "cnic", key: "cnic" },
     { title: "Location", dataIndex: "location", key: "location" },
-
   ];
 
   return (
@@ -114,30 +145,22 @@ const UserInformation = () => {
             <Title level={3} style={{ color: "#155DFC" }}>
               User Information
             </Title>
-            {user ? (
-              <Table
-                columns={userColumns}
-                dataSource={[user]}
-                pagination={false}
-                bordered
-              />
-            ) : (
-              "Loading..."
-            )}
+            <Table
+              columns={userColumns}
+              dataSource={user ? [user] : []}
+              pagination={false}
+              bordered
+            />
 
             <Title level={3} style={{ color: "#155DFC" }}>
               Guarantor Information
             </Title>
-            {guarantor ? (
-              <Table
-                columns={guarantorColumns}
-                dataSource={guarantor}
-                pagination={false}
-                bordered
-              />
-            ) : (
-              "Loading..."
-            )}
+            <Table
+              columns={guarantorColumns}
+              dataSource={guarantor}
+              pagination={false}
+              bordered
+            />
           </Space>
         </Content>
       </Layout>

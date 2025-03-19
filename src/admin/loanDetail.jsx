@@ -1,14 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/baseurl";
 import React, { useEffect, useState } from "react";
-import {
-  Layout,
-  Menu,
-  Button,
-  Table,
-  Tag,
-  Space,
-} from "antd";
+import { Layout, Menu, Button, Table, Tag, Space } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import saylanilogo from "../assets/image/saylani welfare.png";
 import menuItems from "./data";
@@ -19,8 +12,8 @@ const { Header, Sider, Content } = Layout;
 const LoanDetail = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [loans, setLoans] = useState([]);
-  const navigate=useNavigate()
-
+  const [guarantors, setGuarantors] = useState([]);
+  const navigate = useNavigate();
   const columns = [
     { title: "ID", dataIndex: "_id", key: "_id" },
     { title: "Email", dataIndex: "email", key: "email" },
@@ -48,12 +41,24 @@ const LoanDetail = () => {
     {
       title: "Detail",
       key: "detail",
-      render: (_, record) => (
+      render: (_, record, index) => (
         <button
-          onClick={() => navigate(`/user-information/${record._id}`)}
-          style={{ background: "#155DFC", color: "#fff", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}
+          onClick={() => {
+             navigate(`/user-information/${record._id}`);
+            // if (guarantorId) {
+            // } else {
+            //   console.log("Guarantor ID not found");
+            // }
+          }}
+          style={{
+            background: "#155DFC",
+            color: "#fff",
+            padding: "5px 10px",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
         >
-          View Details
+          Detail
         </button>
       ),
     },
@@ -63,8 +68,14 @@ const LoanDetail = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`${BASE_URL}/loan/getLoanRequest`);
+        const gurantorsRes = await axios.get(`${BASE_URL}/guarantor/getGuarantorInfo`);
+        console.log("gurantorsRes=>", gurantorsRes.data.data);
+        
         setLoans(res.data.data);
+        setGuarantors(gurantorsRes.data.data);
         console.log("res=>", res.data.data);
+        console.log("guarantorMap=>", gurantorsRes.data.data);
+        
       } catch (error) {
         console.log("Error fetching data=>", error);
       }
@@ -153,7 +164,7 @@ const LoanDetail = () => {
           </h2>
           <Table
             columns={columns}
-            dataSource={loans.map((loan) => ({
+            dataSource={loans.map((loan,index) => ({
               key: loan._id,
               email: loan.email,
               categories: loan.categories,

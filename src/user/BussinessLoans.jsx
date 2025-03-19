@@ -104,7 +104,6 @@ function BussinessLoans() {
       const updatedLoanRequests = [...loanRequests, newLoanRequest];
       localStorage.setItem("loanRequests", JSON.stringify(updatedLoanRequests));
       setLoanRequests(updatedLoanRequests);
-      message.success("Request submitted! Please go to the dashboard to add your information to your request.");
       setIsModalOpen(false);
       setFormData({
         name: "",
@@ -156,6 +155,7 @@ function BussinessLoans() {
   const bothClickLoanSubmit =()=>{
     handleGurantor()
     handlePost()
+    message.success("Loan Request Has Subitted Successfully");
     }
   return (
     <Sidebar>
@@ -175,7 +175,7 @@ function BussinessLoans() {
         columns={columns}
         dataSource={loanRequests}
         rowKey={(record) => record.email}
-        pagination={false}
+        pagination={7}
       />
 
       <Modal
