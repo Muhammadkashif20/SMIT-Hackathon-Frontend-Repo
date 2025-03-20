@@ -7,13 +7,13 @@ import axios from "axios";
 
 function Login() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     cnic: "",
     password: location.state?.password || "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -42,6 +42,7 @@ function Login() {
       
       if (token) {
         localStorage.setItem("token", token); 
+        navigate("/user-dashboard");
       }
       // console.log("plainPassword=>", plainPassword);
       if (res.data?.error) {
