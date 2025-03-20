@@ -42,9 +42,7 @@ function Login() {
       
       if (token) {
         localStorage.setItem("token", token); 
-        navigate("/user-dashboard");
       }
-      // console.log("plainPassword=>", plainPassword);
       if (res.data?.error) {
         message.error(res.data?.message || "Invalid Credentials");
       } else {
@@ -53,10 +51,9 @@ function Login() {
         navigate("/password", { state: passwordData });
       }
     } catch (error) {
-      console.error("Error submitting request:", error);
-      const errorMessage =
-        error.response?.data?.message ||
-        "User Is Not Registered. Please Proceed!";
+      console.log("Error submitting request:", error);
+      const errorMessage = error.response.data?.msg || "Something went wrong";
+        console.log("errorMessage=>",errorMessage);
       message.error(errorMessage);
     } finally {
       setIsLoading(false);

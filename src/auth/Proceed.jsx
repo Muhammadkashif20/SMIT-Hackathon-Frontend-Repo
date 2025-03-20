@@ -38,7 +38,7 @@ function Proceed() {
            }
          } catch (error) {
            console.error("Error submitting request:", error);
-           message.error("Something went wrong!");
+           message.error(error.response.data?.msg || "Something went wrong");
          } finally {
            setIsLoading(false);
          }

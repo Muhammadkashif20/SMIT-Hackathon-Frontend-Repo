@@ -94,7 +94,7 @@ function LoanCalculator() {
   };
 
   const handleProceed = () => {
-    navigate("/login");
+    navigate("/proceed");
   };
 
   return (
@@ -224,7 +224,7 @@ function LoanCalculator() {
             className="mt-6 w-full text-lg font-semibold bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105 cursor-pointer"
             onClick={handleProceed}
           >
-            Proceed to Login
+            Proceed
           </button>
         )}
       </div>
