@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import saylanilogo from "../assets/image/saylani welfare.png";
 import menuItems from "./data";
 import { Layout, Menu } from "antd";
 const { Sider } = Layout;
-const Sidebar = () => {
-    const [collapsed, setCollapsed] = useState(false);
+const Sidebar = ({collapsed}) => {
+  console.log("collapsed=>",collapsed);
+  
   return (  
        <Sider
         trigger={null}

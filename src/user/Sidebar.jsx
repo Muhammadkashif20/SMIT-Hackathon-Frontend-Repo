@@ -114,9 +114,12 @@ const Sidebar = ({ children }) => {
             onClick={() => setCollapsed(!collapsed)}
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
+                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
+                  User Dashboard
+                </h2>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             {token ? (
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                 <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
                   {`${userName}`}
                 </h2>
@@ -128,7 +131,8 @@ const Sidebar = ({ children }) => {
           console.log("logout Successfully=>", localStorage.removeItem("token"));
           
         }}
-        className="cursor-pointer bg-blue-600 text-white font-semibold rounded-md py-1.5 px-4 text-lg"
+        className="cursor-pointer text-white font-semibold rounded-md py-1 px-3 text-lg"
+        style={{ background: "#386BC0",}}
       >
         Logout
       </button>

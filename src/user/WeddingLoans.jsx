@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function WeddingLoans() {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const handleGurantor=()=>{
     navigate("/guarantors");
@@ -54,7 +55,11 @@ function WeddingLoans() {
     setFormData((prevData) => ({ ...prevData, city: "" }));
   }, [formData.country]);
 
-  const showModal = () => setIsModalOpen(true);
+  const showModal = () => {token ?  (setIsModalOpen(true) ) : (
+    message.error("Please Login First"),
+    setIsModalOpen(false)
+  )
+  }
   const handleCancel = () => setIsModalOpen(false);
 
   const handleChange = useCallback((e) => {

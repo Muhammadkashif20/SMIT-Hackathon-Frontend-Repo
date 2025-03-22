@@ -1,15 +1,15 @@
-import Layout from "./Sidebar";
-import { Card, Progress, Button } from "antd";
+import { Card } from "antd";
 import {
-  ArrowRightOutlined,
   DollarOutlined,
   CalendarOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userName = localStorage.getItem("fullname");
   const [recentActivities, setRecentActivities] = useState([]);
@@ -19,9 +19,12 @@ function Dashboard() {
     console.log("activities=>",activities);
     setRecentActivities(activities);
   }, []);
-
+  if(!token){
+    navigate("/login")
+    return;
+  }
   return (
-    <>
+    <>    
       <Sidebar>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Welcome Section */}
@@ -120,6 +123,7 @@ function Dashboard() {
               )}
             </div>
           </Card>
+          
         </div>
       </Sidebar>
     </>
