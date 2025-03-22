@@ -77,7 +77,7 @@ function Footer() {
             },
             {
               icon: FaYoutube,
-              link: "https://youtube.com/saylaniwelfare"
+              link: "https://www.youtube.com/@SaylaniWelfareTrustOfficial"
             }].map((social, index) => (
               <a
                 key={index}

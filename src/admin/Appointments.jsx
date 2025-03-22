@@ -1,20 +1,12 @@
 import { Layout, Menu, Button, Space, Card } from "antd";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
-import saylanilogo from "../assets/image/saylani welfare.png";
 import axios from "axios";
 import { BASE_URL } from "../utils/baseurl";
-import menuItems from "./data";
-const { Header, Sider, Content } = Layout;
-
+const { Content } = Layout;
+import Sidebar from "./Sidebar";
+import Headers from "./Header";
 const Appointments = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const [appointments, setAppointments] = useState([]);
-
   useEffect( () => {
     const fetchData = async () => {
     try {
@@ -27,62 +19,12 @@ const Appointments = () => {
   }
   fetchData()
   }, []);
-
-
-
+  
   return (
     <Layout style={{ minHeight: "100vh", background: "#eef2f6" }}>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        theme="light"
-        style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
-      >
-        <div
-          style={{
-            height: "64px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-        >
-          <img
-            src={saylanilogo}
-            alt="Logo"
-            style={{
-              width: collapsed ? "64px" : "130px",
-              transition: "width 0.2s",
-            }}
-          />
-        </div>
-
-        <Menu theme="light" mode="inline" items={menuItems} />
-      </Sider>
-
+            <Sidebar/>
       <Layout>
-        <Header
-          style={{
-            padding: "0 16px",
-            background: "#fff",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: "16px", width: 64, height: 64 }}
-          />
-          <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
-            Admin Dashboard
-          </h2>
-        </Header>
-
+      <Headers/>
         <Content
           style={{
             margin: "24px 16px",

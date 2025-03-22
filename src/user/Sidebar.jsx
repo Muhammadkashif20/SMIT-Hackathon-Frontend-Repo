@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Layout, Menu, Button } from "antd";
+import { Layout, Menu, Button, message } from "antd";
 import {
   UserOutlined,
   BankOutlined,
@@ -9,12 +9,13 @@ import {
   DollarOutlined,
   BookOutlined,
 } from "@ant-design/icons";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import saylanilogo from "../assets/image/saylani welfare.png";
 
 const { Header, Sider, Content } = Layout;
 
 const Sidebar = ({ children }) => {
+  const navigate=useNavigate()
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
@@ -90,10 +91,10 @@ const Sidebar = ({ children }) => {
           defaultOpenKeys={["loans"]}
           items={menuItems}
           style={{
-            padding: "8px 0", // Add padding to the menu
+            padding: "8px 0",
           }}
-          subMenuCloseDelay={0.1} // Faster submenu closing
-          subMenuOpenDelay={0.1} // Faster submenu opening
+          subMenuCloseDelay={0.1} 
+          subMenuOpenDelay={0.1} 
         />
       </Sider>
       <Layout>
@@ -119,8 +120,21 @@ const Sidebar = ({ children }) => {
                 <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
                   {`${userName}`}
                 </h2>
+                <button
+        onClick={() => {
+          message.success("Logout Successfully!");
+          navigate("/login");
+          localStorage.removeItem("token");
+          console.log("logout Successfully=>", localStorage.removeItem("token"));
+          
+        }}
+        className="cursor-pointer bg-blue-600 text-white font-semibold rounded-md py-1.5 px-4 text-lg"
+      >
+        Logout
+      </button>
               </div>
-            ) : (
+              
+            )  : (
               <Link to={"/login"}>
                 <Button
                   type="primary"

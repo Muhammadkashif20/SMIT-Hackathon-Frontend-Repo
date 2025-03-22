@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Table, Layout, Space, Typography, Menu, Button, Result } from "antd";
-import saylanilogo from "../assets/image/saylani welfare.png";
+import { Table, Layout, Space, Typography, Button, Result } from "antd";
 import { BASE_URL } from "../utils/baseurl";
-import menuItems from "./data";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-
+import Sidebar from "./Sidebar";
+import Headers from "./Header";
 const { Title } = Typography;
-const { Header, Sider, Content } = Layout;
+const { Content } = Layout;
 
 const UserInformation = () => {
   const { _id  } = useParams();
@@ -39,7 +37,6 @@ const UserInformation = () => {
     fetchData();
   }, [_id]);
 
-  // If data is loading, show loader
   if (loading) {
     return (
       <Result
@@ -50,7 +47,6 @@ const UserInformation = () => {
     );
   }
 
-  // If user data is not found, show 404 page
   if (!user && (!guarantor || guarantor.length === 0)) {
     return (
       <Result
@@ -82,57 +78,9 @@ const UserInformation = () => {
 
   return (
     <Layout style={{ minHeight: "100vh", background: "#eef2f6" }}>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        theme="light"
-        style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
-      >
-        <div
-          style={{
-            height: "64px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-        >
-          <img
-            src={saylanilogo}
-            alt="Logo"
-            style={{
-              width: collapsed ? "64px" : "130px",
-              transition: "width 0.2s",
-            }}
-          />
-        </div>
-
-        <Menu theme="light" mode="inline" items={menuItems} />
-      </Sider>
-
+      <Sidebar/>
       <Layout>
-        <Header
-          style={{
-            padding: "0 16px",
-            background: "#fff",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: "16px", width: 64, height: 64 }}
-          />
-          <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
-            Admin Dashboard
-          </h2>
-        </Header>
-
+        <Headers/>
         <Content
           style={{
             background: "#fff",

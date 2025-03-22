@@ -1,19 +1,13 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/baseurl";
 import React, { useEffect, useState } from "react";
-import { Layout, Menu, Button, Table, Tag, Space } from "antd";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import saylanilogo from "../assets/image/saylani welfare.png";
-import menuItems from "./data";
-import { useNavigate } from "react-router-dom";
-
-const { Header, Sider, Content } = Layout;
-
+import { Layout,Table, Tag, Space } from "antd";
+import Sidebar from "./Sidebar";
+import Headers from "./Header";
+const {Content } = Layout;
 const LoanDetail = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const [loans, setLoans] = useState([]);
   const [guarantors, setGuarantors] = useState([]);
-  const navigate = useNavigate();
   const columns = [
     { title: "ID", dataIndex: "_id", key: "_id" },
     { title: "Email", dataIndex: "email", key: "email" },
@@ -85,54 +79,9 @@ const LoanDetail = () => {
   }, []);
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        theme="light"
-        style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
-      >
-        <div
-          style={{
-            height: "64px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-        >
-          <img
-            src={saylanilogo}
-            alt="Logo"
-            style={{
-              width: collapsed ? "64px" : "130px",
-              transition: "width 0.2s",
-            }}
-          />
-        </div>
-        <Menu theme="light" mode="inline" items={menuItems} />
-      </Sider>
+      <Sidebar/>
       <Layout>
-        <Header
-          style={{
-            padding: "0 16px",
-            background: "#fff",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: "16px", width: 64, height: 64 }}
-          />
-          <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
-            Admin Dashboard
-          </h2>
-        </Header>
+     <Headers/>
         <Content
           style={{
             margin: "24px 16px",

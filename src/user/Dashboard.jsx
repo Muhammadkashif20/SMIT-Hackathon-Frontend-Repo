@@ -7,6 +7,7 @@ import {
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import Sidebar from "./Sidebar";
 
 function Dashboard() {
   const token = localStorage.getItem("token");
@@ -21,7 +22,7 @@ function Dashboard() {
 
   return (
     <>
-      <Layout>
+      <Sidebar>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Welcome Section */}
           {token ? (
@@ -120,7 +121,7 @@ function Dashboard() {
             </div>
           </Card>
         </div>
-      </Layout>
+      </Sidebar>
     </>
   );
 }

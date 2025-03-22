@@ -88,6 +88,9 @@ function EducationalLoans() {
       message.error("Please fill all fields.");
       return;
     }
+      else{
+        message.success("Loan Request Has Subitted Successfully");
+      }
 
     setIsLoading(true);
     try {
@@ -153,10 +156,13 @@ function EducationalLoans() {
   ];
 
   const bothClickLoanSubmit =()=>{
-    handleGurantor()
-    handlePost()
-    message.success("Loan Request Has Subitted Successfully");
-
+    if(message.error("Please fill all fields.")){
+      return;
+    }
+    else{
+      handleGurantor()
+      handlePost()
+    }
     }
   return (
     <Sidebar>
