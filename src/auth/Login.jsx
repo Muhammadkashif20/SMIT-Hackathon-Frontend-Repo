@@ -43,12 +43,20 @@ function Login() {
       if (token) {
         localStorage.setItem("token", token); 
       }
+      console.log("res.data.role=>",res.data.data?.user?.role);
+      if (res.data.data?.user?.role === "admin") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/user-dashboard");
+      }
       if (res.data?.error) {
         message.error(res.data?.message || "Invalid Credentials");
       } else {
         message.success(res.data?.message || "Login Successfully!");
-        const passwordData = { password: password };
-        navigate("/password", { state: passwordData });
+        if (res.data.data?.user?.role !== "admin") {
+          const passwordData = { password: password };
+          navigate("/password", { state: passwordData });
+        }
       }
     } catch (error) {
       console.log("Error submitting request:", error);
@@ -61,10 +69,8 @@ function Login() {
     const token = localStorage.getItem("token");
     if(!token){
       navigate("/login");
-    }
-    else{
-      navigate("/user-dashboard");
-    }
+      return;
+    }    
   };
 
   return (

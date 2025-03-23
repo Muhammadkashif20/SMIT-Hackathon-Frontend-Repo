@@ -32,7 +32,6 @@ function App() {
            <Route path="/guarantors" element={<ProtectedRouteUser><GurantorsForm/></ProtectedRouteUser>}></Route>
            <Route path="/slipGenerate" element={<ProtectedRouteUser><SlipGeneration/></ProtectedRouteUser>}></Route>
            <Route path="/admin-dashboard" element={<ProtectedRouteUser><Dashboard/></ProtectedRouteUser>}></Route>
-           <Route path="/" element={<ProtectedRouteUser/>}></Route>
             <Route path="/weddingloans" element={ <ProtectedRouteUser> <WeddingLoans/> </ProtectedRouteUser>}></Route>
            <Route path="/constructionloans" element={ <ProtectedRouteUser> <ConstructionLoans/> </ProtectedRouteUser>}></Route>
            <Route path="/businessloans" element={ <ProtectedRouteUser> <BussinessLoans/>  </ProtectedRouteUser>}></Route>

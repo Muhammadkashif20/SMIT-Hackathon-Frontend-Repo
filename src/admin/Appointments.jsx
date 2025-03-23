@@ -38,7 +38,7 @@ const Appointments = () => {
           <h2
             style={{
               marginBottom: "22px",
-              color: "#155DFC",
+              color: "#386BC0",
               fontWeight: "bold",
               fontSize: "20px",
             }}

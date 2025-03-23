@@ -176,12 +176,14 @@ function BussinessLoans() {
   return (
     <Sidebar>
       <div className="flex justify-between mb-6">
-        <h1 className="text-center text-blue-600 text-2xl font-bold">
+        <h1 className="text-center text-[#386BC0] text-2xl font-bold">
           Business Loans
         </h1>
         <button
           onClick={showModal}
-          className="cursor-pointer bg-blue-600 text-white font-semibold rounded-md py-1.5 px-6 text-lg"
+          className="cursor-pointer text-white font-semibold rounded-md py-1 px-3 text-lg"
+          style={{ background: "#386BC0"}}
+  
         >
           Get Loan
         </button>

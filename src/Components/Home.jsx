@@ -18,10 +18,14 @@ function Home() {
 
     return () => clearTimeout(timer);
   }, []);
-  if (!token) {
-    console.log("token>",token);
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (!token) {
+      const allowedRoutes = ["/", "/login"];
+      if (!allowedRoutes.includes(window.location.pathname)) {
+        navigate("/login");
+      }
+    }
+  }, [token, navigate]);
 
   return (
     <div>
