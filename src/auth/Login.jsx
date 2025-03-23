@@ -58,6 +58,13 @@ function Login() {
     } finally {
       setIsLoading(false);
     }
+    const token = localStorage.getItem("token");
+    if(!token){
+      navigate("/login");
+    }
+    else{
+      navigate("/user-dashboard");
+    }
   };
 
   return (

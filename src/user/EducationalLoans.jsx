@@ -65,6 +65,11 @@ function EducationalLoans() {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
+  // useEffect(() => {
+  //     if (!token) {
+  //       navigate("/login");
+  //     }
+  //   }, [token, navigate]); 
 
   const handlePost = async () => {
     const {

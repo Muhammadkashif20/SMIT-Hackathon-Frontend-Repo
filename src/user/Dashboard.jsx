@@ -6,10 +6,8 @@ import {
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userName = localStorage.getItem("fullname");
   const [recentActivities, setRecentActivities] = useState([]);
@@ -19,10 +17,7 @@ function Dashboard() {
     console.log("activities=>",activities);
     setRecentActivities(activities);
   }, []);
-  if(!token){
-    navigate("/login")
-    return;
-  }
+
   return (
     <>    
       <Sidebar>
