@@ -27,7 +27,7 @@ function App() {
            <Route path="/admin-loandetail" element={<ProtectedRouteUser> <LoanDetail/></ProtectedRouteUser> }></Route>
            <Route path="/admin-appointments" element={<ProtectedRouteUser><AppointmentAdminSide/> </ProtectedRouteUser>}></Route>
            <Route path="/login" element={<Login/>}></Route>
-           <Route path="/proceed" element={ <ProtectedRouteUser> <Proceed/> </ProtectedRouteUser> }></Route>
+           <Route path="/proceed" element={  <Proceed/>  }></Route>
            <Route path="/password" element={<ProtectedRouteUser>  <Password/> </ProtectedRouteUser> }></Route>
            <Route path="/guarantors" element={<ProtectedRouteUser><GurantorsForm/></ProtectedRouteUser>}></Route>
            <Route path="/slipGenerate" element={<ProtectedRouteUser><SlipGeneration/></ProtectedRouteUser>}></Route>
