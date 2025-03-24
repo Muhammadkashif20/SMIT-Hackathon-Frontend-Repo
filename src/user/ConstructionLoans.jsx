@@ -55,11 +55,14 @@ function ConstructionLoans() {
     setFormData((prevData) => ({ ...prevData, city: "" }));
   }, [formData.country]);
 
-  const showModal = () => {token ?  (setIsModalOpen(true) ) : (
-    message.error("Please Login First"),
-    setIsModalOpen(false)
-  )
-  }
+  const showModal = () => {
+    if (!token) {
+      message.error("Please Login First");
+      return;
+    }
+    setIsModalOpen(true);
+  };
+  
   const handleCancel = () => setIsModalOpen(false);
 
   const handleChange = useCallback((e) => {
@@ -87,6 +90,7 @@ function ConstructionLoans() {
     } = formData;
     if (
       !name ||
+      !email ||
       !cnic ||
       !loanType ||
       !categories ||
@@ -120,6 +124,7 @@ function ConstructionLoans() {
       setIsModalOpen(false);
       setFormData({
         name: "",
+        email: "",
         cnic: "",
         loanType: "",
         categories: "",
@@ -165,15 +170,26 @@ function ConstructionLoans() {
       },
     },
   ];
-  const bothClickLoanSubmit =()=>{
-    if(message.error("Please fill all fields.")){
+  const bothClickLoanSubmit = () => {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.cnic ||
+      !formData.loanType ||
+      !formData.categories ||
+      !formData.subCategories ||
+      !formData.maximumloan ||
+      !formData.loanperiod ||
+      !formData.city ||
+      !formData.country
+    ) {
+      message.error("Please fill all fields.");
       return;
     }
-    else{
-      handleGurantor()
-      handlePost()
-    }
-    }
+    handleGurantor();
+    handlePost();
+  };
+  
   return (
     <Sidebar>
       <div className="flex justify-between mb-6">

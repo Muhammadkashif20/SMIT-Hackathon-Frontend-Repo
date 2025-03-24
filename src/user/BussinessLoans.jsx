@@ -87,6 +87,7 @@ function BussinessLoans() {
     } = formData;
     if (
       !name ||
+      !email ||
       !cnic ||
       !loanType ||
       !categories ||
@@ -119,6 +120,7 @@ function BussinessLoans() {
       setIsModalOpen(false);
       setFormData({
         name: "",
+        email: "",
         cnic: "",
         loanType: "",
         categories: "",
@@ -164,15 +166,26 @@ function BussinessLoans() {
       },
     },
   ];
-  const bothClickLoanSubmit =()=>{
-    if(message.error("Please fill all fields.")){
+  const bothClickLoanSubmit = () => {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.cnic ||
+      !formData.loanType ||
+      !formData.categories ||
+      !formData.subCategories ||
+      !formData.maximumloan ||
+      !formData.loanperiod ||
+      !formData.city ||
+      !formData.country
+    ) {
+      message.error("Please fill all fields.");
       return;
     }
-    else{
-      handleGurantor()
-      handlePost()
-    }
-    }
+    handleGurantor();
+    handlePost();
+  };
+  
   return (
     <Sidebar>
       <div className="flex justify-between mb-6">
