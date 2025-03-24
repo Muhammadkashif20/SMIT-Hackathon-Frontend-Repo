@@ -5,7 +5,7 @@ import Login from "./auth/Login.jsx"
 import Proceed from "./auth/Proceed.jsx"
 import Password from "./auth/Password.jsx"
 import GurantorsForm from "./auth/GurantorsForm.jsx"
-import SlipGeneration  from "./user/SlipGeneration.jsx"
+import SlipGeneration from "./user/SlipGeneration.jsx"
 import UserDashboard from './user/Dashboard.jsx'
 import Dashboard from './admin/Dashboard.jsx'
 import WeddingLoans from './user/WeddingLoans'
@@ -22,24 +22,28 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-           <Route path="/" element={<Home/>}></Route>
-           <Route path="user-information/:_id" element={<UserInformation/>}></Route>
-           <Route path="/admin-loandetail" element={<ProtectedRouteUser> <LoanDetail/></ProtectedRouteUser> }></Route>
-           <Route path="/admin-appointments" element={<ProtectedRouteUser><AppointmentAdminSide/> </ProtectedRouteUser>}></Route>
-           <Route path="/login" element={<Login/>}></Route>
-           <Route path="/proceed" element={  <Proceed/>  }></Route>
-           <Route path="/password" element={<ProtectedRouteUser>  <Password/> </ProtectedRouteUser> }></Route>
-           <Route path="/guarantors" element={<ProtectedRouteUser><GurantorsForm/></ProtectedRouteUser>}></Route>
-           <Route path="/slipGenerate" element={<ProtectedRouteUser><SlipGeneration/></ProtectedRouteUser>}></Route>
-           <Route path="/admin-dashboard" element={<ProtectedRouteUser><Dashboard/></ProtectedRouteUser>}></Route>
-            <Route path="/weddingloans" element={ <ProtectedRouteUser> <WeddingLoans/> </ProtectedRouteUser>}></Route>
-           <Route path="/constructionloans" element={ <ProtectedRouteUser> <ConstructionLoans/> </ProtectedRouteUser>}></Route>
-           <Route path="/businessloans" element={ <ProtectedRouteUser> <BussinessLoans/>  </ProtectedRouteUser>}></Route>
-           <Route path="/educationloans" element={  <ProtectedRouteUser> <EducationalLoans/>  </ProtectedRouteUser>}></Route>
-           <Route path="/user-dashboard" element={ <ProtectedRouteUser> <UserDashboard/>  </ProtectedRouteUser>}></Route>
+          <Route path="/" element={<Home />} />
+          <Route path="user-information/:_id" element={<UserInformation />} />
+          {/* ✅ Admin Protected Routes */}
+          <Route path="/admin-loandetail" element={<ProtectedRouteUser allowedRole="admin"><LoanDetail /></ProtectedRouteUser>} />
+          <Route path="/admin-appointments" element={<ProtectedRouteUser allowedRole="admin"><AppointmentAdminSide /></ProtectedRouteUser>} />
+          <Route path="/admin-dashboard" element={<ProtectedRouteUser allowedRole="admin"><Dashboard /></ProtectedRouteUser>} />
+          {/* ✅ Public Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/proceed" element={<Proceed />} />
+          {/* ✅ User Protected Routes */}
+          <Route path="/password" element={<ProtectedRouteUser allowedRole="user"><Password /></ProtectedRouteUser>} />
+          <Route path="/guarantors" element={<ProtectedRouteUser allowedRole="user"><GurantorsForm /></ProtectedRouteUser>} />
+          <Route path="/slipGenerate" element={<ProtectedRouteUser allowedRole="user"><SlipGeneration /></ProtectedRouteUser>} />
+          <Route path="/weddingloans" element={<ProtectedRouteUser allowedRole="user"><WeddingLoans /></ProtectedRouteUser>} />
+          <Route path="/constructionloans" element={<ProtectedRouteUser allowedRole="user"><ConstructionLoans /></ProtectedRouteUser>} />
+          <Route path="/businessloans" element={<ProtectedRouteUser allowedRole="user"><BussinessLoans /></ProtectedRouteUser>} />
+          <Route path="/educationloans" element={<ProtectedRouteUser allowedRole="user"><EducationalLoans /></ProtectedRouteUser>} />
+          <Route path="/user-dashboard" element={<ProtectedRouteUser allowedRole="user"><UserDashboard /></ProtectedRouteUser>} />
         </Routes>
       </BrowserRouter>
     </div>
   )
 }
+
 export default App;

@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     cnic: "",
-    password: location.state?.password || "",
+    password: location.state?.password || ""
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -33,26 +33,26 @@ function Login() {
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, formData);
       console.log("res=> ", res.data);
-      // const plainPassword =res.data.data?.user?.password;
       const token = res.data?.data?.token;
-      const userName =res.data.data?.user?.fullname;      
-      console.log("userName=>",userName);
+      const userName =res.data.data?.user?.fullname;   
+      const role= res.data.data?.user?.role
       localStorage.setItem("fullname", userName); 
       console.log("login token=>",token);
-      
+      console.log("userName=>",userName);
+      console.log("res role user=>",role);
+      localStorage.setItem("role", role);
       if (token) {
         localStorage.setItem("token", token); 
       }
-      console.log("res.data.role=>",res.data.data?.user?.role);
       if (res.data.data?.user?.role === "admin") {
         navigate("/admin-dashboard");
       } else {
         navigate("/user-dashboard");
       }
       if (res.data?.error) {
-        message.error(res.data?.message || "Invalid Credentials");
+        message.error(res.data?.msg );
       } else {
-        message.success(res.data?.message || "Login Successfully!");
+        message.success(res.data?.msg || "Login Successfully!");
         if (res.data.data?.user?.role !== "admin") {
           const passwordData = { password: password };
           navigate("/password", { state: passwordData });
@@ -63,7 +63,7 @@ function Login() {
       const errorMessage = error.response.data?.msg || "Something went wrong";
         console.log("errorMessage=>",errorMessage);
       message.error(errorMessage);
-    } finally {
+    } finally { 
       setIsLoading(false);
     }
     const token = localStorage.getItem("token");

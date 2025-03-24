@@ -1,16 +1,22 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ProtectedRouteUser = ({ children }) => {
-    const navigate=useNavigate();
-  const token = localStorage.getItem("token"); 
-  useEffect(() => {
-    if (!token) {
-      navigate("/login");
-    }
-  }, [token]);
+const ProtectedRoute = ({ children, allowedRole }) => {
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token"); 
+    const role = localStorage.getItem("role");
+    console.log("Token:", token);
+    console.log("Role:", role);
+    console.log("Allowed Role:", allowedRole);
+    useEffect(() => {
+        if (!token) {
+            navigate("/login");  
+        } else if (role !== allowedRole) {   
+            navigate(role === "admin" ? "/admin-dashboard" : "/user-dashboard");
+        }
+    }, [token, role, navigate, allowedRole]);
 
-  return token ? children: null;
+    return token && [allowedRole].flat().includes(role)  ? children : null;
 };
 
-export default ProtectedRouteUser;
+export default ProtectedRoute;

@@ -53,9 +53,9 @@ function Password() {
       setFormData({ oldPassword: "", password: "" });
       navigate("/user-dashboard");
     } catch (error) {
-      console.error("Error =>", error.response?.data || error.message);
+      console.error("Error=>", error.response?.data || error.msg);
       message.error(
-        error.response?.data?.message || "Something went wrong, please try again."
+        error.response?.data?.msg
       );
     } finally {
       setIsLoading(false);
