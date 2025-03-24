@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import LoanCalculator from "../components/LoanCalculator";
 import { useNavigate } from "react-router-dom";
+import LoanCategories from "./LoanCategories";
 
 function Home() {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ function Home() {
         <>
           <Header />
           <HeroSection />
+          <LoanCategories/>
           <LoanCalculator />
           <Footer />
         </>

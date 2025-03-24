@@ -4,7 +4,7 @@ import saylanilogo from "../assets/image/saylani welfare.png";
 
 function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-[#E3F2FD] to-[#BBDEFB] text-gray-900 py-16">
+    <footer className="bg-gradient-to-br from-blue-50 to-blue-100 text-gray-900 py-16">
       <div className="container mx-auto px-8 lg:px-20 grid grid-cols-1 md:grid-cols-4 gap-10">
         
         {/* Logo & Description */}

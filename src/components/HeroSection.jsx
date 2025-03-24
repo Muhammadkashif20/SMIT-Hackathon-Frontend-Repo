@@ -15,9 +15,9 @@ function HeroSection() {
           and building a future free from poverty. Join us in making a
           difference today!
         </p>
-        
+
           <Link to="/proceed">
-          <button className="bg-[#FACC15] text-gray-900 px-6 py-3 rounded-full text-lg font-semibold transition-all hover:bg-[#FFD700] hover:scale-105 animate-fadeInUp delay-200">
+          <button className="bg-[#FACC15] cursor-pointer text-gray-900 px-6 py-3 rounded-full text-lg font-semibold transition-all hover:bg-[#FFD700] hover:scale-105 animate-fadeInUp delay-200">
           Get Started
         </button>
         </Link>

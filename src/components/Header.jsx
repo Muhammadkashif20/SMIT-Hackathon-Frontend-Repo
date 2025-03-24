@@ -4,7 +4,7 @@ import saylanilogo from "../assets/image/saylani welfare.png";
 
 function Header() {
   return (
-    <header className="flex items-center z-10 w-full fixed justify-between border-b border-gray-200 bg-white shadow-sm px-6 lg:px-10 py-2">
+    <header className="fixed top-0 left-0 z-50 w-full flex items-center justify-between border-b border-gray-300 bg-white/85 backdrop-blur-sm shadow-md px-6 lg:px-10 py-1">
       <div className="flex items-center">
         <img src={saylanilogo} alt="Saylani Logo" className="w-28 sm:w-36" />
       </div>
