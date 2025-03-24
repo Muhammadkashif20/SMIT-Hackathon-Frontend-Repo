@@ -52,7 +52,7 @@ function Login() {
       if (res.data?.error) {
         message.error(res.data?.msg );
       } else {
-        message.success(res.data?.msg || "Login Successfully!");
+        message.success(res.data.data?.msg || "Login Successfully!");
         if (res.data.data?.user?.role !== "admin") {
           const passwordData = { password: password };
           navigate("/password", { state: passwordData });
