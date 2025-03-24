@@ -16,6 +16,7 @@ import EducationalLoans from './user/EducationalLoans.jsx'
 import LoanDetail from './admin/loanDetail.jsx'
 import UserInformation from './admin/UserInformation.jsx'
 import ProtectedRouteUser from './user/ProtectedRoute.jsx'
+import NotFound from './auth/NotFound.jsx'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/admin-appointments" element={<ProtectedRouteUser allowedRole="admin"><AppointmentAdminSide /></ProtectedRouteUser>} />
           <Route path="/admin-dashboard" element={<ProtectedRouteUser allowedRole="admin"><Dashboard /></ProtectedRouteUser>} />
           {/* ✅ Public Routes */}
+          <Route path="*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />
           <Route path="/proceed" element={<Proceed />} />
           {/* ✅ User Protected Routes */}

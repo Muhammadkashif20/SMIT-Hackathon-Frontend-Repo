@@ -1,72 +1,56 @@
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import saylanilogo from "../assets/image/saylani welfare.png";
 
 function Footer() {
   return (
-    <footer
-      className="bg-[#FAF3E0] bg-[url('/assets/image/pattern.png')] bg-opacity-20 bg-cover bg-center border-t border-gray-300 text-gray-800"
-    >
-      <div className="container mx-auto px-8 lg:px-20 py-16 flex flex-wrap justify-between">
-        <div className="w-full lg:w-1/3 mb-10 lg:mb-0">
-          <img width={"180px"} src={saylanilogo} alt="Saylani Welfare Logo" />
-          <p className="mt-3 text-gray-700 font-medium leading-relaxed">
-            Saylani Microfinance App provides installment-based loans to those
-            in need, helping them build a better future.
+    <footer className="bg-gradient-to-r from-[#E3F2FD] to-[#BBDEFB] text-gray-900 py-16">
+      <div className="container mx-auto px-8 lg:px-20 grid grid-cols-1 md:grid-cols-4 gap-10">
+        
+        {/* Logo & Description */}
+        <div>
+          <img width="180px" src={saylanilogo} alt="Saylani Welfare Logo" />
+          <p className="mt-4 text-gray-700 leading-relaxed">
+            Providing financial solutions and support to uplift communities.
+            Together, we can make an impact.
           </p>
         </div>
 
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Explore</h2>
-          <ul>
-            {["About Us", "Contact Us", "Microfinance App"].map(
-              (item, index) => (
-                <li key={index} className="mt-3">
-                  <Link
-                    to={"/"}
-                    className="text-gray-800 font-medium hover:text-blue-600 transition duration-300"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              )
-            )}
+        {/* Quick Links */}
+        <div>
+          <h2 className="text-xl font-semibold text-blue-600 mb-4">Quick Links</h2>
+          <ul className="space-y-2">
+            {["About", "Projects", "Donate", "Contact"].map((item, index) => (
+              <li key={index}>
+                <Link to="/" className="hover:text-blue-800 transition">
+                  {item}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Contact</h2>
-          <ul>
-            <li className="mt-3">
-              <a
-                href="https://www.google.com/maps?q=A-25,BahadurabadChowrangi,Karachi,Pakistan"
-                className="text-gray-800 font-medium hover:text-blue-600 transition duration-300"
-              >
-                Main Bahadurabad Chowrangi, Karachi, Pakistan
-              </a>
-            </li>
-            <li className="mt-3">
-              <a
-                href="mailto:info@saylaniwelfare.com"
-                className="text-gray-800 font-medium hover:text-blue-600 transition duration-300"
-              >
+        {/* Contact Info */}
+        <div>
+          <h2 className="text-xl font-semibold text-blue-600 mb-4">Contact</h2>
+          <ul className="space-y-2">
+            <li>
+              <a href="mailto:info@saylaniwelfare.com" className="hover:text-blue-800 transition">
                 info@saylaniwelfare.com
               </a>
             </li>
-            <li className="mt-3">
-              <a
-                href="tel:+921117295264"
-                className="text-gray-800 font-medium hover:text-blue-600 transition duration-300"
-              >
+            <li>
+              <a href="tel:+921117295264" className="hover:text-blue-800 transition">
                 +92-311-1729526
               </a>
             </li>
           </ul>
         </div>
 
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Follow Us</h2>
-          <div className="flex space-x-4 mt-3">
+        {/* Social Media */}
+        <div>
+          <h2 className="text-xl font-semibold text-blue-600 mb-4">Follow Us</h2>
+          <div className="flex space-x-4">
             {[{
               icon: FaFacebookF,
               link: "https://www.facebook.com/SaylaniWelfareInternationalTrust/"
@@ -84,21 +68,18 @@ function Footer() {
                 href={social.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gray-200 p-3 rounded-full hover:bg-blue-600 hover:text-white transition duration-300"
+                className="p-3 rounded-full bg-blue-200 hover:bg-blue-500 hover:text-white transition"
               >
-                <social.icon size={18} />
+                <social.icon size={20} />
               </a>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-white py-4 shadow-xl border-t border-gray-200">
-        <div className="container mx-auto px-5 flex flex-wrap flex-col sm:flex-row justify-between items-center">
-          <p className="text-sm font-semibold text-gray-900 text-center w-full sm:w-auto">
-            © 2025 Saylani Welfare Int Trust. All Rights Reserved.
-          </p>
-        </div>
+      {/* Bottom Copyright */}
+      <div className="mt-10 border-t border-gray-300 pt-4 text-center text-sm text-gray-600">
+        © 2025 Saylani Welfare Int Trust. All Rights Reserved.
       </div>
     </footer>
   );
