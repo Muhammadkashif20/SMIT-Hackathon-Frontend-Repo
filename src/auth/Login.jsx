@@ -35,7 +35,7 @@ function Login() {
          headers: { "Content-Type": "application/json" }
       });
       
-      console.log("res=> ", res?.data?.data);
+      console.log("res=> ", res.data);
       const token = res.data?.data?.token;
       const userName =res.data.data?.user?.fullname;   
       const role= res.data.data?.user?.role
