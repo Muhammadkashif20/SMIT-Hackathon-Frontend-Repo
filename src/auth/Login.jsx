@@ -31,7 +31,9 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(`${BASE_URL}/auth/login`, formData);
+      const res = await axios.post(`${BASE_URL}/auth/login`, formData,{
+        withCredentials: true,
+      });
       console.log("res=> ", res.data);
       const token = res.data?.data?.token;
       const userName =res.data.data?.user?.fullname;   
