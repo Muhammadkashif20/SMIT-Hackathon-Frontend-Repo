@@ -25,7 +25,6 @@ function Proceed() {
       const userEmail =res.data.data.newUser.email;  
       console.log("userEmail=>", userEmail);
       localStorage.setItem("email", userEmail); 
-
       const plainPassword = res.data.data.plainPassword;
       console.log("plainPassword=>", plainPassword);
       console.log("res.data=> ",res.data);      
