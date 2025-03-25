@@ -33,6 +33,10 @@ function Login() {
     try {
       const res = await axios.post(`${BASE_URL}/auth/login`, formData,{
         withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
       });
       console.log("res=> ", res.data);
       const token = res.data?.data?.token;
