@@ -35,10 +35,9 @@ function Login() {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
         }
       });
-      console.log("res=> ", res.data);
+      console.log("res=> ", res?.data?.data);
       const token = res.data?.data?.token;
       const userName =res.data.data?.user?.fullname;   
       const role= res.data.data?.user?.role
