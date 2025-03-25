@@ -31,7 +31,10 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(`/auth/login`, formData);
+      const res = await axios.post(`${BASE_URL}/auth/login`, formData,{
+         headers: { "Content-Type": "application/json" }
+      });
+      
       console.log("res=> ", res?.data?.data);
       const token = res.data?.data?.token;
       const userName =res.data.data?.user?.fullname;   
