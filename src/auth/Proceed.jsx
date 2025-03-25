@@ -21,7 +21,7 @@ function Proceed() {
       return message.error("All fields are required!");
     setIsLoading(true);
     try {
-      const res = await axios.post(`${BASE_URL}/auth/proceed`, formData);
+      const res = await axios.post(`/auth/proceed`, formData);
       const userEmail =res.data.data.newUser.email;  
       console.log("userEmail=>", userEmail);
       localStorage.setItem("email", userEmail); 
