@@ -3,7 +3,6 @@ import { BASE_URL } from "../utils/baseurl";
 import React, { useEffect, useState } from "react";
 import { Layout,Table, Tag, Space } from "antd";
 import Sidebar from "./Sidebar";
-import Headers from "./Header";
 const {Content } = Layout;
 const LoanDetail = () => {
   const [loans, setLoans] = useState([]);
@@ -79,19 +78,7 @@ const LoanDetail = () => {
   }, []);
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
-      <Sidebar/>
-      <Layout>
-     <Headers/>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            background: "#fff",
-            minHeight: 280,
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          }}
-        >
+      <Sidebar>
           <Space
             style={{
               marginBottom: 16,
@@ -123,9 +110,8 @@ const LoanDetail = () => {
               _id: loan._id,
             }))}
             pagination={{ pageSize: 8 }}
-          />
-        </Content>
-      </Layout>
+            />
+    </Sidebar>
     </Layout>
   );
 };

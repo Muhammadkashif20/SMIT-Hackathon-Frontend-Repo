@@ -6,11 +6,8 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import Headers from "./Header";
 
-const { Content } = Layout;
 const { Option } = Select;
 
 const countryCityData = {
@@ -22,8 +19,6 @@ const countryCityData = {
 };
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
   const [recentActivities, setRecentActivities] = useState([]);
   const [filteredActivities, setFilteredActivities] = useState([]);
   const [search, setSearch] = useState({ token: "", city: "", country: "" });
@@ -31,6 +26,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const activites = await axios.get(`${BASE_URL}/loan/getLoanRequest`);
+        console.log("Fetched Data:", activites.data.data);
         const data = Array.isArray(activites.data.data)
           ? activites.data.data
           : [];
@@ -38,7 +34,6 @@ const Dashboard = () => {
           ...activity,
           id: activity.id || index + 1,
         }));
-        console.log("Fetched Data:", activites.data.data);
 
         setRecentActivities(activitiesWithId);
         setFilteredActivities(activitiesWithId);
@@ -103,19 +98,7 @@ const Dashboard = () => {
 
   return (
    <Layout style={{ minHeight: "100vh",display: "flex", flexDirection:"row"}}> 
-        <Sidebar/>
-        <Layout >
-        <Headers/>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            background: "#fff",
-            minHeight: 280,
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          }}
-        >
+         <Sidebar>
           <Space
             style={{
               marginBottom: 16,
@@ -173,7 +156,7 @@ const Dashboard = () => {
                 render: (status) => (
                   <Tag
                   color={
-                      status === "Pending"
+                    status === "Pending"
                       ? "orange"
                       : status === "Rejected"
                       ? "red"
@@ -196,9 +179,9 @@ const Dashboard = () => {
                       disabled={record.status !== "Pending"}
                       style={{
                         backgroundColor:
-                          record.status === "Pending" ? "" : "#b3d7ff",
+                        record.status === "Pending" ? "" : "#b3d7ff",
                         borderColor:
-                          record.status === "Pending" ? "" : "#b3d7ff",
+                        record.status === "Pending" ? "" : "#b3d7ff",
                         color: record.status === "Pending" ? "" : "#ffffff",
                       }}
                       >
@@ -225,8 +208,7 @@ const Dashboard = () => {
             ]}
             rowKey="id"
             />
-        </Content>
-      </Layout>
+            </Sidebar>
       </Layout>
   );
 };

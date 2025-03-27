@@ -112,8 +112,8 @@ function BussinessLoans() {
         status: "Pending",
       };
 
-      await axios.post(`${BASE_URL}/loan/addLoanRequest`, newLoanRequest);
-
+      const res=await axios.post(`${BASE_URL}/loan/addLoanRequest`, newLoanRequest);
+      console.log("res=>", res.data);
       const updatedLoanRequests = [...loanRequests, newLoanRequest];
       localStorage.setItem("loanRequests", JSON.stringify(updatedLoanRequests));
       setLoanRequests(updatedLoanRequests);

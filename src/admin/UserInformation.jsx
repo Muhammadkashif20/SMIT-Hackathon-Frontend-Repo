@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { Table, Layout, Space, Typography, Button, Result } from "antd";
 import { BASE_URL } from "../utils/baseurl";
 import Sidebar from "./Sidebar";
-import Headers from "./Header";
 const { Title } = Typography;
 const { Content } = Layout;
 
@@ -78,17 +77,7 @@ const UserInformation = () => {
 
   return (
     <Layout style={{ minHeight: "100vh", background: "#eef2f6" }}>
-      <Sidebar/>
-      <Layout>
-        <Headers/>
-        <Content
-          style={{
-            background: "#fff",
-            margin: "24px 16px",
-            padding: "24px",
-            borderRadius: "8px",
-          }}
-        >
+      <Sidebar>
           <Space direction="vertical" style={{ width: "100%" }}>
             <Title level={3} style={{ color: "#155DFC" }}>
               User Information
@@ -110,8 +99,7 @@ const UserInformation = () => {
               bordered
             />
           </Space>
-        </Content>
-      </Layout>
+          </Sidebar>
     </Layout>
   );
 };

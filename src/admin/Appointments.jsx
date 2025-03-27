@@ -4,7 +4,6 @@ import axios from "axios";
 import { BASE_URL } from "../utils/baseurl";
 const { Content } = Layout;
 import Sidebar from "./Sidebar";
-import Headers from "./Header";
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
   useEffect( () => {
@@ -22,19 +21,8 @@ const Appointments = () => {
   
   return (
     <Layout style={{ minHeight: "100vh", background: "#eef2f6" }}>
-            <Sidebar/>
-      <Layout>
-      <Headers/>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            background: "#fff",
-            minHeight: 280,
-            borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          }}
-        >
+            <Sidebar>
+
           <h2
             style={{
               marginBottom: "22px",
@@ -51,7 +39,7 @@ const Appointments = () => {
               gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
               gap: "16px",
             }}
-          >
+            >
             {appointments.map((appointment) => (
               <Card
                 key={appointment._id}
@@ -70,7 +58,7 @@ const Appointments = () => {
                   cursor: "pointer",
                 }}
                 hoverable
-              >
+                >
                 <p style={{ marginBottom: 8 }}>
                   <strong style={{ color: "#555" }}>Date:</strong>{" "}
                   {appointment.date}
@@ -86,9 +74,8 @@ const Appointments = () => {
               </Card>
             ))}
           </Space>
-        </Content>
+        </Sidebar>
       </Layout>
-    </Layout>
   );
 };
 

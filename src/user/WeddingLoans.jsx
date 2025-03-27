@@ -69,11 +69,6 @@ function WeddingLoans() {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
-  // useEffect(() => {
-  //     if (!token) {
-  //       navigate("/login");
-  //     }
-  //   }, [token, navigate]); 
 
   const handlePost = async () => {
     const {
@@ -300,16 +295,6 @@ function WeddingLoans() {
             onChange={handleChange}
             aria-label="Enter Maximum Loan Amount"
           />
-
-          {/* <input
-    name="loanperiod"
-    className="border border-gray-300 rounded-md p-2 focus:outline-none w-full"
-    type="number"
-    placeholder="Enter Loan Period (Years)"
-    value={formData.loanperiod}
-    onChange={handleChange}
-    aria-label="Enter Loan Period (Years)"
-  /> */}
           <select
             name="loanperiod"
             className="border border-gray-300 rounded-md p-2 focus:outline-none w-full "
