@@ -14,12 +14,10 @@ function GuarantorForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
-  // Validate fields
   const validateFields = (fields) => {
     return Object.values(fields).every((field) => field.trim() !== "");
   };
 
-  // Handle Next button click
   const handleNext = () => {
     if (!validateFields(guarantors[currentStep])) {
       message.error(`All fields for Guarantor ${currentStep + 1} are required.`);
@@ -28,15 +26,12 @@ function GuarantorForm() {
     setCurrentStep((prevStep) => prevStep + 1);
   };
 
-  // Handle form submission
   const handleSubmit = async () => {
-    // Validate user fields
     if (!validateFields(user)) {
       message.error("All user fields are required.");
       return;
     }
 
-    // Validate guarantors fields
     const allGuarantorsValid = guarantors.every(validateFields);
     if (!allGuarantorsValid) {
       message.error("All fields for both guarantors are required.");
@@ -46,7 +41,6 @@ function GuarantorForm() {
     setIsLoading(true);
 
     try {
-      // Prepare payload
       const guarantorData = guarantors.map((guarantor) => ({
         name: guarantor.name,
         email: guarantor.email,

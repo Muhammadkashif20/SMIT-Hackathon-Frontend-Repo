@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Table, Layout, Space, Typography, Button, Result } from "antd";
+import { Table, Layout, Space, Typography, Button, Result, message } from "antd";
 import { BASE_URL } from "../utils/baseurl";
 import Sidebar from "./Sidebar";
 const { Title } = Typography;
-const { Content } = Layout;
 
 const UserInformation = () => {
   const { _id  } = useParams();
   console.log("id=>", _id);
-  const [collapsed, setCollapsed] = useState(false);
   const [user, setUser] = useState(null);
   const [guarantor, setGuarantor] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,13 +16,19 @@ const UserInformation = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const infoGurantors = await axios.get(`${BASE_URL}/guarantor/getGuarantorInfoById/${_id}`);
-        console.log("infoGurantorsall=>", infoGurantors.data.data);
-        let filterInfo = Object.values(infoGurantors.data.data).find((item) => console.log("item._id=>", item._id) || item._id === _id) || null;        
-        console.log("filterInfo=>", filterInfo);
-        console.log("filterInfoByUser=>", filterInfo?.user);
-        console.log("filterInfoByUser=>", filterInfo?.guarantors);
-        
+        const userInfo = await axios.get(`${BASE_URL}/guarantor/getGuarantorInfo`);
+        const userId= userInfo.data.data.user._id
+        console.log("User Data =>", userInfo.data.data);
+          // console.log("User.id =>", userId);
+        const infoGurantors = await axios.get(`${BASE_URL}/guarantor/getGuarantorInfoById/${userId}`);
+        console.log("Guarantor Data =>", infoGurantors.data);
+        let filterInfo = Object.values(infoGurantors.data).find((item) => 
+          item._id === _id
+        ) || null;       
+
+        console.log("Filtered User Info =>", filterInfo);
+        console.log("Filtered Guarantor Info =>", filterInfo?.guarantors);
+
         setUser(filterInfo?.user || null);
         setGuarantor(filterInfo?.guarantors || []);
       } catch (error) {
@@ -33,8 +37,9 @@ const UserInformation = () => {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, [_id]);
+  }, [us]);
 
   if (loading) {
     return (

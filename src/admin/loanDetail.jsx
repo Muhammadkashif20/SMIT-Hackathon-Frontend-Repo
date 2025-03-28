@@ -3,8 +3,9 @@ import { BASE_URL } from "../utils/baseurl";
 import React, { useEffect, useState } from "react";
 import { Layout,Table, Tag, Space } from "antd";
 import Sidebar from "./Sidebar";
-const {Content } = Layout;
+import { useNavigate } from "react-router-dom";
 const LoanDetail = () => {
+  const navigate = useNavigate();
   const [loans, setLoans] = useState([]);
   const [guarantors, setGuarantors] = useState([]);
   const columns = [
@@ -38,10 +39,7 @@ const LoanDetail = () => {
         <button
           onClick={() => {
              navigate(`/user-information/${record._id}`);
-            // if (guarantorId) {
-            // } else {
-            //   console.log("Guarantor ID not found");
-            // }
+             console.log("record=>", record._id);
           }}
           style={{
             background: "#155DFC",
@@ -62,13 +60,16 @@ const LoanDetail = () => {
       try {
         const res = await axios.get(`${BASE_URL}/loan/getLoanRequest`);
         const gurantorsRes = await axios.get(`${BASE_URL}/guarantor/getGuarantorInfo`);
+
         console.log("gurantorsRes=>", gurantorsRes.data.data);
-        
-        setLoans(res.data.data);
-        setGuarantors(gurantorsRes.data.data);
+        // console.log("gurantorsRes.user=>", gurantorsRes.data.data[0].user);
+        gurantorsRes.data.data.forEach((item, index) => {
+          // console.log(`User ${index + 1}:`, item.user);
+      }); 
+      
         console.log("res=>", res.data.data);
-        console.log("guarantorMap=>", gurantorsRes.data.data);
-        
+        setLoans(res.data.data);
+        setGuarantors(gurantorsRes.data.data);        
       } catch (error) {
         console.log("Error fetching data=>", error);
       }
