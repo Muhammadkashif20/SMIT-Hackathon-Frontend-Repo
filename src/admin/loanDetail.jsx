@@ -53,8 +53,35 @@ const LoanDetail = () => {
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
       <Sidebar>
-        <Title level={3} style={{ color: "#155DFC" }}>Loan Details</Title>
-        <Table columns={columns} dataSource={loans} pagination={{ pageSize: 8 }} rowKey="_id" />
+        <Title level={3} style={{ color: "#155DFC" }}>Loan Details 📄</Title>
+         <Table
+              columns={columns}
+              dataSource={loans}
+               rowKey="_id"
+              pagination={{
+                pageSize: 7,
+                showSizeChanger: false,
+                responsive: true,
+                style: { 
+                  marginTop: '16px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexWrap: 'nowrap'
+                },
+                itemRender: (_, type, originalElement) => {
+                  if (type === 'prev' || type === 'next') {
+                    return (
+                      <button className="px-3 py-1 border rounded-md mx-1">
+                        {type === 'prev' ? '‹' : '›'}
+                      </button>
+                    );
+                  }
+                  return originalElement;
+                }
+              }}
+              scroll={{ x: true }}
+              className="min-w-full"
+            />
       </Sidebar>
     </Layout>
   );

@@ -12,8 +12,10 @@ function Proceed() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { cnic, email, fullname } = formData;
@@ -21,40 +23,43 @@ function Proceed() {
       return message.error("All fields are required!");
     setIsLoading(true);
     try {
-      const res = await axios.post(`${BASE_URL}/auth/proceed`, formData,{
+      const res = await axios.post(`${BASE_URL}/auth/proceed`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      const userEmail =res.data.data.newUser.email;  
-      console.log("userEmail=>", userEmail);
+      const userEmail = res.data.data.newUser.email;  
       localStorage.setItem("email", userEmail); 
       const plainPassword = res.data.data.plainPassword;
-      console.log("plainPassword=>", plainPassword);
-      console.log("res.data=> ",res.data);      
-        if (res.data.error) {
-             message.error(res.data.message || "Invalid Credentials");
-           } else {
-             message.success(res.data.message || "Proceed Successfully!");
-             const passwordData = { password: plainPassword };
-             navigate("/login", { state: passwordData });             
-           }
-         } catch (error) {
-           console.error("Error submitting request:", error);
-           message.error(error.response.data?.msg || "Something went wrong");
-         } finally {
-           setIsLoading(false);
-         }
+      
+      if (res.data.error) {
+        message.error(res.data.message || "Invalid Credentials");
+      } else {
+        message.success(res.data.message || "Proceed Successfully!");
+        const passwordData = { password: plainPassword };
+        navigate("/login", { state: passwordData });             
+      }
+    } catch (error) {
+      console.error("Error submitting request:", error);
+      message.error(error.response.data?.msg || "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const handleLoginNavigate = () => {
+    navigate("/login");
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Proceed</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Proceed 📝</h2>
         <form onSubmit={handleSubmit}>
-           {/* Name Input */}
-           <div className="mb-4">
+          {/* Name Input */}
+          <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-            Name
+              Name
             </label>
             <input
               type="text"
@@ -96,8 +101,6 @@ function Proceed() {
             />
           </div>
 
-         
-
           {/* Submit Button */}
           <button
             type="submit"
@@ -106,7 +109,7 @@ function Proceed() {
               isLoading
                 ? "bg-blue-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 text-white"
-            }`}
+            } mb-4`}
           >
             {isLoading ? (
               <Spin size="small" style={{ color: "white" }} />
@@ -115,6 +118,17 @@ function Proceed() {
             )}
           </button>
         </form>
+
+        {/* Login Button */}
+        <div className="text-center">
+          <p className="text-gray-600 mb-2">Already have an account?</p>
+          <button
+            onClick={handleLoginNavigate}
+            className="cursor-pointer w-full py-2 px-4 font-semibold rounded-md border border-blue-600 text-blue-600 hover:bg-blue-50 transition-colors"
+          >
+            Login
+          </button>
+        </div>
       </div>
     </div>
   );

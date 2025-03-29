@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout, Menu, Button, message } from "antd";
 import {
   MenuFoldOutlined,
@@ -11,11 +11,20 @@ import menuItems from "./data";
 const { Header, Sider, Content } = Layout;
 
 const Sidebar = ({ children }) => {
-  const navigate=useNavigate()
-  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const [collapsed, setCollapsed] = useState(window.innerWidth < 992);
   const location = useLocation();
   const token = localStorage.getItem("token");
   const userName = localStorage.getItem("fullname");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCollapsed(window.innerWidth < 992); 
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
@@ -53,8 +62,8 @@ const Sidebar = ({ children }) => {
           style={{
             padding: "8px 0",
           }}
-          subMenuCloseDelay={0.1} 
-          subMenuOpenDelay={0.1} 
+          subMenuCloseDelay={0.1}
+          subMenuOpenDelay={0.1}
         />
       </Sider>
       <Layout>
@@ -74,31 +83,29 @@ const Sidebar = ({ children }) => {
             onClick={() => setCollapsed(!collapsed)}
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
-                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
-                  Admin Dashboard
-                </h2>
+          <h2 className="m-0 text-sm md:text-lg lg:text-[1.2rem] xl:4xl hidden sm:block" style={{fontWeight:"500"}}>
+            Admin Dashboard  🛠️
+          </h2>
+          
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             {token ? (
               <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
+                <h2 className="m-0 text-sm md:text-lg lg:text-[1.2rem] xl:4xl \" style={{fontWeight:"500"}}>
                   {`${userName}`}
                 </h2>
                 <button
-        onClick={() => {
-          message.success("Logout Successfully!");
-          navigate("/login");
-          localStorage.removeItem("token");
-          console.log("logout Successfully=>", localStorage.removeItem("token"));
-          
-        }}
-        className="cursor-pointer text-white font-semibold rounded-md py-1 px-3 text-lg"
-        style={{ background: "#386BC0",}}
-      >
-        Logout
-      </button>
+                  onClick={() => {
+                    message.success("Logout Successfully!");
+                    navigate("/login");
+                    localStorage.removeItem("token");
+                  }}
+                  className="cursor-pointer text-white font-semibold rounded-md py-1 px-3 text-lg"
+                  style={{ background: "#386BC0" }}
+                >
+                  Logout
+                </button>
               </div>
-              
-            )  : (
+            ) : (
               <Link to={"/login"}>
                 <Button
                   type="primary"

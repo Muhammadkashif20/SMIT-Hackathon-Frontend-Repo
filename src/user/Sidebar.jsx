@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout, Menu, Button, message } from "antd";
 import {
   UserOutlined,
@@ -15,9 +15,25 @@ import saylanilogo from "../assets/image/saylani welfare.png";
 const { Header, Sider, Content } = Layout;
 
 const Sidebar = ({ children }) => {
-  const navigate=useNavigate()
-  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
+  const [collapsed, setCollapsed] = useState(false);
+
+  // ✅ Automatically collapse sidebar on small screens
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setCollapsed(true);
+      } else {
+        setCollapsed(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial call
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const menuItems = [
     {
@@ -30,26 +46,10 @@ const Sidebar = ({ children }) => {
       label: "Loans",
       icon: <BankOutlined />,
       children: [
-        {
-          key: "weddingloans",
-          icon: <UserOutlined />,
-          label: <Link to={"/weddingloans"}>Wedding Loan</Link>,
-        },
-        {
-          key: "constructionloans",
-          icon: <BankOutlined />,
-          label: <Link to={"/constructionloans"}>Home Construction Loans</Link>,
-        },
-        {
-          key: "businessloans",
-          icon: <DollarOutlined />,
-          label: <Link to={"/businessloans"}>Business Startup Loans</Link>,
-        },
-        {
-          key: "educationloans",
-          icon: <BookOutlined />,
-          label: <Link to={"/educationloans"}>Education Loans</Link>,
-        },
+        { key: "weddingloans", icon: <UserOutlined />, label: <Link to={"/weddingloans"}>Wedding Loan</Link> },
+        { key: "constructionloans", icon: <BankOutlined />, label: <Link to={"/constructionloans"}>Home Construction Loans</Link> },
+        { key: "businessloans", icon: <DollarOutlined />, label: <Link to={"/businessloans"}>Business Startup Loans</Link> },
+        { key: "educationloans", icon: <BookOutlined />, label: <Link to={"/educationloans"}>Education Loans</Link> },
       ],
     },
   ];
@@ -64,24 +64,10 @@ const Sidebar = ({ children }) => {
         collapsible
         collapsed={collapsed}
         theme="light"
-        style={{
-          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-        }}
+        style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
       >
-        <div
-          style={{
-            height: "64px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-        >
-          <img
-            src={saylanilogo}
-            alt="Logo"
-            style={{ width: collapsed ? "64px" : "130px", transition: "width 0.2s" }}
-          />
+        <div style={{ height: "64px", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
+          <img src={saylanilogo} alt="Logo" style={{ width: collapsed ? "64px" : "130px", transition: "width 0.2s" }} />
         </div>
         <Menu
           theme="light"
@@ -90,11 +76,7 @@ const Sidebar = ({ children }) => {
           selectedKeys={[location.pathname]}
           defaultOpenKeys={["loans"]}
           items={menuItems}
-          style={{
-            padding: "8px 0",
-          }}
-          subMenuCloseDelay={0.1} 
-          subMenuOpenDelay={0.1} 
+          style={{ padding: "8px 0" }}
         />
       </Sider>
       <Layout>
@@ -114,38 +96,26 @@ const Sidebar = ({ children }) => {
             onClick={() => setCollapsed(!collapsed)}
             style={{ fontSize: "16px", width: 64, height: 64 }}
           />
-                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
-                  User Dashboard
-                </h2>
+          <h2 className="m-0 text-sm md:text-lg lg:text-[1.2rem] xl:4xl hidden sm:block" style={{fontWeight:"500"}}>User Site  👤 </h2>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             {token ? (
               <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "500" }}>
-                  {`${userName}`}
-                </h2>
+                <h2 className="m-0 text-sm md:text-lg lg:text-[1.2rem] xl:4xl" style={{fontWeight:"500"}} >{userName}</h2>
                 <button
-        onClick={() => {
-          message.success("Logout Successfully!");
-          navigate("/login");
-          localStorage.removeItem("token");
-          console.log("logout Successfully=>", localStorage.removeItem("token"));
-          
-        }}
-        className="cursor-pointer text-white font-semibold rounded-md py-1 px-3 text-lg"
-        style={{ background: "#386BC0",}}
-      >
-        Logout
-      </button>
-              </div>
-              
-            )  : (
-              <Link to={"/login"}>
-                <Button
-                  type="primary"
-                  style={{ background: "#52c41a", borderColor: "#52c41a" }}
+                  onClick={() => {
+                    message.success("Logout Successfully!");
+                    navigate("/login");
+                    localStorage.removeItem("token");
+                  }}
+                  className="cursor-pointer text-white font-semibold rounded-md py-1 px-3 text-lg"
+                  style={{ background: "#386BC0" }}
                 >
-                  Login
-                </Button>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link to={"/login"}>
+                <Button type="primary" style={{ background: "#52c41a", borderColor: "#52c41a" }}>Login</Button>
               </Link>
             )}
           </div>

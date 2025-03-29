@@ -44,15 +44,37 @@ const UserInformation = () => {
   return (
     <Layout style={{ minHeight: "100vh", background: "#eef2f6" }}>
       <Sidebar>
-        <Space direction="vertical" style={{ width: "100%" }}>
-          <Title level={3} style={{ color: "#155DFC" }}>User Information</Title>
-          <Table columns={[{ title: "Name", dataIndex: "name", key: "name" }, { title: "Email", dataIndex: "email", key: "email" }, { title: "Phone", dataIndex: "phone", key: "phone" }, { title: "Location", dataIndex: "address", key: "address" }]} dataSource={user ? [user] : []} pagination={false} bordered />
-          <Title level={3} style={{ color: "#155DFC" }}>Guarantor Information</Title>
-          <Table columns={[{ title: "Name", dataIndex: "name", key: "name" }, { title: "Email", dataIndex: "email", key: "email" }, { title: "CNIC", dataIndex: "cnic", key: "cnic" }, { title: "Location", dataIndex: "location", key: "location" }]} dataSource={guarantor} pagination={false} bordered />
+        <Space direction="vertical" style={{ width: "100%", padding: "16px" }}>
+          <Title level={3} style={{ color: "#155DFC" }}>User Information  🆔</Title>
+          <Table 
+            columns={[
+              { title: "Name", dataIndex: "name", key: "name" }, 
+              { title: "Email", dataIndex: "email", key: "email" }, 
+              { title: "Phone", dataIndex: "phone", key: "phone" }, 
+              { title: "Location", dataIndex: "address", key: "address" }
+            ]} 
+            dataSource={user ? [user] : []} 
+            pagination={false} 
+            bordered
+            scroll={{ x: true }}
+          />
+          <Title level={3} style={{ color: "#155DFC" }}>Guarantor's Information 🛡️</Title>
+          <Table 
+            columns={[
+              { title: "Name", dataIndex: "name", key: "name" }, 
+              { title: "Email", dataIndex: "email", key: "email" }, 
+              { title: "CNIC", dataIndex: "cnic", key: "cnic" }, 
+              { title: "Location", dataIndex: "location", key: "location" }
+            ]} 
+            dataSource={guarantor} 
+            pagination={false} 
+            bordered
+            scroll={{ x: true }}
+          />
         </Space>
       </Sidebar>
     </Layout>
   );
 };
 
-export default UserInformation ;
+export default UserInformation;

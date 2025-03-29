@@ -1,45 +1,52 @@
-import { Layout, Menu, Button, Space, Card } from "antd";
+import { Layout, Card, Space } from "antd";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/baseurl";
-const { Content } = Layout;
 import Sidebar from "./Sidebar";
+
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
-  useEffect( () => {
+  
+  useEffect(() => {
     const fetchData = async () => {
-    try {
-      let response = await axios.get(`${BASE_URL}/appointments/getSlip`);
-      console.log("response=>", response);
-      setAppointments(response.data.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+      try {
+        let response = await axios.get(`${BASE_URL}/appointments/getSlip`);
+        setAppointments(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
-  }
-  fetchData()
+    fetchData();
   }, []);
   
   return (
     <Layout style={{ minHeight: "100vh", background: "#eef2f6" }}>
-            <Sidebar>
-
-          <h2
-            style={{
-              marginBottom: "22px",
-              color: "#386BC0",
-              fontWeight: "bold",
-              fontSize: "20px",
-            }}
-          >
-            Appointments Schedule
+      <Sidebar>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          padding: "20px"
+        }}>
+          <h2 style={{
+            marginBottom: "22px",
+            color: "#386BC0",
+            fontWeight: "bold",
+            fontSize: "20px",
+            alignSelf: "flex-start"
+          }}>
+            Appointments Schedule 📅
           </h2>
-          <Space
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "16px",
-            }}
-            >
+          
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+            gap: "16px",
+            width: "100%",
+            maxWidth: "1200px",
+            justifyContent: "center"
+          }}>
             {appointments.map((appointment) => (
               <Card
                 key={appointment._id}
@@ -49,7 +56,8 @@ const Appointments = () => {
                   </span>
                 }
                 style={{
-                  width: 320,
+                  width: "100%",
+                  maxWidth: "400px",
                   textAlign: "left",
                   background: "#f9f9f9",
                   borderRadius: "10px",
@@ -58,24 +66,22 @@ const Appointments = () => {
                   cursor: "pointer",
                 }}
                 hoverable
-                >
+              >
                 <p style={{ marginBottom: 8 }}>
-                  <strong style={{ color: "#555" }}>Date:</strong>{" "}
-                  {appointment.date}
+                  <strong style={{ color: "#555" }}>Date:</strong> {appointment.date}
                 </p>
                 <p style={{ marginBottom: 8 }}>
-                  <strong style={{ color: "#555" }}>Time:</strong>{" "}
-                  {appointment.time}
+                  <strong style={{ color: "#555" }}>Time:</strong> {appointment.time}
                 </p>
                 <p style={{ marginBottom: 8 }}>
-                  <strong style={{ color: "#555" }}>Location:</strong>{" "}
-                  {appointment.officeLocation}
+                  <strong style={{ color: "#555" }}>Location:</strong> {appointment.officeLocation}
                 </p>
               </Card>
             ))}
-          </Space>
-        </Sidebar>
-      </Layout>
+          </div>
+        </div>
+      </Sidebar>
+    </Layout>
   );
 };
 
