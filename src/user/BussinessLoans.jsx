@@ -238,7 +238,6 @@ function BusinessLoans() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-5">
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
             <input
               name="name"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
@@ -249,7 +248,6 @@ function BusinessLoans() {
             />
           </div>
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
               name="email"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
@@ -263,7 +261,6 @@ function BusinessLoans() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
             <select
               name="country"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
@@ -279,7 +276,6 @@ function BusinessLoans() {
             </select>
           </div>
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
             <select
               name="city"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full disabled:opacity-50"
@@ -300,7 +296,6 @@ function BusinessLoans() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Loan Type</label>
             <select
               name="loanType"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
@@ -312,7 +307,6 @@ function BusinessLoans() {
             </select>
           </div>
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
             <select
               name="categories"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
@@ -348,7 +342,6 @@ function BusinessLoans() {
             </select>
           </div>
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Loan Period</label>
             <select
               name="loanperiod"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
@@ -365,12 +358,11 @@ function BusinessLoans() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">CNIC</label>
             <input
               name="cnic"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
               type="text"
-              placeholder="Enter Your CNIC (without dashes)"
+              placeholder="Enter Your CNIC"
               value={formData.cnic}
               onChange={handleChange}
               maxLength="13"
@@ -378,7 +370,6 @@ function BusinessLoans() {
             />
           </div>
           <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Sub Category</label>
             <select
               name="subCategories"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
