@@ -362,11 +362,11 @@ function BusinessLoans() {
               name="cnic"
               className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
               type="text"
+              max={13}
+              maxLength={13}
               placeholder="Enter Your CNIC"
               value={formData.cnic}
               onChange={handleChange}
-              maxLength="13"
-              pattern="[0-9]{13}"
             />
           </div>
           <div className="w-full">
@@ -396,10 +396,9 @@ function BusinessLoans() {
           {isLoading ? (
             <>
               <Spin size="small" style={{ color: "white" }} />
-              <span>Processing...</span>
             </>
           ) : (
-            "Submit Application"
+            "Submit"
           )}
         </button>
       </Modal>

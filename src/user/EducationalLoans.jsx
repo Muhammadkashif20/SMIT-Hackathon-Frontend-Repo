@@ -366,6 +366,8 @@ function EducationalLoans() {
               name="cnic"
               className="border border-gray-300 rounded-md p-2 focus:outline-none w-full"
               type="number"
+              max={13}
+              maxLength={13}
               placeholder="Enter Your CNIC"
               value={formData.cnic}
               onChange={handleChange}
