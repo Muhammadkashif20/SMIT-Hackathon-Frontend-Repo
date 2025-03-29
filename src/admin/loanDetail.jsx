@@ -1,13 +1,29 @@
+import React, { useEffect, useState } from "react";
+import { Layout, Table, Tag, Space, Typography, Button, Result, message } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/baseurl";
-import React, { useEffect, useState } from "react";
-import { Layout,Table, Tag, Space } from "antd";
 import Sidebar from "./Sidebar";
-import { useNavigate } from "react-router-dom";
+
+const { Title } = Typography;
+
 const LoanDetail = () => {
   const navigate = useNavigate();
   const [loans, setLoans] = useState([]);
-  const [guarantors, setGuarantors] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/loan/getLoanRequest`);
+        console.log("loanData",res.data.data)
+        setLoans(res.data.data);
+      } catch (error) {
+        message.error("Error fetching loan data");
+      }
+    };
+    fetchData();
+  }, []);
+
   const columns = [
     { title: "ID", dataIndex: "_id", key: "_id" },
     { title: "Email", dataIndex: "email", key: "email" },
@@ -19,15 +35,7 @@ const LoanDetail = () => {
       dataIndex: "status",
       key: "status",
       render: (status) => (
-        <Tag
-          color={
-            status === "Pending"
-              ? "orange"
-              : status === "Rejected"
-              ? "red"
-              : "green"
-          }
-        >
+        <Tag color={status === "Pending" ? "orange" : status === "Rejected" ? "red" : "green"}>
           {status || "N/A"}
         </Tag>
       ),
@@ -35,86 +43,20 @@ const LoanDetail = () => {
     {
       title: "Detail",
       key: "detail",
-      render: (_, record, index) => (
-        <button
-          onClick={() => {
-             navigate(`/user-information/${record._id}`);
-             console.log("record=>", record._id);
-          }}
-          style={{
-            background: "#155DFC",
-            color: "#fff",
-            padding: "5px 10px",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
+      render: (_, record) => (
+        <Button type="primary" onClick={() => navigate(`/user-information/${record._id}`)}>
           Detail
-        </button>
+        </Button>
       ),
     },
   ];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/loan/getLoanRequest`);
-        const gurantorsRes = await axios.get(`${BASE_URL}/guarantor/getGuarantorInfo`);
-
-        console.log("gurantorsRes=>", gurantorsRes.data.data);
-        // console.log("gurantorsRes.user=>", gurantorsRes.data.data[0].user);
-        gurantorsRes.data.data.forEach((item, index) => {
-          // console.log(`User ${index + 1}:`, item.user);
-      }); 
-      
-        console.log("res=>", res.data.data);
-        setLoans(res.data.data);
-        setGuarantors(gurantorsRes.data.data);        
-      } catch (error) {
-        console.log("Error fetching data=>", error);
-      }
-    };
-
-    fetchData();
-  }, []);
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
       <Sidebar>
-          <Space
-            style={{
-              marginBottom: 16,
-              display: "flex",
-              gap: "8px",
-              flexWrap: "wrap",
-            }}
-          ></Space>
-          <h2
-            style={{
-              marginBottom: "22px",
-              color: "#386BC0",
-              fontWeight: "bold",
-              fontSize: "20px",
-            }}
-          >
-            {" "}
-            Loan Details{" "}
-          </h2>
-          <Table
-            columns={columns}
-            dataSource={loans.map((loan,index) => ({
-              key: loan._id,
-              email: loan.email,
-              categories: loan.categories,
-              subCategories: loan.subCategories,
-              maximumloan: loan.maximumloan,
-              status: loan.status,
-              _id: loan._id,
-            }))}
-            pagination={{ pageSize: 8 }}
-            />
-    </Sidebar>
+        <Title level={3} style={{ color: "#155DFC" }}>Loan Details</Title>
+        <Table columns={columns} dataSource={loans} pagination={{ pageSize: 8 }} rowKey="_id" />
+      </Sidebar>
     </Layout>
   );
 };
-
 export default LoanDetail;
