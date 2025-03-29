@@ -328,17 +328,24 @@ function BusinessLoans() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Loan Amount (PKR)</label>
-            <input
+        <div className="w-full">
+            <select
               name="maximumloan"
-              className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-              type="number"
-              placeholder="Enter Amount"
+              className="border border-gray-300 rounded-md p-2 focus:outline-none w-full"
               value={formData.maximumloan}
               onChange={handleChange}
-              min="0"
-            />
+              aria-label="Select Maximum Loan Amount"
+            >
+              <option value="">Select Maximum Loan Amount</option>
+              {[
+                50000, 100000, 200000, 300000, 400000, 500000, 600000, 700000,
+                800000, 900000, 1000000,
+              ].map((amount) => (
+                <option key={amount} value={amount}>
+                  {amount.toLocaleString()}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="w-full">
             <label className="block text-sm font-medium text-gray-700 mb-1">Loan Period</label>

@@ -322,16 +322,24 @@ function ConstructionLoans() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <div className="w-full">
-            <input
+        <div className="w-full">
+            <select
               name="maximumloan"
               className="border border-gray-300 rounded-md p-2 focus:outline-none w-full"
-              type="number"
-              placeholder="Enter Maximum Loan Amount"
               value={formData.maximumloan}
               onChange={handleChange}
-              aria-label="Enter Maximum Loan Amount"
-            />
+              aria-label="Select Maximum Loan Amount"
+            >
+              <option value="">Select Maximum Loan Amount</option>
+              {[
+                50000, 100000, 200000, 300000, 400000, 500000, 600000, 700000,
+                800000, 900000, 1000000,
+              ].map((amount) => (
+                <option key={amount} value={amount}>
+                  {amount.toLocaleString()}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="w-full">
             <select
